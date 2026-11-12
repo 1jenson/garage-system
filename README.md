@@ -1,0 +1,43 @@
+# Garage System
+
+A replacement for the garage's old Windows invoicing package ("GarageBand Pro", ~85,000 invoices, ~6,500 customers). Goal: one easy system for quotes, invoices, diary, vehicle history, reminders and supplier contacts, with the data kept **locally on the garage's own drive**, not in the cloud.
+
+## What is here
+
+- `mock/index.html` — a clickable prototype in the Motovoco house style. **Demo data only**, nothing is saved. Open it in a browser (works on phone and desktop sizes):
+
+```bash
+cd "Garage System/mock" && python3 -m http.server 8793
+```
+
+  then open http://localhost:8793/
+
+## What the mock shows
+
+- Home = vehicle lookup (reg, name, phone or invoice number), today's numbers, recent lookups.
+- Vehicle page: plate, MOT due, full service history (old-system records marked), owner, DVLA MOT check buttons.
+- Diary by bay and mechanic, quotes with editable lines, invoices (owed / paid / draft, PAID stamp), suppliers from the Motovoco app, reminders, Excel export tiles, settings (local database file, devices, backups, import wizard).
+- Mapped from GB Pro PLUS V3 (12 Nov): home carries Drop & Go, promised times, ring-backs, MOTs expiring in 10 days, cash sale; customer page carries account type and terms, hourly rate, parts discount, accounts ref, separate invoice address, reminder/statement/mailshot switches, notes, attachments, previous/next; job sheets screen (estimate → booked → workshop → ready to invoice → on hold); ring-backs and stock screens.
+- Invoices (12 Nov): list with search and tabs (Owed, Part paid, On hold, Drafts, Paid, Cash sales) and a running total; invoice page shows labour hours and rate, part numbers, advisories, payments received, on-hold banner, cash sales with no customer, and a Take payment panel that records part payments and deposits by card, cash, bank transfer or cheque until the balance is nil.
+- Job sheet editor (12 Nov): one screen takes a job from estimate to invoice. Stage stepper (Estimate, Booked, In workshop, Ready, Invoiced), customer and vehicle, mileage in, promised time, keys, who is on it, what the customer asked for, labour and parts lines with part numbers and a per-part status (in stock, to order, ordered, arrived), vehicle check (tyres, pads, fluids, OK/Advise/Urgent), technician notes, advisories that flow onto the invoice, customer OK (one-tap accept or "said yes on the phone"), send by WhatsApp/text/email, and Make invoice which drafts the invoice from the lines. Routes `#/job/<id>` and `#/job/new?reg=`.
+
+## Planned architecture (not built yet)
+
+- One database file on the office PC; the other two devices use it over the garage Wi-Fi in a browser.
+- Nightly backups to a second drive or USB stick.
+- Exports to Excel (.xlsx), since no accounting package is used.
+- Only outbound calls: DVLA MOT lookup and sending texts.
+- Invoice numbers only go up; edits create versions.
+
+## Still needed from Jenson
+
+- What the old software can export: a database or backup file, CSV/Excel, or only PDFs. This decides how the import works.
+- Diary v2 (12 Nov): rebuilt to match the Wents Diary app layout. Day notes, MOT bookings (10 timed slots, free slots tappable, Find next MOT slot), Service & repairs (untimed list with parts/loan pills), and Extras (diagnostics and small checks squeezed in). Booking editor dialog: reg lookup, make, customer, number, section, date, slot, who, Parts ordered/in, Loan car/van/small van, job, notes; Edit / Move / Delete on every row. Data in `BK` and `NOTES` keyed by date; `openBk`, `saveBk`, `delBk`, `nextSlot`.
+- Vehicle page (12 Nov): rebuilt `S.vehicle`. Header with MOT/tax/service/open-jobs/owed pills and Book in / Estimate / History / New job sheet. "Coming up" card (MOT with reminder status, service interval from last service, tax from DVLA, open job sheets). Open advisories from invoices (Quote it / tick off). Service history merges invoices and `legacy` GB Pro entries with All/Invoices/MOTs/Old system filter and a mileage bar strip. Right column: owner (call/text/WhatsApp/change owner, also-owns list), vehicle spec card (VIN, engine, tyres, oil, wheel nuts, key) with inline Edit, shared notes, previous owners, photos & files. Unknown reg shows a "Not on file yet" screen with DVLA lookup and owner search. Extras live in `VX`/`vx()`; `bookIn(reg)` opens the diary with the booking editor prefilled.
+- Quote editor (12 Nov): `#/quotes` list with waiting/accepted stats and chase buttons; `#/quote/<id|new>` editor with common-job templates, supplier price picker (+40% markup), optional extras the customer can tick, customer/internal notes, send-by-text/WhatsApp preview, parts-to-source and history; Said yes turns a quote into a booked job sheet.
+- Suppliers (12 Nov): rebuilt on the Motovoco "Ring" concept. Home with favourites, makes (dealer parts per make), nine trade-service groups, my contacts and recent calls; group and make pages with supplier cards (numbers, copy, Call/WhatsApp/Email, log a landline call, Delivers/Open now/Saturday/On account filters); supplier page with account, rep, spend, parts on order, report card, hours, delivery, How-they-work toggles and notes. Logos in `mock/logos/`.
+- Reminders (12 Nov): MOT, service and advisory reminders in one list, due dates from the DVLA MOT date, last service and invoice advisories; send by text, WhatsApp or email with editable templates, rules switches (3 weeks, 1 week, on the day, service 12 months/10k, advisories 6 weeks, send hours), replies and bookings tracked, this-year results.
+- Reports & Excel (12 Nov): period chips (this month, last month, VAT quarter, tax year), figures net first with VAT and MOT fees (no VAT) separate, eight one-tap sheets with a preview and Save/Email, month pack to the bookkeeper, credits and returns, labour/parts/MOT split, by payment method and mechanic, bookkeeper notes. Stock & prices dropped from the menu (no stock kept); #/stock now opens Suppliers.
+- Payments (12 Nov): Owed list with Post payment / Nudge / Open, post-payment modal (invoice, amount, card/cash/transfer/cheque, reference, taken by), Taken ledger by day with bank-transfer 'seen in bank' tick, Cash up (today by method, float, counted, close the day, days closed, waiting on the bank).
+- Data & backups (12 Nov): one live copy on the office PC that phones, tablet and other PCs work on over the garage Wi-Fi; end-of-day backup at a set time to an external drive plugged into that PC (rolling 31 days plus every month end, Restore modal, Back up now with progress); two drives swapped on Fridays for the off-site copy; switches for a PC copy, a missing-drive warning, locking a cashed-up day and an optional Dropbox copy of the nightly file (off by default); bookkeeper card; GB Pro import, People and Invoice settings kept.
+- Round of seven changes (12 Nov): Job sheets removed from the menu (paper job sheets for now; the editor code stays). Quote and invoice lines now read JOB heading → parts under it (part no, supplier name and code kept on the record, cost → price) → labour at the bottom as hours × £/hr; `addLine(kind, afterHeading)` adds under a job, invoice rows come from `jbInvRows`. Quote notes box is bigger, Add MOT fee button (no VAT), Advisory notes on a quote carry to the invoice. Vehicle health check: `#/health` log, `#/healthsheet` printable tick sheet, `#/healthcheck/<reg>` editor (green/amber/red per item), `#/healthreport/<id>` customer report; count shows on the customer page. Customer reference numbers: every customer has a REF (shown with a copy button); the home lookup takes a ref, a partial ref, a name, a reg or an invoice number and opens the customer's whole fleet with Money tabs (quotes, invoices, payments). Demo fleet: Fowler Plant Ltd, ref 812, six vans. Home quick-nav row to Payments, Vehicles and Customers. Suppliers page gets a Makes section: 34 makes with Motovoco logos (`makes.js` + `logos/`), ten shown with All 34 makes to expand, dealer parts line per make. Preview: `python3 -m http.server` from the mock folder (launch entry `garage-mock`, port 8794).
