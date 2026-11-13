@@ -671,6 +671,31 @@ a.stat{display:block} a.stat:hover{border-color:var(--line-strong)}
  .jb-addrow .btn{flex:1 1 45%;justify-content:center}
 }
 
+
+/* ===== Section colours and home buttons (13 Nov). One colour per section: .sec-<key> sets --sc; .sx is the big home button, .secmark the page-header badge, .btn.tint a tinted action button. ===== */
+:root{--sec-look:#6AA6F0;--sec-diary:#F2B705;--sec-cust:#F0782E;--sec-quo:#22B3A6;--sec-inv:#5A86EC;--sec-pay:#3FAE63;--sec-rem:#E8505A;--sec-ring:#D95BA6;--sec-health:#2BBAD0;--sec-sup:#C07A3A;--sec-rep:#9470E8;--sec-docs:#8296AC;--sec-set:#7A838F;--sec-data:#4E93BE}
+[class*="sec-"]{--sc-fg:#fff;--sc-deep:color-mix(in srgb,var(--sc) 58%,#000);--sc-tint:color-mix(in srgb,var(--sc) 16%,var(--surface));--sc-line:color-mix(in srgb,var(--sc) 42%,transparent)}
+.sec-look{--sc:var(--sec-look)} .sec-diary{--sc:var(--sec-diary);--sc-fg:#1C1500;--sc-deep:color-mix(in srgb,var(--sc) 80%,#000)} .sec-cust{--sc:var(--sec-cust)} .sec-quo{--sc:var(--sec-quo)} .sec-inv{--sc:var(--sec-inv)} .sec-pay{--sc:var(--sec-pay)} .sec-rem{--sc:var(--sec-rem)} .sec-ring{--sc:var(--sec-ring)} .sec-health{--sc:var(--sec-health)} .sec-sup{--sc:var(--sec-sup)} .sec-rep{--sc:var(--sec-rep)} .sec-docs{--sc:var(--sec-docs)} .sec-set{--sc:var(--sec-set)} .sec-data{--sc:var(--sec-data)}
+.sxg{display:grid;gap:12px;grid-template-columns:repeat(4,1fr)}
+.sx{position:relative;display:flex;flex-direction:column;justify-content:space-between;min-height:162px;padding:16px 16px 14px;border-radius:20px;color:var(--sc-fg);background:linear-gradient(160deg,color-mix(in srgb,var(--sc) 86%,#fff) 0%,var(--sc) 36%,var(--sc-deep) 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 12px 26px -16px color-mix(in srgb,var(--sc) 70%,#000);transition:transform .15s,filter .15s;overflow:hidden;-webkit-tap-highlight-color:transparent}
+.sx::after{content:"";position:absolute;inset:0;border-radius:inherit;border:1px solid rgba(0,0,0,.28);pointer-events:none}
+.sx:hover{transform:translateY(-2px);filter:brightness(1.07)} .sx:active{transform:scale(.98);filter:brightness(.96)}
+.sx .art{width:64px;height:64px;flex:none;filter:drop-shadow(0 2px 2px rgba(0,0,0,.18))}
+.sx .n{position:absolute;top:13px;right:15px;font-family:var(--font-mono);font-style:italic;font-weight:600;font-size:30px;line-height:1;letter-spacing:-.02em;text-shadow:0 1px 0 rgba(0,0,0,.18)}
+.sx b{display:block;font-family:var(--font-title);font-size:21px;font-weight:800;line-height:1.05;margin-top:14px;letter-spacing:.01em}
+.sx span{display:block;font-size:13px;opacity:.88;margin-top:4px;line-height:1.3}
+.sx .n.long{font-size:24px;top:15px} .sx.sm{min-height:118px;padding:14px 14px 12px} .sx.sm .art{width:46px;height:46px} .sx.sm b{font-size:17px;margin-top:10px} .sx.sm .n{font-size:22px}
+.sxbar{display:flex;align-items:center;gap:12px;margin-top:12px;padding:10px 14px;border-radius:16px;background:var(--sc-tint);border:1px solid var(--sc-line);color:var(--fg)}
+.sxbar b{font-family:var(--font-title);font-size:16px} .sxbar span{color:var(--muted);font-size:13px;flex:1} .sxbar>svg:last-child{margin-left:auto;color:var(--muted)}
+.secmark{display:inline-grid;place-items:center;width:42px;height:42px;border-radius:12px;margin-right:12px;vertical-align:-8px;color:var(--sc-fg);background:linear-gradient(160deg,color-mix(in srgb,var(--sc) 86%,#fff),var(--sc) 40%,var(--sc-deep));box-shadow:inset 0 1px 0 rgba(255,255,255,.3)} .secmark svg{width:26px;height:26px;display:block}
+.main>.eyebrow,.main>.head .eyebrow,.main>div>.head .eyebrow{color:var(--sc)}
+.nav a svg{color:var(--sc)} .nav a.on{background:color-mix(in srgb,var(--sc) 15%,transparent);color:var(--fg);box-shadow:inset 3px 0 0 var(--sc)} .nav a.on svg{color:var(--sc)}
+.tabbar a.on{color:var(--sc)}
+.btn.tint{background:color-mix(in srgb,var(--sc) 18%,var(--surface));border-color:color-mix(in srgb,var(--sc) 45%,transparent);color:var(--fg)} .btn.tint svg{color:var(--sc)} .btn.tint:hover{background:color-mix(in srgb,var(--sc) 30%,var(--surface))}
+@media(max-width:1100px){.sxg{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:900px){.secmark{width:34px;height:34px;border-radius:10px;margin-right:9px;vertical-align:-7px}.secmark svg{width:21px;height:21px}}
+@media(max-width:700px){.sxg{grid-template-columns:1fr 1fr;gap:10px} .sx{min-height:140px;padding:14px 14px 12px;border-radius:18px} .sx .art{width:52px;height:52px} .sx .n{font-size:24px;top:12px;right:13px} .sx .n.long{font-size:19px;top:14px} .sx b{font-size:18px;margin-top:10px} .sx span{font-size:12px} .sx.sm{min-height:104px} .sxbar span{display:none}}
+@media print{.secmark{display:none !important}}
 </style>
 </head>
 <body>
@@ -950,6 +975,10 @@ window.qset=(id,st)=>{const q=S._q;if(q.fresh){q.fresh=false;QUOTES.unshift(q)}q
 window.qsend=via=>{qSendVia=via;qset(S._q.id,'sent')};
 window.qdup=id=>{const q=QUOTES.find(x=>x.id===id);const n={...q,id:'Q-0234',st:'draft',d:'2026-11-11',valid:'2026-12-11',hist:[],js:null,adv:[...(q.adv||[])],lines:q.lines.map(l=>({...l})),opts:q.opts.map(o=>({...o})),fresh:true};S._nq=n;qfor=null;location.hash='#/quote/new?dup=1';toast('Copied as a new draft')};
 
+const ART={look:'<svg viewBox="0 0 48 48"><path d="M7 27l4.5-11A5 5 0 0 1 16 13h16a5 5 0 0 1 4.5 3L41 27v11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2z"/><path d="M12 25h24l-2.8-7.5H14.8z" fill="var(--sc-deep)"/><circle cx="14.5" cy="32" r="3" fill="var(--sc-deep)"/><circle cx="33.5" cy="32" r="3" fill="var(--sc-deep)"/><rect x="9" y="39" width="7" height="5" rx="1.5"/><rect x="32" y="39" width="7" height="5" rx="1.5"/><path d="M4 27h3M41 27h3" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>',diary:'<svg viewBox="0 0 48 48"><rect x="5" y="9" width="38" height="34" rx="6" opacity=".38"/><path d="M5 15a6 6 0 0 1 6-6h26a6 6 0 0 1 6 6v6H5z"/><rect x="13" y="3" width="5" height="10" rx="2.5"/><rect x="30" y="3" width="5" height="10" rx="2.5"/><g opacity=".92"><rect x="11" y="25" width="7" height="6" rx="1.5"/><rect x="20.5" y="25" width="7" height="6" rx="1.5"/><rect x="30" y="25" width="7" height="6" rx="1.5"/><rect x="11" y="34" width="7" height="6" rx="1.5"/><rect x="20.5" y="34" width="7" height="6" rx="1.5"/></g><circle cx="33.5" cy="37" r="4.5"/><path d="M33.5 34.5v2.8l1.8 1.4" fill="none" stroke="var(--sc-deep)" stroke-width="1.8" stroke-linecap="round"/></svg>',cust:'<svg viewBox="0 0 48 48"><circle cx="32" cy="15" r="6.5" opacity=".5"/><path d="M23 41a9.5 9.5 0 0 1 19 0v3H23z" opacity=".5"/><circle cx="18" cy="17" r="8.5"/><path d="M3 43a15 15 0 0 1 30 0v2H3z"/></svg>',quo:'<svg viewBox="0 0 48 48"><path d="M8 5h21l10 10v28H8z" opacity=".38"/><path d="M29 5v10h10z"/><path d="M27.5 20.5a5.2 5.2 0 0 0-9.5 2.9v8c0 3.2-1 5.3-3 7.6h15.5M14.5 30.5h9.5" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M31 46l1-5 11-11 4 4-11 11z"/><path d="M40 32l4 4" stroke="var(--sc-deep)" stroke-width="2" stroke-linecap="round"/></svg>',inv:'<svg viewBox="0 0 48 48"><path d="M9 3h30v42l-4.3-3-4.3 3-4.2-3-4.2 3-4.3-3-4.4 3z" opacity=".38"/><path d="M9 3h30v13H9z"/><path d="M15 24h18M15 31h18M15 38h10" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/><circle cx="33" cy="38" r="5"/><path d="M34.5 36.3a1.7 1.7 0 0 0-3.2 1v2.2c0 1-.3 1.7-1 2.4h5M30.3 39.2h3" fill="none" stroke="var(--sc-deep)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>',pay:'<svg viewBox="0 0 48 48"><rect x="3" y="10" width="33" height="23" rx="4.5" opacity=".42"/><rect x="3" y="15" width="33" height="6"/><rect x="8" y="25" width="11" height="4" rx="2"/><circle cx="36" cy="34" r="10"/><path d="M38.8 30a3 3 0 0 0-5.6 1.4v3.4c0 1.6-.5 2.8-1.6 3.8h8.2M31.5 34.6h5" fill="none" stroke="var(--sc-deep)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',rem:'<svg viewBox="0 0 48 48"><path d="M24 5a12.5 12.5 0 0 0-12.5 12.5v8L6 33v3h36v-3l-5.5-7.5v-8A12.5 12.5 0 0 0 24 5z"/><path d="M18.5 39a5.5 5.5 0 0 0 11 0z" opacity=".75"/><path d="M40.5 13a12 12 0 0 1 3.5 9.5M7.5 13A12 12 0 0 0 4 22.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity=".6"/><circle cx="24" cy="4.5" r="2.5"/></svg>',ring:'<svg viewBox="0 0 48 48"><path d="M9 5h8.5l4.5 11-5.5 3.3a23 23 0 0 0 11.2 11.2L31 25l11 4.5V38a5 5 0 0 1-5 5A33 33 0 0 1 4 10a5 5 0 0 1 5-5z"/><path d="M29 10a9 9 0 0 1 9 9M29 3a16 16 0 0 1 16 16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity=".6"/></svg>',health:'<svg viewBox="0 0 48 48"><rect x="7" y="7" width="34" height="38" rx="5" opacity=".38"/><rect x="16" y="2" width="16" height="9" rx="3.5"/><circle cx="17" cy="21" r="4" fill="#5CB85C"/><circle cx="17" cy="30.5" r="4" fill="#F2B705"/><circle cx="17" cy="40" r="4" fill="#E5484D"/><path d="M25 21h10M25 30.5h10M25 40h7" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/></svg>',sup:'<svg viewBox="0 0 48 48"><path d="M3 10h27v23H3z"/><path d="M30 16h8.5l6.5 8v9H30z"/><path d="M33 19h4.5l4.5 5.5h-9z" fill="var(--sc-deep)"/><rect x="8" y="16" width="12" height="9" rx="1.5" fill="var(--sc-deep)" opacity=".55"/><circle cx="12" cy="35" r="5.5"/><circle cx="36" cy="35" r="5.5"/><circle cx="12" cy="35" r="2.2" fill="var(--sc-deep)"/><circle cx="36" cy="35" r="2.2" fill="var(--sc-deep)"/><path d="M2 42h44" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" opacity=".5"/></svg>',rep:'<svg viewBox="0 0 48 48"><rect x="4" y="5" width="40" height="38" rx="5" opacity=".3"/><rect x="10" y="27" width="7" height="11" rx="1.8"/><rect x="20.5" y="21" width="7" height="17" rx="1.8"/><rect x="31" y="15" width="7" height="23" rx="1.8"/><path d="M10 16l8-5 7 3.5 10-7.5M30 7h5.5v5.5" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/></svg>',docs:'<svg viewBox="0 0 48 48"><path d="M16 3h15l8 8v21H16z" opacity=".35"/><path d="M10 11h15l8 8v22H10z" opacity=".6"/><path d="M4 19h15l8 8v18H4z"/><path d="M9 33h12M9 39h8" fill="none" stroke="var(--sc-deep)" stroke-width="2.6" stroke-linecap="round"/></svg>',set:'<svg viewBox="0 0 48 48"><path d="M39.5 24.0 L44.6 28.1 L43.4 32.0 L36.9 32.6 L35.0 35.0 L35.7 41.5 L32.0 43.4 L27.0 39.2 L24.0 39.5 L19.9 44.6 L16.0 43.4 L15.4 36.9 L13.0 35.0 L6.5 35.7 L4.6 32.0 L8.8 27.0 L8.5 24.0 L3.4 19.9 L4.6 16.0 L11.1 15.4 L13.0 13.0 L12.3 6.5 L16.0 4.6 L21.0 8.8 L24.0 8.5 L28.1 3.4 L32.0 4.6 L32.6 11.1 L35.0 13.0 L41.5 12.3 L43.4 16.0 L39.2 21.0Z"/><circle cx="24" cy="24" r="6.5" fill="var(--sc-deep)"/></svg>',data:'<svg viewBox="0 0 48 48"><ellipse cx="24" cy="10" rx="17" ry="6.5"/><path d="M7 10v9c0 3.6 7.6 6.5 17 6.5s17-2.9 17-6.5v-9c0 3.6-7.6 6.5-17 6.5S7 13.6 7 10z" opacity=".78"/><path d="M7 22v9c0 3.6 7.6 6.5 17 6.5s17-2.9 17-6.5v-9c0 3.6-7.6 6.5-17 6.5S7 25.6 7 22z" opacity=".58"/><path d="M7 34v4c0 3.6 7.6 6.5 17 6.5s17-2.9 17-6.5v-4c0 3.6-7.6 6.5-17 6.5S7 37.6 7 34z" opacity=".42"/><circle cx="36" cy="40" r="2.2" fill="#5CB85C"/></svg>'};
+const SECOF={home:'look',vehicle:'look',more:'look',diary:'diary',jobs:'diary',job:'diary',health:'health',healthsheet:'health',healthcheck:'health',healthreport:'health',quotes:'quo',quote:'quo',invoices:'inv',invoice:'inv',payments:'pay',customers:'cust',customer:'cust',history:'cust',ringbacks:'ring',reminders:'rem',suppliers:'sup',supplier:'sup',stock:'sup',reports:'rep',docs:'docs',doc:'docs',setup:'set',settings:'data'};
+const secOf=r=>SECOF[String(r).split('/')[0].split('?')[0]]||'look';
+const sx=(k,href,label,n,sub,cls='')=>`<a class="sx sec-${k} ${cls}" href="${href}">${ART[k].replace('<svg','<svg class="art"')}${n!==''&&n!==undefined&&n!==null?`<i class="n${String(n).length>4?' long':''}">${n}</i>`:''}<div><b>${label}</b>${sub?`<span>${sub}</span>`:''}</div></a>`;
 /* ---------- navigation ---------- */
 const NAV=[
  ['home','Lookup',I.search],['diary','Diary',I.cal],['health','Health checks',I.check],['quotes','Quotes',I.pound,QUOTES.filter(q=>q.st==='sent').length],['invoices','Invoices',I.inv,owed.length],
@@ -958,9 +987,9 @@ function drawNav(route){
   const cur=route.split('/')[0];
   const map={vehicle:'home',customer:'customers',invoice:'invoices',quote:'quotes',job:'jobs',supplier:'suppliers',more:'more',healthcheck:'health',healthsheet:'health',healthreport:'health'};
   const on=map[cur]||cur;
-  document.getElementById('nav').innerHTML=NAV.map(([r,l,ic,n])=>`<a href="#/${r}" class="${on===r?'on':''}">${ic}${l}${n?`<span class="count">${n}</span>`:''}</a>`).join('');
+  document.getElementById('nav').innerHTML=NAV.map(([r,l,ic,n])=>`<a href="#/${r}" class="sec-${secOf(r)} ${on===r?'on':''}">${ic}${l}${n?`<span class="count">${n}</span>`:''}</a>`).join('');
   const tb=[['home','Lookup',I.search],['diary','Diary',I.cal],['quote/new','New',I.plus,'mid'],['invoices','Invoices',I.inv,'',owed.length],['more','More',I.more]];
-  document.getElementById('tabbar').innerHTML=tb.map(([r,l,ic,cls,n])=>`<a href="#/${r}" class="${cls||''} ${on===r.split('/')[0]||(cls==='mid'&&cur==='quote')?'on':''}">${cls==='mid'?`<i>${ic}</i>`:ic}${l}${n?`<span class="count">${n}</span>`:''}</a>`).join('');
+  document.getElementById('tabbar').innerHTML=tb.map(([r,l,ic,cls,n])=>`<a href="#/${r}" class="sec-${secOf(r)} ${cls||''} ${on===r.split('/')[0]||(cls==='mid'&&cur==='quote')?'on':''}">${cls==='mid'?`<i>${ic}</i>`:ic}${l}${n?`<span class="count">${n}</span>`:''}</a>`).join('');
 }
 
 /* ---------- screens ---------- */
@@ -975,8 +1004,24 @@ S.home=()=>{const td=diary['2026-11-11'];const mot10=vehicles.filter(v=>{const n
  <div class="eyebrow">Wents Service Station · ${fmt(TODAY,{weekday:'long',day:'numeric',month:'long'})}</div>
  <h1 class="title">Look up a vehicle</h1>
  <div class="sugwrap"><form class="search" onsubmit="return doSearch(event)">${I.search}<input id="q" placeholder="Reg, customer ref, name, phone, postcode or invoice number" autocomplete="off" oninput="sugGo(this.value)" onfocus="sugGo(this.value)" onkeydown="return sugKey(event)" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="sug"><button class="btn pri" type="submit">${I.search}<span>Search</span></button></form><div id="sug" class="sug" role="listbox"></div></div>
- <div class="quick a1nav"><a class="btn sm" href="#/payments">${I.pound}Post a payment</a><a class="btn sm" href="#/customers">${I.car}Vehicles</a><a class="btn sm" href="#/customers">${I.users}Customers</a><a class="btn sm" href="#/quotes">${I.quote}Quotes</a><button class="btn sm" onclick="toast('Cash sale invoice, no customer record needed')">${I.inv}Cash sale</button><button class="btn sm" onclick="toast('Drop & Go: reg, what for, where the keys are')">${I.plus}Drop & Go</button></div>
+ <div class="quick a1nav"><a class="btn sm tint sec-pay" href="#/payments">${I.pound}Post a payment</a><button class="btn sm tint sec-inv" onclick="toast('Cash sale invoice, no customer record needed')">${I.inv}Cash sale</button><a class="btn sm tint sec-quo" href="#/quote/new">${I.quote}New quote</a><a class="btn sm tint sec-diary" href="#/diary">${I.cal}Book in</a><button class="btn sm tint sec-look" onclick="toast('Drop & Go: reg, what for, where the keys are')">${I.plus}Drop & Go</button><a class="btn sm tint sec-cust" href="#/customers">${I.users}Customers</a></div>
  <div id="results"></div>
+ <div class="sec">Run the garage</div>
+ <div class="sxg">
+  ${sx('diary','#/diary','Diary',td.length,`booked today · ${motsT} MOT${motsT===1?'':'s'}, ${SLOTS.length-motsT} slot${SLOTS.length-motsT===1?'':'s'} free`)}
+  ${sx('cust','#/customers','Customers','6,503','7,912 vehicles on file')}
+  ${sx('quo','#/quotes','Quotes',QUOTES.filter(q=>q.st==='sent').length,'waiting on a yes')}
+  ${sx('inv','#/invoices','Invoices','£'+Math.round(owedTotal).toLocaleString('en-GB'),`owed on ${owed.length} invoice${owed.length===1?'':'s'}`)}
+  ${sx('pay','#/payments','Payments','£'+Math.round(ledger().filter(r=>r.d===TD).reduce((a,r)=>a+r.a,0)).toLocaleString('en-GB'),'taken today · post a payment, cash up')}
+  ${sx('rem','#/reminders','Reminders',mot10,'MOTs expire in 10 days · text or email')}
+  ${sx('ring','#/ringbacks','Ring-backs',rb,`call${rb===1?'':'s'} to make today`)}
+  ${sx('health','#/health','Health checks',HC.length,'logged · print a check sheet')}
+  ${sx('sup','#/suppliers','Suppliers','34','makes · ring a factor from Motovoco')}
+  ${sx('rep','#/reports','Reports & Excel','','Takings, VAT, who owes')}
+  ${sx('docs','#/docs','Paperwork','','Quotes, invoices, statements, letters')}
+  ${sx('set','#/setup','Settings','','People, rates, templates, printer')}
+ </div>
+ <a class="sxbar sec-data" href="#/settings"><i class="secmark" style="width:34px;height:34px;margin:0;border-radius:10px">${ART.data.replace('<svg','<svg style="width:20px;height:20px"')}</i><b>Data & backups</b><span>Office PC · workshop.db · backed up 18:00 · 3 devices</span>${I.chev}</a>
  <div class="sec">Today</div>
  <div class="grid g4 stats4">
    <a class="stat" href="#/diary"><b>${td.length}</b><span>Booked in today</span></a>
@@ -993,20 +1038,6 @@ S.home=()=>{const td=diary['2026-11-11'];const mot10=vehicles.filter(v=>{const n
  <div class="sec">Recent lookups</div>
  <div class="card pad0 list">
    ${['KN19 XRT','R456 TKJ','LT70 VNB','EA19 KLM'].map(r=>{const v=veh(r);return `<a class="it" href="#/vehicle/${enc(r)}">${plate(r)}<div class="t"><b>${v.make}</b><span>${cust(v.cust).name} · ${v.miles.toLocaleString()} miles · last in ${fmtS(lastIn(r))}</span></div>${motPill(v.mot)}${I.chev}</a>`}).join('')}
- </div>
- <div class="sec">Run the garage</div>
- <div class="grid g4">
-   <a class="tile" href="#/customers"><div class="ic">${I.users}</div><b>Customers</b><span>6,503 people, 7,912 vehicles</span></a>
-   <a class="tile" href="#/invoices"><div class="ic blu">${I.inv}</div><b>Invoices</b><span>${owed.length} owed · ${gbp(owedTotal)}</span></a>
-   <a class="tile" href="#/diary"><div class="ic yel">${I.cal}</div><b>Diary</b><span>${td.length} jobs today, 3 bays</span></a>
-   <a class="tile" href="#/payments"><div class="ic grn">${I.pound}</div><b>Payments</b><span>${owed.length} owed · post a payment, cash up</span></a>
-   <a class="tile" href="#/health"><div class="ic grn">${I.check}</div><b>Health checks</b><span>${HC.length} logged · print a check sheet</span></a>
-   <a class="tile" href="#/reminders"><div class="ic red">${I.bell}</div><b>Reminders</b><span>MOT and service, by text or email</span></a>
-   <a class="tile" href="#/ringbacks"><div class="ic grn">${I.phone}</div><b>Ring-backs</b><span>${rb} calls to make today</span></a>
-   <a class="tile" href="#/suppliers"><div class="ic org">${I.car}</div><b>Suppliers</b><span>Ring a factor from Motovoco</span></a>
-   <a class="tile" href="#/reports"><div class="ic">${I.chart}</div><b>Reports & Excel</b><span>Takings, VAT, who owes</span></a>
-   <a class="tile" href="#/setup"><div class="ic">${I.cog}</div><b>Settings</b><span>People, rates, templates, printer</span></a>
-   <a class="tile" href="#/settings"><div class="ic">${I.db}</div><b>Data & backups</b><span>On this PC, backed up 18:00</span></a>
  </div>`};
 const enc=r=>encodeURIComponent(r);
 const lastIn=r=>{const a=[...invoices.filter(i=>i.reg===r).map(i=>i.date),...(legacy[r]||[]).map(h=>h.d)].sort();return a[a.length-1]||'2026-01-01'};
@@ -1787,7 +1818,7 @@ S.settings=()=>{const rows=bupRows();const last=COPIES[0];const on=DEVS.filter(d
  </div></div>${bupModal()}</div>`};
 window.runImport=()=>{const b=document.getElementById('pbar'),t=document.getElementById('ptxt');let p=0;b.style.width='0';const h=setInterval(()=>{p+=7;if(p>=100){p=100;clearInterval(h);t.textContent='Done · 85,412 invoices, 6,503 customers, 7,912 vehicles · 11 minutes';toast('Import checked, nothing changed')}else t.textContent=`Importing… ${Math.round(85412*p/100).toLocaleString()} of 85,412 invoices`;b.style.width=p+'%'},180)};
 
-S.more=()=>`<div class="eyebrow">Wents Service Station</div><h1 class="title">More</h1><div class="grid g2">${NAV.filter(n=>!['home','diary','invoices'].includes(n[0])).map(([r,l,ic])=>`<a class="tile" href="#/${r}"><div class="ic">${ic}</div><b style="font-size:16px">${l}</b></a>`).join('')}</div><div class="muted small" style="margin-top:16px">Office PC · workshop.db · backed up 18:00</div>`;
+S.more=()=>`<div class="eyebrow">Wents Service Station</div><h1 class="title">More</h1><div class="sxg">${NAV.filter(n=>!['home','diary','invoices'].includes(n[0])).map(([r,l,ic,n])=>sx(secOf(r),'#/'+r,l,n||'','','sm')).join('')}</div><div class="muted small" style="margin-top:16px">Office PC · workshop.db · backed up 18:00</div>`;
 
 /* ===== Agent 5 · Vehicle health checks (routes: health, healthsheet, healthcheck, healthreport) ===== */
 /* ---------- data ---------- */
@@ -2139,7 +2170,8 @@ function go(){
   const h=(location.hash||'#/home').slice(2);const [path]=h.split('?');const [r,...rest]=path.split('/');const arg=decodeURIComponent(rest.join('/'));
   if(r!=='quote'&&r!=='job'){qlines=null;qfor=null;qopts=null}
   const fn=S[r]||S.home;
-  document.getElementById('main').innerHTML=fn(arg);
+  const m=document.getElementById('main');m.innerHTML=fn(arg);m.className='main sec-'+secOf(r);
+  if(!['home','more'].includes(r)){const t=m.querySelector('.title');if(t&&!t.querySelector('.secmark'))t.insertAdjacentHTML('afterbegin',`<i class="secmark">${ART[secOf(r)]}</i>`)}
   drawNav(r);
   if(r==='home')document.getElementById('q')?.focus();
 }
