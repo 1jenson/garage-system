@@ -579,6 +579,19 @@ a.stat{display:block} a.stat:hover{border-color:var(--line-strong)}
 .sg.none a{color:var(--accent)}
 .sg.foot:hover,.sg.none:hover{background:none}
 @media(max-width:640px){.sg .kind{display:none}.sg .t b{white-space:normal}}
+
+.side-new{width:100%;justify-content:center;margin:4px 0 14px}
+.modal.qa .box{max-width:720px}
+.qagrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.qat{display:flex;flex-direction:column;gap:8px;align-items:flex-start;padding:14px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.03);text-align:left;color:inherit;cursor:pointer;font:inherit;min-height:112px}
+.qat:hover,.qat:focus-visible{border-color:var(--green);background:rgba(92,184,92,.08);outline:0}
+.qat i{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:rgba(92,184,92,.14);color:var(--green)}
+.qat i svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.qat b{font-size:16px;line-height:1.15}
+.qat span{font-size:12px;color:var(--muted);line-height:1.3}
+.qainv{display:flex;align-items:center;justify-content:space-between;gap:10px;background:rgba(92,184,92,.12);border:1px solid rgba(92,184,92,.4);border-radius:14px;padding:10px 14px;margin-bottom:10px;font-size:14px}
+.qainv span{display:flex;align-items:center;gap:8px}.qainv svg{width:18px;height:18px;stroke:var(--green);fill:none;stroke-width:2;flex:none}
+@media (min-width:700px){.qagrid{grid-template-columns:repeat(4,1fr)}}
 @media print{
  .side,.tabbar,.demo,.toast,.hc-noprint,.back{display:none !important}
  body::before{display:none}
@@ -793,12 +806,14 @@ body.pub .side,body.pub .tabbar,body.pub .demo{display:none}body.pub .app{grid-t
 <div class="app">
   <aside class="side">
     <div class="brand"><div class="mark">W</div><div><b>Workshop</b><small>Wents Service Station</small></div></div>
+    <button class="btn pri side-new" onclick="qaShow()" title="New quote, invoice, booking, note… (N)">+ New</button>
     <nav class="nav" id="nav"></nav>
     <div class="foot"><span class="dot"></span>Office PC · workshop.db<br><span class="muted">Backed up 18:00 · 3 devices</span></div>
   </aside>
   <main class="main" id="main"></main>
 </div>
 <nav class="tabbar" id="tabbar"></nav>
+<div id="qa"></div>
 <div class="demo">DEMO</div>
 <div class="toast" id="toast"></div>
 
@@ -1111,8 +1126,8 @@ function drawNav(route){
   const map={motlist:REMINDERS_ON?'reminders':'diary',waitlist:REMINDERS_ON?'reminders':'diary',ringround:'diary',approve:'quotes',audit:'setup',vehicle:'home',customer:'customers',notes:'notes',invoice:'invoices',quote:'quotes',job:'jobs',supplier:'suppliers',more:'more',healthcheck:'health',healthsheet:'health',healthreport:'health'};
   const on=map[cur]||cur;
   document.getElementById('nav').innerHTML=NAV.map(([r,l,ic,n])=>`<a href="#/${r}" class="sec-${secOf(r)} ${on===r?'on':''}">${ic}${l}${n?`<span class="count">${n}</span>`:''}</a>`).join('');
-  const tb=[['home','Lookup',I.search],['diary','Diary',I.cal],['quote/new','New',I.plus,'mid'],['invoices','Invoices',I.inv,'',owed.length],['more','More',I.more]];
-  document.getElementById('tabbar').innerHTML=tb.map(([r,l,ic,cls,n])=>`<a href="#/${r}" class="sec-${secOf(r)} ${cls||''} ${on===r.split('/')[0]||(cls==='mid'&&cur==='quote')?'on':''}">${cls==='mid'?`<i>${ic}</i>`:ic}${l}${n?`<span class="count">${n}</span>`:''}</a>`).join('');
+  const tb=[['home','Lookup',I.search],['diary','Diary',I.cal],['new','New',I.plus,'mid'],['invoices','Invoices',I.inv,'',owed.length],['more','More',I.more]];
+  document.getElementById('tabbar').innerHTML=tb.map(([r,l,ic,cls,n])=>`<a href="${cls==='mid'?'javascript:void 0':'#/'+r}" ${cls==='mid'?'onclick="qaShow()" aria-haspopup="dialog"':''} class="sec-${secOf(r)} ${cls||''} ${on===r.split('/')[0]?'on':''}">${cls==='mid'?`<i>${ic}</i>`:ic}${l}${n?`<span class="count">${n}</span>`:''}</a>`).join('');
 }
 
 /* ---------- screens ---------- */
@@ -2161,6 +2176,27 @@ S.docs=()=>{const [k,,id]=DOCS.find(d=>d[0]===docTab);return `<div class="hc-nop
  ${S.doc(k+'/'+id,true)}`};
 let hcStyle='inv';window.hcStyleGo=v=>{hcStyle=v;go()};
 
+
+/* ---------- quick actions (+ button) ---------- */
+let pendNew=null;
+const QA=[
+ ['quote','New quote','Price a job up',I.quote,()=>{location.hash='#/quote/new'}],
+ ['invoice','New invoice','Pick the customer next',I.inv,()=>{pendNew='invoice';location.hash='#/home';setTimeout(qaInvBanner,30)}],
+ ['book','Book a car in','MOT, service or repair slot',I.cal,()=>{location.hash='#/diary';setTimeout(()=>{openBk('new','svc')},60)}],
+ ['note','Add a note','Message, to-do or reminder for the team',I.book,()=>{location.hash='#/notes';setTimeout(()=>{const i=document.querySelector('.nqbar [name=t]');i&&i.focus()},80)}],
+ ['ring','Ring-back','Someone to call back',I.phone,()=>{location.hash='#/ringbacks';setTimeout(()=>{const b=document.querySelector('.actions .btn.pri');b&&b.click()},80)}],
+ ['health','Health check','Start a vehicle check',I.check,()=>{hcNewOpen=true;location.hash='#/health';if(location.hash==='#/health')go()}],
+ ['pay','Take a payment','Post cash, card or BACS',I.pound,()=>{location.hash='#/payments';setTimeout(()=>pyNew(),80)}],
+ ['cust','New customer','Name, number and first vehicle',I.users,()=>{location.hash='#/customers';setTimeout(()=>toast('New customer form'),80)}]];
+window.qaShow=()=>{document.getElementById('qa').innerHTML=`<div class="modal qa" onclick="if(event.target===this)qaHide()" role="dialog" aria-label="New"><div class="box"><div class="row" style="justify-content:space-between;align-items:center;margin-bottom:12px"><h2 style="margin:0">What do you want to do?</h2><button class="btn ghost sm" onclick="qaHide()" aria-label="Close">${I.x}</button></div>
+ <div class="qagrid">${QA.map(([k,t,sub,ic])=>`<button class="qat qa-${k}" onclick="qaDo('${k}')"><i>${ic}</i><b>${t}</b><span>${sub}</span></button>`).join('')}</div>
+ <div class="small muted" style="margin-top:12px">Tip: on a vehicle or customer page the same things are one tap away and already filled in.</div></div></div>`;
+ setTimeout(()=>{const f=document.querySelector('#qa .qat');f&&f.focus()},20)};
+window.qaHide=()=>{document.getElementById('qa').innerHTML=''};
+window.qaDo=k=>{qaHide();const a=QA.find(x=>x[0]===k);a&&a[4]()};
+window.qaInvBanner=()=>{const w=document.querySelector('.sugwrap');if(!w||document.getElementById('qainv'))return;const b=document.createElement('div');b.id='qainv';b.className='qainv';b.innerHTML=`<span>${I.inv}<b>New invoice</b> · who is it for? Type the reg, name or reference and pick them.</span><button class="btn sm ghost" onclick="pendNew=null;this.parentNode.remove();go()">Cancel</button>`;w.parentNode.insertBefore(b,w);const q=document.getElementById('q');if(q){q.placeholder='Reg, name or customer ref for the invoice';q.focus()}};
+window.addEventListener('hashchange',()=>{if(pendNew&&!location.hash.startsWith('#/home'))pendNew=null;qaHide()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.querySelector('#qa .modal')){qaHide();return}if(e.key.toLowerCase()==='n'&&!e.metaKey&&!e.ctrlKey&&!e.altKey&&!/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)&&!e.target.isContentEditable&&!document.querySelector('.modal'))qaShow()});
 /* ---------- live search suggestions (Lookup box) ---------- */
 let sugItems=[],sugIx=-1;
 const sugN=x=>String(x||'').toLowerCase().replace(/\s+/g,'');
@@ -2183,7 +2219,7 @@ window.sugGo=raw=>{const box=document.getElementById('sug'),inp=document.getElem
     return `<a class="sg" role="option" href="${s.href}" onmousedown="event.preventDefault()" onclick="sugPick(${ix})"><span class="ic">${I.inv}</span><div class="t"><b>${sugHi(s.i.n,q)} · ${s.i.title}</b><span>${cust(s.i.cust).name} · ${fmtS(s.i.date)} · ${gbp(s.i.total)}</span></div><span class="kind">Invoice</span></a>`}).join('')+`<div class="sg foot">↑↓ to choose · Enter to open · <b>${sugItems.length}</b> shown · press Search for all</div>`;
   box.classList.add('on');inp.setAttribute('aria-expanded','true')};
 window.sugClose=()=>{const box=document.getElementById('sug');if(box){box.classList.remove('on');box.innerHTML=''}const inp=document.getElementById('q');inp&&inp.setAttribute('aria-expanded','false');sugIx=-1};
-window.sugPick=ix=>{const s=sugItems[ix];sugClose();if(s)location.hash=s.href};
+window.sugPick=ix=>{const s=sugItems[ix];sugClose();if(!s)return;if(pendNew==='invoice'){const cid=s.k==='c'?s.c.id:s.k==='v'?s.v.cust:null;if(cid){pendNew=null;newInv(cid);return}}location.hash=s.href};
 window.sugKey=e=>{const box=document.getElementById('sug');if(!box||!box.classList.contains('on')){if(e.key==='ArrowDown')sugGo(e.target.value);return true}
   const rows=[...box.querySelectorAll('.sg[role=option]')];
   if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();sugIx=e.key==='ArrowDown'?Math.min(sugIx+1,rows.length-1):Math.max(sugIx-1,-1);rows.forEach((r,i)=>r.classList.toggle('sel',i===sugIx));if(sugIx>=0)rows[sugIx].scrollIntoView({block:'nearest'});return false}

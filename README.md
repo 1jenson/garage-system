@@ -52,3 +52,4 @@ cd "Garage System/mock" && python3 -m http.server 8793
 ## Future trials
 
 - Card pay links (Stripe or SumUp) in the collection text: parked 14 Nov. The customer pays at the desk for now.
+- 15 Nov: the + button (phone tab bar) and a new "+ New" sidebar button open a quick-action sheet: new quote, new invoice (pick the customer through Lookup first), book a car in, add a note, ring-back, health check, take a payment, new customer. N key opens it, Escape closes. workshop-v7.
