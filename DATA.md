@@ -1,4 +1,4 @@
-# Data model · cancellation list
+# Data model · cancellation list and audit trail
 
 The Cancellation List (`#/waitlist`, the old `#/motlist` still works) is one store shared by the Diary and the list page. Every customer waiting for an earlier MOT or job slot is one row, whether they were flagged from a diary booking or added by hand. The mock keeps these in memory; this is the shape the real tables will take.
 
@@ -49,3 +49,22 @@ One line per change, shown on the card under History.
 - **Done / still booked**: a `done` row whose `booked_date` is today or later is shown in the red alert box until the booking is removed from the diary.
 
 MOT expiry is never typed in by staff on the real system: the diary refresh pulls it from the DVSA lookup (8am, 12pm, 5pm Mon–Fri) and the card links to the public MOT history page.
+
+## audit
+
+Append-only. One row per change anywhere in the system; nothing here is edited or deleted. Every item's History panel, the last-edit initial badge and the "Who changed what" page (`#/audit`) all read from this table.
+
+| column | type | notes |
+|---|---|---|
+| id | uuid | |
+| entity_type | text | `booking`, `waitlist`, `job`, `quote`, `invoice`, `customer`, `vehicle`, `note`, `settings` |
+| entity_id | text | the item's id (booking id, invoice number, reg, customer id…) |
+| at | timestamptz | |
+| by | staff id | who made the change |
+| action | text | `created`, `updated`, `moved`, `status`, `assigned`, `sent`, `approved`, `declined`, `payment`, `collection`, `deleted` |
+| field | text | the field that changed, when it is a single field (e.g. `Status`, `Given to`, `Mobile`, `Labour rate`) |
+| old_value | text | before (PIN and bank account numbers stored masked) |
+| new_value | text | after |
+| text | text | one plain-English line, e.g. `moved KN19 XRT's MOT from Thu 12 Nov 09:30 to Wed 11 Nov 08:50 · customer rang` |
+
+Last-edit badge = the newest row for that `entity_type` + `entity_id`. Settings rows use `entity_id` `*`.
