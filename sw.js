@@ -1,16 +1,18 @@
 // Workshop (Garage System mock) offline support: keeps a copy of the app so it opens with no signal.
 // Bump VERSION whenever index.html, makes.js, logos or icons change, so installed copies pick up the update.
-const VERSION = 'workshop-v8';
+const VERSION = 'workshop-v9';
 const CORE = [
   './',
   'index.html',
   'makes.js',
   'manifest.webmanifest',
   'icons/apple-touch-icon.png',
+  'icons/apple-touch-icon-light.png',
   'icons/icon-192.png',
   'icons/icon-512.png',
   'icons/icon-maskable-512.png',
   'icons/favicon-32.png',
+  'icons/favicon-16.png',
   'logos/automotive-electrics.svg',
   'logos/barretts.svg',
   'logos/group-tyres.svg',
