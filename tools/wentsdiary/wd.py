@@ -278,7 +278,9 @@ def fetch_in_background(back=BACK, ahead=AHEAD):
 def cached_days():
     if not os.path.isdir(DAYS):
         return []
-    return sorted(f[:-5] for f in os.listdir(DAYS) if re.fullmatch(r"\d{4}-\d\d-\d\d\.json", f))
+    days = sorted(f[:-5] for f in os.listdir(DAYS) if re.fullmatch(r"\d{4}-\d\d-\d\d\.json", f))
+    # closed at weekends; an older cache may still hold Saturday/Sunday sheets
+    return [d for d in days if _dt.date.fromisoformat(d).weekday() < 5]
 
 
 # ---------------------------------------------------------------- mapping to the mock
@@ -425,8 +427,6 @@ def build():
     fetched = []
     n_mot = n_svc = n_notes = 0
     for d in cached_days():
-        if _dt.date.fromisoformat(d).weekday() > 4:
-            continue  # closed at weekends; older caches may still hold them
         rec = _read_json(os.path.join(DAYS, d + ".json")) or {}
         bk, notes, slots = map_sheet(d, rec.get("sheet"))
         if bk:
