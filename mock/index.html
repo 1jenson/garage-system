@@ -1005,7 +1005,7 @@ const motPill=d=>{const n=daysTo(d);if(n<0)return `<span class="pill r"><i></i>M
 const plate=(r,cls='')=>`<span class="plate ${cls}"><span>${r}</span></span>`;
 const toast=m=>{const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),1800)};
 const owed=invoices.filter(i=>i.status==='owed');
-const owedTotal=owed.reduce((s,i)=>s+i.total-i.paid,0);
+const owedTotal=()=>owed.reduce((s,i)=>s+i.total-i.paid,0);
 const dueSoon=vehicles.filter(v=>daysTo(v.mot)<=30);
 const avatar=w=>w?`<span class="av ${w}">${WHO[w].n[0]}</span>`:'';
 const money=(lines)=>{let net=0,vat=0;lines.forEach(l=>{const t=l.q*l.p;net+=t;vat+=l.k==='mot'?0:t*.2});return{net,vat,total:net+vat}};
@@ -1025,6 +1025,19 @@ const ringbacks=[{cust:'c7',why:'Confirm the clutch price before Thursday',when:
 const SVC={'EA19 KLM':['2025-11-20',38400],'KN19 XRT':['2026-11-09',61880],'GJ67 LMO':['2025-12-15',81200],'YD16 KPA':['2026-02-01',96800],'LT70 VNB':['2026-05-10',126100,6],'DK14 HFW':['2025-11-02',108900],'R456 TKJ':['2026-06-01',205100],'MF22 ZRA':['2025-10-12',14900],'HN11 PWL':['2025-09-20',79400]};
 Object.assign(SVC,{'KX21 FPL':['2026-10-27',96400],'GL19 WRX':['2026-02-10',128600],'LF68 TYD':['2026-04-02',80100],'KM22 RNG':['2026-08-18',36500],'GK17 DLY':['2026-03-03',155200]});
 const addY=(d,m=12)=>{const x=new Date(d);x.setMonth(x.getMonth()+m);return x.toISOString().slice(0,10)};
+// Headline totals. The demo arrays are a small sample of a pretend 6,503-customer database, so the public demo keeps those totals;
+// when a full data set has been loaded into the arrays (window.__localData, set by the local real-data build) every total comes from the arrays.
+const FULLDATA=()=>!!window.__localData;
+const DEMO_TOTALS={cust:6503,veh:7912,inv:85412,mot:7104,chk:3};
+const nFmt=n=>n.toLocaleString('en-GB');
+const totCust=()=>FULLDATA()?customers.length:DEMO_TOTALS.cust;
+const realVeh=()=>vehicles.filter(v=>v.cust||v.year||v.miles); // leaves out empty placeholder slots
+const totVeh=()=>FULLDATA()?realVeh().length:DEMO_TOTALS.veh;
+const totInv=()=>FULLDATA()?invoices.length+Object.values(legacy).reduce((a,l)=>a+l.length,0):DEMO_TOTALS.inv;
+const totMot=()=>FULLDATA()?realVeh().filter(v=>v.mot).length:DEMO_TOTALS.mot;
+const totChk=()=>FULLDATA()?0:DEMO_TOTALS.chk;
+const lastInvNo=()=>{let best='',bn=-1;invoices.forEach(i=>{const m=/^INV-(\d+)$/.exec(i.n||'');if(m&&+m[1]>bn){bn=+m[1];best=i.n}});return best||'—'};
+const recentRegs=()=>{const seed=FULLDATA()?[...invoices].sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.n||'').localeCompare(a.n||'')).map(i=>i.reg):['KN19 XRT','R456 TKJ','LT70 VNB','EA19 KLM'];return [...new Set(seed.filter(r=>r&&veh(r)))].slice(0,4)};
 const REMS=[
  ...vehicles.map(v=>({id:'m'+v.reg.replace(' ',''),reg:v.reg,type:'mot',due:v.mot,st:'new',log:[]})),
  ...vehicles.map(v=>{const x=SVC[v.reg];return {id:'s'+v.reg.replace(' ',''),reg:v.reg,type:'svc',due:addY(x[0],x[2]||12),last:x[0],st:'new',log:[]}}),
@@ -1193,15 +1206,15 @@ S.home=()=>{const td=diary['2026-11-11'];const mot10=vehicles.filter(v=>{const n
  <div class="sxg">
   ${sx('diary','#/diary','Diary',td.length,`booked today · ${motsT} MOT${motsT===1?'':'s'}, ${SLOTS.length-motsT} slot${SLOTS.length-motsT===1?'':'s'} free`)}
   ${(k=>sx('tyres','#/tyres','Tyres',k.cars+k.co,`${k.tyres} tyre${k.tyres===1?'':'s'} to fit · ${k.co} call-out${k.co===1?'':'s'} · fitter from ${SETUP.tyres.at}`))(tyCount(TD))}
-  ${sx('cust','#/customers','Customers','6,503','7,912 vehicles on file')}
+  ${sx('cust','#/customers','Customers',nFmt(totCust()),nFmt(totVeh())+' vehicles on file')}
   ${sx('quo','#/quotes','Quotes',QUOTES.filter(q=>q.st==='sent').length,'waiting on a yes')}
-  ${sx('inv','#/invoices','Invoices','£'+Math.round(owedTotal).toLocaleString('en-GB'),`owed on ${owed.length} invoice${owed.length===1?'':'s'}`)}
+  ${sx('inv','#/invoices','Invoices','£'+Math.round(owedTotal()).toLocaleString('en-GB'),`owed on ${owed.length} invoice${owed.length===1?'':'s'}`)}
   ${sx('pay','#/payments','Payments','£'+Math.round(ledger().filter(r=>r.d===TD).reduce((a,r)=>a+r.a,0)).toLocaleString('en-GB'),'taken today · post a payment, cash up')}
   ${REMINDERS_ON?sx('rem','#/reminders','Reminders',mot10,'MOTs expire in 10 days · text or email'):sx('motc','#/waitlist','Cancellation list',mcWaiting(),'waiting for an earlier slot · MOTs and jobs')}
   ${sx('ring','#/ringbacks','Ring-backs',rb,`call${rb===1?'':'s'} to make today`)}
   ${sx('notes','#/notes','Notes',nNew(),`new today · ${nOpen().length} to do · quotes from the website land here`)}
   ${sx('health','#/health','Health checks',HC.length,'logged · print a check sheet')}
-  ${sx('sup','#/suppliers','Suppliers','34','makes · ring a factor from Motovoco')}
+  ${sx('sup','#/suppliers','Suppliers',String(Object.keys(MAKE_SLUG).length),'makes · ring a factor from Motovoco')}
   ${sx('rep','#/reports','Reports & Excel','','Takings, VAT, who owes')}
   ${sx('docs','#/docs','Paperwork','','Quotes, invoices, statements, letters')}
  </div>
@@ -1215,13 +1228,13 @@ S.home=()=>{const td=diary['2026-11-11'];const mot10=vehicles.filter(v=>{const n
    <a class="stat" href="#/home"><b>${dg.length}</b><span>Drop & Go waiting</span></a>
    <a class="stat g" href="#/ringbacks"><b>${rb}</b><span>Ring-backs due</span></a>
    <a class="stat y" href="${REMINDERS_ON?'#/reminders':'#/diary'}"><b>${mot10}</b><span>MOTs expire in 10 days</span></a>
-   <a class="stat" href="#/invoices"><b>${gbp(owedTotal).replace('.00','')}</b><span>Owed on ${owed.length} invoices</span></a>
+   <a class="stat" href="#/invoices"><b>${gbp(owedTotal()).replace('.00','')}</b><span>Owed on ${owed.length} invoices</span></a>
  </div>
  <div class="sec">Needs you today</div>
  <div class="card pad0 list">${needs.map(n=>`<a class="it" href="${n.href}"><span class="ic ${n.cls}">${n.ic}</span><div class="t"><b>${n.b}</b><span>${n.s}</span></div>${n.pill}${I.chev}</a>`).join('')}</div>
  <div class="sec">Recent lookups</div>
  <div class="card pad0 list">
-   ${['KN19 XRT','R456 TKJ','LT70 VNB','EA19 KLM'].map(r=>{const v=veh(r);return `<a class="it" href="#/vehicle/${enc(r)}">${plate(r)}<div class="t"><b>${v.make}</b><span>${cust(v.cust).name} · ${v.miles.toLocaleString()} miles · last in ${fmtS(lastIn(r))}</span></div>${motPill(v.mot)}${I.chev}</a>`}).join('')}
+   ${recentRegs().map(r=>{const v=veh(r);return `<a class="it" href="#/vehicle/${enc(r)}">${plate(r)}<div class="t"><b>${v.make}</b><span>${cust(v.cust).name} · ${v.miles.toLocaleString()} miles · last in ${fmtS(lastIn(r))}</span></div>${motPill(v.mot)}${I.chev}</a>`}).join('')}
  </div>`};
 const enc=r=>encodeURIComponent(r);
 const lastIn=r=>{const a=[...invoices.filter(i=>i.reg===r).map(i=>i.date),...(legacy[r]||[]).map(h=>h.d)].sort();return a[a.length-1]||'2026-01-01'};
@@ -1289,7 +1302,7 @@ S.vehicle=reg=>{const v=veh(reg);
   <div class="card" style="margin-top:12px"><div class="eyebrow" style="margin-bottom:8px">Photos & files</div><div class="row"><button class="btn sm ghost" onclick="toast('Camera · photo saved to this car')">Add photo</button><button class="btn sm ghost" onclick="toast('Attach a file, e.g. a V5 scan or MOT certificate')">Attach file</button></div></div>
  </div></div>`};
 
-S.customers=()=>`<div class="head"><div><div class="eyebrow">6,503 customers</div><h1 class="title">Customers</h1></div><div class="actions"><button class="btn pri" onclick="toast('New customer form')">${I.plus}New customer</button></div></div>
+S.customers=()=>`<div class="head"><div><div class="eyebrow">${nFmt(totCust())} customers</div><h1 class="title">Customers</h1></div><div class="actions"><button class="btn pri" onclick="toast('New customer form')">${I.plus}New customer</button></div></div>
  <form class="search" onsubmit="event.preventDefault()">${I.search}<input placeholder="Name, ref, phone or postcode" oninput="filterCust(this.value)"></form>
  <div class="card pad0 list" id="custlist" style="margin-top:14px">${custRows(customers)}</div>`;
 const custRows=list=>list.map(c=>{const vs=vehicles.filter(v=>v.cust===c.id);const co=crCo(c);return `<a class="it" href="#/customer/${c.id}"><span class="av">${c.name.replace('Mr ','').replace('Mrs ','')[0]}</span><div class="t"><b>${c.name}${crRef(c.id,1)}${co?`<span class="crco">${co}</span>`:''} ${edBadge('customer',c.id)}</b><span>${c.phone} · ${vs.length>1?crVehTxt(vs.length)+' · '+vs[0].reg+' +'+(vs.length-1):vs.map(v=>v.reg).join(', ')||'no vehicle'} · since ${c.since}</span></div>${vs.length>1?`<span class="pill b">${I.truck}${vs.length}</span>`:''}${I.chev}</a>`}).join('')||'<div class="it muted">No customer matches that. Try a surname, a reference number or part of a phone number.</div>';
@@ -1543,7 +1556,7 @@ S.invoices=()=>{const q=invQ.toLowerCase().replace(/\s/g,'');const all=[...invoi
  const list=all.filter(i=>invF==='all'||(invF==='owed'?i.status==='owed'&&!i.paid:invF==='part'?i.status==='owed'&&i.paid>0:invF==='cash'?i.cash:i.status===invF)).filter(i=>!q||(i.n+(i.walk||cust(i.cust).name)+i.reg+i.title).toLowerCase().replace(/\s/g,'').includes(q));
  const sum=list.reduce((s,i)=>s+i.total,0),left=list.reduce((s,i)=>s+(i.status==='paid'?0:i.total-i.paid),0);
  const dueTxt=i=>i.status==='paid'?`<span class="muted small">Paid ${fmtS(i.pays?.[i.pays.length-1]?.d||i.date)}</span>`:i.status==='hold'?`<span class="muted small">Not sent</span>`:i.status==='draft'?'<span class="muted small">—</span>':daysTo(i.due)<0?`<span class="red small">${-daysTo(i.due)} days overdue</span>`:`<span class="small">Due ${fmtS(i.due)}</span>`;
- return `<div class="head"><div><div class="eyebrow">${gbp(owedTotal)} owed · ${invoices.filter(i=>i.date>='2026-11-01').length} this month · last number INV-0043</div><h1 class="title">Invoices</h1></div><div class="actions"><button class="btn" onclick="toast('Exported invoices.xlsx')">${I.xl}Excel</button><button class="btn" onclick="toast('Cash sale: no customer record needed')">${I.pound}Cash sale</button><a class="btn pri" href="#/quote/new">${I.plus}New invoice</a></div></div>
+ return `<div class="head"><div><div class="eyebrow">${gbp(owedTotal())} owed · ${invoices.filter(i=>i.date>='2026-11-01').length} this month · last number ${lastInvNo()}</div><h1 class="title">Invoices</h1></div><div class="actions"><button class="btn" onclick="toast('Exported invoices.xlsx')">${I.xl}Excel</button><button class="btn" onclick="toast('Cash sale: no customer record needed')">${I.pound}Cash sale</button><a class="btn pri" href="#/quote/new">${I.plus}New invoice</a></div></div>
  <form class="search" onsubmit="event.preventDefault()">${I.search}<input placeholder="Invoice number, name, reg or job" value="${invQ}" oninput="invQ=this.value;document.getElementById('invtable').outerHTML=invTable()"></form>
  <div class="tabs" style="margin-top:14px">${[['all','All'],['owed','Owed'],['part','Part paid'],['hold','On hold'],['draft','Drafts'],['paid','Paid'],['cash','Cash sales']].map(([k,l])=>`<button class="${invF===k?'on':''}" onclick="invF='${k}';go()">${l}</button>`).join('')}</div>
  ${invTable()}
@@ -1947,7 +1960,7 @@ S.reports=()=>{const f=pfig(rpPer);const maxw=Math.max(f.lab,f.prt,f.mot);const 
   <div class="card" style="margin-top:12px"><b style="font-size:16px">Sent to the bookkeeper</b>${SENTPK.map(([t,s])=>`<div class="kv"><span>${t}</span><span class="muted small">${s}</span></div>`).join('')}</div>
  </div></div>${rpModal()}</div>`};
 /* backups */
-const BKSIZE='1.9 GB',BKN='85,412 invoices, 6,503 customers, 7,912 vehicles';
+const BKSIZE='1.9 GB',BKN=()=>`${nFmt(totInv())} invoices, ${nFmt(totCust())} customers, ${nFmt(totVeh())} vehicles`;
 let COPIES=[
  {id:'c1',d:'2026-11-10',t:'18:02',to:['drive','pc'],ok:true},
  {id:'c2',d:'2026-11-09',t:'18:01',to:['drive','pc'],ok:true},
@@ -1970,7 +1983,7 @@ window.bupRestore=id=>{bupOpen=id;go()};window.bupDo=()=>{const c=COPIES.find(x=
 window.bupSwap=()=>{toast('Noted · Drive B is now at the garage, Drive A goes home');document.getElementById('swp').textContent='Swapped today · next Friday 20 Nov'};
 const bupModal=()=>{if(!bupOpen)return'';const c=COPIES.find(x=>x.id===bupOpen);
  return`<div class="modal" onclick="if(event.target===this){bupOpen=null;go()}"><div class="box" style="max-width:520px"><div class="row" style="justify-content:space-between;align-items:flex-start"><div><div class="eyebrow">Restore a copy</div><h2>${c.me?c.me+' month end':fmtS(c.d)} · ${c.t}</h2></div><button class="btn sm ghost" onclick="bupOpen=null;go()">${I.x}</button></div>
-  <dl class="kv small"><dt>Taken</dt><dd>${fmtS(c.d)} at ${c.t}</dd><dt>Size</dt><dd>${BKSIZE}</dd><dt>Holds</dt><dd>${BKN}</dd><dt>Kept on</dt><dd>${bupTo(c)}</dd></dl>
+  <dl class="kv small"><dt>Taken</dt><dd>${fmtS(c.d)} at ${c.t}</dd><dt>Size</dt><dd>${BKSIZE}</dd><dt>Holds</dt><dd>${BKN()}</dd><dt>Kept on</dt><dd>${bupTo(c)}</dd></dl>
   <div class="warn">Putting this back replaces the live data with how it was on ${fmtS(c.d)}. Anything done since then goes, so a copy of today is saved first. Usually you want <b>just one thing</b>: one invoice or one customer brought back without touching the rest.</div>
   <div class="btns"><button class="btn ghost" onclick="bupOpen=null;go()">Cancel</button><button class="btn" onclick="bupOpen=null;go();toast('Pick the invoice or customer to bring back')">Just one thing…</button><button class="btn pri" onclick="bupDo()">${I.check}Put everything back</button></div></div></div>`};
 S.settings=()=>{const rows=bupRows();const last=COPIES[0];const on=DEVS.filter(d=>d[2]==='on');
@@ -1999,15 +2012,15 @@ S.settings=()=>{const rows=bupRows();const last=COPIES[0];const on=DEVS.filter(d
   <div class="card" style="margin-top:12px"><div class="eyebrow" style="margin-bottom:8px">Import from the old system</div><b style="font-size:16px">GB Pro PLUS V3 → Workshop</b>
    <div class="muted small" style="margin:6px 0 14px">Reads the old database, checks every total, and keeps the original invoice numbers. Run it as many times as you like; nothing is deleted.</div>
    <div class="prog"><i id="pbar" style="width:100%"></i></div>
-   <div class="small" style="margin:10px 0 14px" id="ptxt">Done · ${BKN} · 11 minutes</div>
-   <dl class="kv small"><dt>Customers</dt><dd>6,503 of 6,503</dd><dt>Vehicles</dt><dd>7,912 of 7,912</dd><dt>Invoices</dt><dd>85,412 of 85,412</dd><dt>Totals match</dt><dd>85,409 <span class="muted">(3 to check)</span></dd><dt>MOT dates</dt><dd>7,104 from DVLA</dd></dl>
+   <div class="small" style="margin:10px 0 14px" id="ptxt">Done · ${BKN()} · 11 minutes</div>
+   <dl class="kv small"><dt>Customers</dt><dd>${nFmt(totCust())} of ${nFmt(totCust())}</dd><dt>Vehicles</dt><dd>${nFmt(totVeh())} of ${nFmt(totVeh())}</dd><dt>Invoices</dt><dd>${nFmt(totInv())} of ${nFmt(totInv())}</dd><dt>Totals match</dt><dd>${nFmt(totInv()-totChk())} <span class="muted">(${totChk()} to check)</span></dd><dt>MOT dates</dt><dd>${nFmt(totMot())} from DVLA</dd></dl>
    <button class="btn" style="margin-top:8px" onclick="runImport()">Run import again</button></div>
   <div class="card" style="margin-top:12px"><div class="row" style="justify-content:space-between"><div><div class="eyebrow" style="margin-bottom:4px">Who changed what</div><div class="small">${AUD.length} changes on record · every edit, move, payment and setting, with who and when</div></div><a class="btn sm" href="#/audit">${I.clock}Open</a></div></div>
   <div class="card" style="margin-top:12px"><div class="eyebrow" style="margin-bottom:8px">People</div>${[['Adam','Mechanic and MOT tester · jobs, no prices','adam'],['Jenson','Owner · everything','jen'],['Karen','Front desk · bookings, notes, reminders','karen']].map(([n,r,k])=>`<div class="dev">${avatar(k)}<div style="flex:1"><b>${n}</b><div class="muted small">${r}</div></div></div>`).join('')}</div>
   <div class="card" style="margin-top:12px"><div class="eyebrow" style="margin-bottom:8px">Bookkeeper</div><div class="small">Sue · books@example.co.uk</div><div class="small muted" style="margin-top:4px">Gets the month pack and the takings sheet when a day is closed. Change it here, not on each sheet.</div></div>
   <div class="card" style="margin-top:12px"><div class="eyebrow" style="margin-bottom:8px">Invoice settings</div><div class="small muted">Logo, address, VAT number, bank details, labour rate £68, 14 days to pay, next number INV-0043.</div></div>
  </div></div>${bupModal()}</div>`};
-window.runImport=()=>{const b=document.getElementById('pbar'),t=document.getElementById('ptxt');let p=0;b.style.width='0';const h=setInterval(()=>{p+=7;if(p>=100){p=100;clearInterval(h);t.textContent='Done · 85,412 invoices, 6,503 customers, 7,912 vehicles · 11 minutes';toast('Import checked, nothing changed')}else t.textContent=`Importing… ${Math.round(85412*p/100).toLocaleString()} of 85,412 invoices`;b.style.width=p+'%'},180)};
+window.runImport=()=>{const b=document.getElementById('pbar'),t=document.getElementById('ptxt');let p=0;b.style.width='0';const h=setInterval(()=>{p+=7;if(p>=100){p=100;clearInterval(h);t.textContent=`Done · ${BKN()} · 11 minutes`;toast('Import checked, nothing changed')}else t.textContent=`Importing… ${nFmt(Math.round(totInv()*p/100))} of ${nFmt(totInv())} invoices`;b.style.width=p+'%'},180)};
 
 S.more=()=>`<div class="eyebrow">Wents Service Station</div><h1 class="title">More</h1><div class="sxg">${NAV.filter(n=>!['home','diary','invoices'].includes(n[0])).map(([r,l,ic,n])=>sx(secOf(r),'#/'+r,l,n||'','','sm')).join('')}</div><div class="muted small" style="margin-top:16px">Office PC · workshop.db · backed up 18:00</div>`;
 
