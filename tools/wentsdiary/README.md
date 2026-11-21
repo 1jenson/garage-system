@@ -16,7 +16,7 @@ then open http://127.0.0.1:8795/wd/login and sign in. The password goes from
 the browser to the local server only, which forwards it once to the diary's
 `/api/login`; only the returned token is kept, in
 `private/wentsdiary/token.json` (git-ignored, owner-only). On sign-in the
-server fetches 14 days back and 90 ahead in the background (one request per
+server fetches 14 days back and 90 ahead, weekdays only, in the background (one request per
 day, short pause between) into `private/wentsdiary/days/`, then opens the
 Diary.
 
@@ -48,6 +48,8 @@ otherwise.
   Extras. Parts ordered / in, loan car / van / small van, messaged / confirmed
   and "cancellation requested" (shown as a note) all carry over.
 - Day notes and the per-day enabled MOT slot list carry over.
+- The garage is closed at weekends: only Monday to Friday are fetched, the
+  week strip shows five days, and a weekend "today" opens on Monday.
 - The diary has no tyre, technician or "done" data, so the Tyres list stays
   empty, every booking shows as not given out to anyone (the "Not given out"
   count is kept at 0) and nothing is ticked done.

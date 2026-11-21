@@ -216,7 +216,8 @@ def fetch_day(d, tk=None):
 
 def window_dates(back=BACK, ahead=AHEAD, today=None):
     today = today or _dt.datetime.now(LONDON).date()
-    return [today + _dt.timedelta(days=i) for i in range(-back, ahead + 1)]
+    # The garage is closed at weekends, so only Monday to Friday are fetched.
+    return [d for d in (today + _dt.timedelta(days=i) for i in range(-back, ahead + 1)) if d.weekday() < 5]
 
 
 def fetch_window(back=BACK, ahead=AHEAD, progress=None):
@@ -424,6 +425,8 @@ def build():
     fetched = []
     n_mot = n_svc = n_notes = 0
     for d in cached_days():
+        if _dt.date.fromisoformat(d).weekday() > 4:
+            continue  # closed at weekends; older caches may still hold them
         rec = _read_json(os.path.join(DAYS, d + ".json")) or {}
         bk, notes, slots = map_sheet(d, rec.get("sheet"))
         if bk:

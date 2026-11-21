@@ -99,10 +99,12 @@
   }
   function slotsFor(d) { var s = WD.SLOTS && WD.SLOTS[d]; fillArr(SLOTS, s && s.length ? s : defSlots); }
   function dnum(d) { return new Date(d + 'T12:00:00').getDate(); }
+  function dow(d) { return (new Date(d + 'T12:00:00').getDay() + 6) % 7; } // 0 = Monday
+  function weekday(d) { var w = dow(d); return w > 4 ? addD(d, 7 - w) : d; } // closed Sat/Sun: next Monday
   function weekStrip(d) {
-    var dow = (new Date(d + 'T12:00:00').getDay() + 6) % 7, mon = addD(d, -dow), b = [];
+    var mon = addD(d, -dow(d)), b = [];
     b.push('<button onclick="day=\'' + addD(mon, -7) + '\';go()" title="Previous week">&lsaquo;<b>wk</b>back</button>');
-    for (var i = 0; i < 6; i++) {
+    for (var i = 0; i < 5; i++) {
       var dd = addD(mon, i), n = (BK[dd] || []).length, known = !!(WD.SLOTS && WD.SLOTS[dd]) || n > 0;
       b.push('<button class="' + (dd === day ? 'on' : '') + '" onclick="day=\'' + dd + '\';go()">' + fmt(dd, { weekday: 'short' }) +
         '<b>' + dnum(dd) + '</b>' + (n ? n + ' cars' : known ? '&ndash; cars' : 'not fetched') + '</button>');
@@ -112,10 +114,11 @@
   }
   tryDo('diary who', function () { WHO.wd = { n: 'Wents', c: '#8A94A6' }; });
   applyDiary(WD);
-  tryDo('diary today', function () { if (WD.meta && WD.meta.today) { day = WD.meta.today; slotsFor(day); } });
+  tryDo('diary today', function () { if (WD.meta && WD.meta.today) { day = weekday(WD.meta.today); slotsFor(day); } });
   tryDo('diary screen', function () {
     var orig = S.diary;
     S.diary = function () {
+      day = weekday(day);
       slotsFor(day);
       return orig.apply(this, arguments)
         .replace(/<div class="week">[\s\S]*?<\/div>/, weekStrip(day))
@@ -132,7 +135,7 @@
       var t0 = (WD.meta && WD.meta.today) || day;
       for (var i = 0; i < 120; i++) {
         var d = addD(t0, i), s = WD.SLOTS && WD.SLOTS[d];
-        if (!s) continue;
+        if (!s || dow(d) > 4) continue;
         var free = s.filter(function (t) { return !(BK[d] || []).some(function (b) { return b.k === 'mot' && b.t === t; }); })[0];
         if (free) { day = d; dTab = 'mot'; slotsFor(d); toast('Next free MOT: ' + fmt(d, { weekday: 'short', day: 'numeric', month: 'short' }) + ' at ' + free); go(); return; }
       }
