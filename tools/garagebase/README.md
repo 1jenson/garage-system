@@ -130,3 +130,8 @@ invoice in full, or `?years=N` for another window.
 
 The importer's merge rule is deliberately strict; the review list is where
 the judgement calls are.
+
+## Wents Diary mirror
+
+Sign in at http://127.0.0.1:8795/wd/login to fill the Diary page with the real
+Wents Diary bookings (read-only). See `tools/wentsdiary/README.md`.

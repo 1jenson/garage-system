@@ -38,6 +38,7 @@
   tryDo('dueSoon', function () { fillArr(dueSoon, vehicles.filter(function (v) { return v.mot && daysTo(v.mot) <= 30; })); });
   // demo-only structures that point at demo regs or customers
   tryDo('BK', function () { fillObj(BK, {}); });
+  tryDo('NOTES', function () { fillObj(NOTES, {}); });
   tryDo('PROMISE', function () { fillObj(PROMISE, {}); });
   tryDo('SVC', function () { fillObj(SVC, {}); });
   tryDo('dropgo', function () { fillArr(dropgo, []); });
@@ -81,6 +82,84 @@
     };
   });
 
+  // ---- Wents Diary mirror (read-only; tools/wentsdiary/README.md) ----
+  // window.__localDiary = {BK, NOTES, SLOTS (per day), meta} built by wd.py
+  // from the cached day sheets.  Bookings go into the mock's BK, day notes
+  // into NOTES, and the day's MOT slot times into SLOTS just before the Diary
+  // or its A4 sheet renders (the mock has one fixed slot list; the diary has
+  // one per day).  The week strip and "next MOT slot" are hard-coded to the
+  // demo week in the mock, so they are replaced here.
+  var WD = window.__localDiary || { BK: {}, NOTES: {}, SLOTS: {}, meta: {} };
+  var defSlots = SLOTS.slice();
+  var wdSt = null, wdPolling = false;
+  function applyDiary(d) {
+    WD = d;
+    tryDo('diary BK', function () { fillObj(BK, d.BK || {}); });
+    tryDo('diary NOTES', function () { fillObj(NOTES, d.NOTES || {}); });
+  }
+  function slotsFor(d) { var s = WD.SLOTS && WD.SLOTS[d]; fillArr(SLOTS, s && s.length ? s : defSlots); }
+  function dnum(d) { return new Date(d + 'T12:00:00').getDate(); }
+  function weekStrip(d) {
+    var dow = (new Date(d + 'T12:00:00').getDay() + 6) % 7, mon = addD(d, -dow), b = [];
+    b.push('<button onclick="day=\'' + addD(mon, -7) + '\';go()" title="Previous week">&lsaquo;<b>wk</b>back</button>');
+    for (var i = 0; i < 6; i++) {
+      var dd = addD(mon, i), n = (BK[dd] || []).length, known = !!(WD.SLOTS && WD.SLOTS[dd]) || n > 0;
+      b.push('<button class="' + (dd === day ? 'on' : '') + '" onclick="day=\'' + dd + '\';go()">' + fmt(dd, { weekday: 'short' }) +
+        '<b>' + dnum(dd) + '</b>' + (n ? n + ' cars' : known ? '&ndash; cars' : 'not fetched') + '</button>');
+    }
+    b.push('<button onclick="day=\'' + addD(mon, 7) + '\';go()" title="Next week">&rsaquo;<b>wk</b>next</button>');
+    return '<div class="week">' + b.join('') + '</div>';
+  }
+  tryDo('diary who', function () { WHO.wd = { n: 'Wents', c: '#8A94A6' }; });
+  applyDiary(WD);
+  tryDo('diary today', function () { if (WD.meta && WD.meta.today) { day = WD.meta.today; slotsFor(day); } });
+  tryDo('diary screen', function () {
+    var orig = S.diary;
+    S.diary = function () {
+      slotsFor(day);
+      return orig.apply(this, arguments)
+        .replace(/<div class="week">[\s\S]*?<\/div>/, weekStrip(day))
+        .replace(/<span class="whotag"[^>]*title="Wents is on it">[\s\S]*?<\/span>/g, '')
+        .replace(/ &middot; tester [A-Za-z]+<\/p>| · tester [A-Za-z]+<\/p>/, ' · mirrored from the Wents Diary</p>');
+    };
+  });
+  tryDo('diary paper', function () {
+    var orig = S.doc;
+    S.doc = function (arg) { var m = /^diaryday\/(\d{4}-\d\d-\d\d)/.exec(arg || ''); if (m) slotsFor(m[1]); return orig.apply(this, arguments); };
+  });
+  tryDo('diary next slot', function () {
+    window.nextSlot = function () {
+      var t0 = (WD.meta && WD.meta.today) || day;
+      for (var i = 0; i < 120; i++) {
+        var d = addD(t0, i), s = WD.SLOTS && WD.SLOTS[d];
+        if (!s) continue;
+        var free = s.filter(function (t) { return !(BK[d] || []).some(function (b) { return b.k === 'mot' && b.t === t; }); })[0];
+        if (free) { day = d; dTab = 'mot'; slotsFor(d); toast('Next free MOT: ' + fmt(d, { weekday: 'short', day: 'numeric', month: 'short' }) + ' at ' + free); go(); return; }
+      }
+      toast('No free MOT slot in the fetched diary');
+    };
+  });
+  function wdFetch(url, cb) { fetch(url, { cache: 'no-store' }).then(function (r) { return r.json(); }).then(cb).catch(function () {}); }
+  function wdBanner() {
+    var el = document.getElementById('local-diary'); if (!el) return;
+    var m = WD.meta || {}, s = wdSt || {}, f = s.fetch || {};
+    var txt = m.days ? 'Diary: ' + m.days + ' days cached (' + fmtS(m.from) + ' to ' + fmtS(m.to) + '), ' + (m.mot + m.svc) + ' bookings' +
+      (m.fetchedAt ? ', fetched ' + new Date(m.fetchedAt).toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }) : '') : 'Diary: nothing fetched yet';
+    if (f.running) txt += ' · fetching ' + f.done + '/' + f.total + '…';
+    else if (f.error) txt += ' · last fetch stopped: ' + f.error;
+    var act = f.running ? '' : s.signedIn ? '<button onclick="window.__wdRefresh()">Refresh diary</button>' :
+      '<a href="/wd/login">Sign in to the Wents Diary</a>' + (s.hasToken ? ' (sign-in expired)' : '');
+    el.innerHTML = txt + (act ? ' · ' + act : '');
+  }
+  function wdPoll() {
+    wdFetch('/wd/status', function (s) {
+      wdSt = s; wdBanner();
+      if (s.fetch && s.fetch.running) { wdPolling = true; setTimeout(wdPoll, 1500); }
+      else if (wdPolling) { wdPolling = false; wdFetch('/wd/diary.json', function (d) { applyDiary(d); slotsFor(day); wdBanner(); go(); }); }
+    });
+  }
+  window.__wdRefresh = function () { wdFetch('/wd/refresh', function () { wdPolling = true; wdPoll(); }); };
+
   window.__localMeta = D.meta;
   tryDo('render', function () { go(); });
   document.documentElement.classList.remove('local-loading');
@@ -93,5 +172,13 @@
   b.textContent = 'LOCAL · real GarageBase data · ' + (m.invoicesFull || 0).toLocaleString() + ' invoices in view' +
     (m.years ? ' (last ' + m.years + ' years; add ?years=all for everything)' : ' (all years)') +
     ' · ' + (m.invoicesLegacy || 0).toLocaleString() + ' older as history · owed ' + (typeof gbp === 'function' ? gbp(m.owedTotal || 0) : m.owedTotal);
+  var dv = document.createElement('div');
+  dv.id = 'local-diary';
+  dv.style.cssText = 'pointer-events:auto;margin-top:2px';
+  b.appendChild(dv);
   document.body.appendChild(b);
+  var css = document.createElement('style');
+  css.textContent = '#local-diary button,#local-diary a{font:inherit;font-weight:600;color:#fff;background:rgba(255,255,255,.18);border:0;border-radius:6px;padding:1px 8px;cursor:pointer;text-decoration:none}';
+  document.head.appendChild(css);
+  wdBanner(); wdPoll();
 })();
