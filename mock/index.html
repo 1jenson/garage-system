@@ -345,8 +345,8 @@ a.stat{display:block} a.stat:hover{border-color:var(--line-strong)}
 .dv .bm{min-width:0}
 .dv .bm{display:grid;gap:3px;min-width:0}.dv .bm .vc{display:flex;align-items:center;flex-wrap:wrap;gap:4px 10px;min-width:0}.dv .bm .veh{flex:none} .dv .bm .plate{font-size:16px} .dv .bm .plate span{padding:5px 8px 4px 7px} .dv .bm .plate::before{font-size:7px;padding:0 4px}
  .dv .bm .job svg{width:14px;height:14px;flex:none;vertical-align:-2px}
- .dv .bm .veh{display:grid;gap:3px;justify-items:start;align-content:center}
- .dv .bm .veh small{font-size:13px;font-weight:600;color:var(--muted);line-height:1.15;max-width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .dv .bm .veh{display:grid;gap:3px;justify-items:center;align-content:center}
+ .dv .bm .veh small{font-size:13px;font-weight:600;color:var(--muted);line-height:1.15;text-align:center;max-width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
  .dv .bm .cus{display:grid;gap:2px;min-width:0;flex:1 1 76px;align-content:center}
  .dv .bm .cus b{font-size:14.5px;font-weight:700;color:var(--fg);line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
  .dv .bm .cus a,.dv .bm .cus .ph,.dv .bm .cus .muted{color:var(--fg);opacity:.75;font-family:var(--font-mono);font-weight:600;letter-spacing:.02em;font-size:12.5px;white-space:nowrap}
@@ -3335,7 +3335,7 @@ function go(){
   if(r!=='quote'&&r!=='inv'&&r!=='job'){qlines=null;qfor=null;qopts=null}if((r==='quote'||r==='inv')&&S._qr&&S._qr!==r){qlines=null;qfor=null;qopts=null;S._nq=null}if(r==='quote'||r==='inv')S._qr=r;
   const fn=S[r]||S.home;
   const m=document.getElementById('main');m.innerHTML=fn(arg)+(MOD?MOD():'');m.className='main sec-'+secOf(r);document.body.classList.toggle('pub',PUB.includes(r));
-  if(!['home','more',...PUB].includes(r)){const t=m.querySelector('.title');if(t&&!t.querySelector('.secmark'))t.insertAdjacentHTML('afterbegin',`<i class="secmark">${ART[secOf(r)]}</i>`)}
+  if(!['home','more','diary',...PUB].includes(r)){const t=m.querySelector('.title');if(t&&!t.querySelector('.secmark'))t.insertAdjacentHTML('afterbegin',`<i class="secmark">${ART[secOf(r)]}</i>`)}
   drawNav(r);
   if(r==='home')document.getElementById('q')?.focus();
 }
