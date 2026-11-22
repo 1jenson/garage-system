@@ -58,7 +58,7 @@ body{overflow-x:hidden}
 .nav a.on{background:var(--tile);color:var(--fg)}
 .nav a.on svg{color:var(--green)}
 .nav .count{margin-left:auto;background:var(--red);color:#fff;font-size:11px;font-weight:700;border-radius:99px;padding:1px 7px}
-.side .foot{margin-top:auto;padding:12px 10px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+.side .foot{margin-top:auto;padding:12px 10px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)} .side .foot .ver{font-family:var(--font-mono);font-size:11px;letter-spacing:.04em;opacity:.8}
 .side .foot .dot{display:inline-block;width:8px;height:8px;border-radius:99px;background:var(--green);margin-right:6px;box-shadow:0 0 0 3px rgba(92,184,92,.2)}
 
 /* main */
@@ -1066,7 +1066,7 @@ body.pub .side,body.pub .tabbar,body.pub .demo{display:none}body.pub .app{grid-t
     <div class="brand"><div class="mark"><svg aria-label="Wents" xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 2 2"><circle r="0.9800" fill="none" stroke="#6d6f71" stroke-width="0.04"/><circle r="0.9600" fill="#fff"/><circle r="0.9350" fill="#24a3f5"/><path d="M-0.64057 -0.44153 L-0.63098 0.42710 L-0.25822 0.42710 L-0.08845 0.06472 L-0.08110 0.07197 L-0.06462 0.42710 L0.29741 0.42710 L0.69165 -0.44153 L0.50524 -0.44153 L0.28665 0.00854 L0.28013 -0.44153 L-0.05057 -0.44153 L-0.27279 0.01133 L-0.28080 -0.44153 Z" fill="#57595b" stroke="#fff" stroke-width="0.035" stroke-linejoin="miter" paint-order="stroke"/></svg></div><div><b>Wents Service<br>Station</b></div></div>
     <button class="btn pri side-new" onclick="qaShow()" title="New quote, invoice, booking, note… (N)">+ New</button>
     <nav class="nav" id="nav"></nav>
-    <div class="foot"><span class="dot"></span>Office PC · workshop.db<br><span class="muted">Backed up 18:00 · 3 devices</span></div>
+    <div class="foot"><span class="dot"></span>Office PC · workshop.db<br><span class="muted">Backed up 18:00 · 3 devices</span><br><span class="muted ver" id="verstamp" title="Build loaded on this device">Build …</span></div>
   </aside>
   <main class="main" id="main"></main>
 </div>
@@ -3560,6 +3560,14 @@ if((location.hash||'').startsWith('#/signin'))go();
 if ('serviceWorker' in navigator && location.protocol !== 'file:') {
   window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
 }
+// Version stamp in the sidebar footer: the build actually loaded on this device (the service worker's cache id, or sw.js when nothing is cached yet).
+(async () => {
+  const el = document.getElementById('verstamp'); if (!el) return;
+  const show = v => { el.textContent = 'Build ' + v.replace(/^workshop-/, ''); };
+  try { const keys = 'caches' in window ? await caches.keys() : []; const k = keys.find(x => /^workshop-v/.test(x)); if (k) return show(k); } catch (e) {}
+  try { const t = await (await fetch('sw.js', { cache: 'no-store' })).text(); const m = t.match(/workshop-v\d+/); if (m) return show(m[0]); } catch (e) {}
+  show('unknown');
+})();
 </script>
 </body>
 </html>
