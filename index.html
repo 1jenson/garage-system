@@ -1705,7 +1705,7 @@ const bkView=(b,i,d0,sps)=>{const KV={mot:'MOT',svc:'Service &amp; Repairs',xtra
   <div class="vb vveh" style="--vc:#FFC53D"><div class="vbh">Vehicle</div><div class="vbody vrow">${plate(b.reg)}<div class="vmk">${esc(i.make)||'<span class="muted">Make not set</span>'}</div></div></div>
   <div class="vb vcus" style="--vc:#4ADE80"><div class="vbh">Customer</div><div class="vbody vrow"><b class="vname">${esc(i.name)||'<span class="muted">Name not set</span>'}</b>${i.ph?`<span class="ph">${esc(i.ph)}</span><a class="btn sm pri cbtn" href="tel:${esc(i.ph)}" onclick="event.stopPropagation()">${I.phone}Call</a>`:'<span class="muted">no number</span>'}</div></div>
   <div class="vb vjb" style="--vc:var(--accent)"><div class="vbh">Job</div>${b.job?`<div class="vjob">${b.job}</div>`:'<div class="vjob muted">No job written down</div>'}${b.k==='svc'?'':row('When',when)}${row('Notes',b.nt?b.nt:'')}${row('Parts to order',b.partsNote?esc(b.partsNote):'')}</div>
-  <div class="vb vst" style="--vc:#FF6B6B"><div class="vbh">Status</div><div class="vrows">
+  <div class="vb vst" style="--vc:#2DD4BF"><div class="vbh">Status</div><div class="vrows">
    ${row('Confirmed',`<span class="cfl">${cfDot(b)}</span>${b.cf&&b.cf.who?`<span class="muted small">${WHO[b.cf.who]?WHO[b.cf.who].n:b.cf.who} · ${b.cf.at}</span>`:''}`)}
    ${row('On it',b.who&&WHO[b.who]?`<b style="color:${WHO[b.who].c}">${WHO[b.who].n}</b>`:sp?`<b style="color:${sp.c}">${esc(sp.who)}</b>`:'<span class="red">Not given out</span>')}
    ${row('Parts',b.parts&&PARTS[b.parts]?`<span class="pill ${PARTS[b.parts][1]}">${PARTS[b.parts][0]}</span>`:b.partsNote?'<span class="pill y">To order</span>':'')}
