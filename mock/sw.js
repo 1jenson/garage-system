@@ -1,6 +1,6 @@
 // Workshop (Garage System mock) offline support: keeps a copy of the app so it opens with no signal.
 // Bump VERSION whenever index.html, makes.js, logos or icons change, so installed copies pick up the update.
-const VERSION = 'workshop-v13';
+const VERSION = 'workshop-v14';
 const CORE = [
   './',
   'index.html',
@@ -43,6 +43,7 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
+  if (new URL(req.url).origin !== self.location.origin) return; // live data (Supabase) is never cached
   // The page itself: network first so updates show straight away, saved copy if offline
   if (req.mode === 'navigate') {
     event.respondWith(

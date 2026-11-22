@@ -3101,6 +3101,221 @@ addEventListener('hashchange',()=>{if(keepMod)keepMod=false;else MOD=null;go();s
 go();
 </script>
 <script>
+// ---- Live data (Supabase) ---------------------------------------------------
+// Anyone without a sign-in sees the demo exactly as before.  A staff sign-in
+// (More → Sign in) refills the arrays above from the workshop's own Supabase
+// project and writes edits back.  Server side: backend/supabase/README.md.
+// The local real-data build (tools/garagebase/serve.py) keeps its file data.
+(function(){
+const WS_URL='';   // https://<ref>.supabase.co  — filled in once the project exists
+const WS_ANON='';  // publishable (anon) key; row-level security means it reads nothing on its own
+if(!/^https:\/\//.test(WS_URL)||!WS_ANON)return;
+if(document.documentElement.classList.contains('local-loading')||window.__localData)return;
+const LS='ws.session',YEARS=(v=>v==='all'?100:(+v||2))(new URLSearchParams(location.search).get('years')||localStorage.getItem('ws.years')||'2');
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const J=o=>JSON.stringify(o);
+const num=(s,pre)=>{const n=parseInt(String(s||'').replace(pre,''),10);return isNaN(n)?null:n};
+const rest=(o,drop)=>{const r={};Object.keys(o).forEach(k=>{if(!drop.includes(k)&&o[k]!==undefined)r[k]=o[k]});return r};
+const todayISO=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const fixD=d=>(d===TD||d===NTD)?todayISO():d; // the demo's fixed "today" → the real date
+const dow=d=>(new Date(d+'T12:00:00').getDay()+6)%7;
+const weekday=d=>{const w=dow(d);return w>4?addD(d,7-w):d}; // closed Sat/Sun
+
+// ---- session -------------------------------------------------------------
+let sess=null;try{sess=JSON.parse(localStorage.getItem(LS)||'null')}catch(e){}
+if(sess&&!(sess.access_token&&sess.refresh_token))sess=null;
+const saveSess=s=>{sess=s;try{if(s)localStorage.setItem(LS,J(s));else localStorage.removeItem(LS)}catch(e){}};
+const setSess=j=>saveSess({access_token:j.access_token,refresh_token:j.refresh_token,expires_at:j.expires_at||Math.floor(Date.now()/1000)+(j.expires_in||3600),email:(j.user&&j.user.email)||(sess&&sess.email)||''});
+async function auth(path,body,bearer){const h={apikey:WS_ANON,'Content-Type':'application/json'};if(bearer)h.Authorization='Bearer '+bearer;
+  const r=await fetch(WS_URL+'/auth/v1/'+path,{method:'POST',headers:h,body:J(body||{})});const j=await r.json().catch(()=>({}));
+  if(!r.ok){const e=new Error(j.msg||j.error_description||j.message||j.error||('Sign-in failed ('+r.status+')'));e.status=r.status;throw e}return j}
+let refreshing=null;
+const refresh=()=>{if(!refreshing)refreshing=auth('token?grant_type=refresh_token',{refresh_token:sess.refresh_token}).then(j=>{setSess(j);return sess}).finally(()=>{refreshing=null});return refreshing};
+async function api(path,opt){opt=opt||{};if(!sess)throw Object.assign(new Error('signed out'),{status:401});
+  if(sess.expires_at-Date.now()/1000<60){try{await refresh()}catch(e){if(e.status&&e.status<500){signOut('Your sign-in has expired');}throw e}}
+  const h=Object.assign({apikey:WS_ANON,Authorization:'Bearer '+sess.access_token,'Content-Type':'application/json'},opt.headers||{});
+  const init=()=>({method:opt.method||'GET',headers:h,body:opt.body!==undefined?J(opt.body):undefined});
+  let r=await fetch(WS_URL+'/rest/v1/'+path,init());
+  if(r.status===401){try{await refresh()}catch(e){if(e.status&&e.status<500)signOut('Your sign-in has expired');throw e}h.Authorization='Bearer '+sess.access_token;r=await fetch(WS_URL+'/rest/v1/'+path,init())}
+  if(!r.ok){let m='';try{const j=await r.json();m=j.message||j.hint||j.details||''}catch(e){}const e=new Error(m||('HTTP '+r.status));e.status=r.status;throw e}
+  const t=await r.text();return t?JSON.parse(t):null}
+const rpc=(fn,args)=>api('rpc/'+fn,{method:'POST',body:args||{}});
+const upsert=(table,key,rows)=>api(table+'?on_conflict='+key,{method:'POST',headers:{Prefer:'return=minimal,resolution=merge-duplicates'},body:rows});
+
+// ---- cache (IndexedDB, cleared on sign-out) ------------------------------
+const idb={open(){return new Promise((ok,no)=>{const q=indexedDB.open('ws-live',1);q.onupgradeneeded=()=>q.result.createObjectStore('kv');q.onsuccess=()=>ok(q.result);q.onerror=()=>no(q.error)})},
+  async get(k){try{const db=await this.open();return await new Promise((ok,no)=>{const q=db.transaction('kv').objectStore('kv').get(k);q.onsuccess=()=>ok(q.result);q.onerror=()=>no(q.error)})}catch(e){return undefined}},
+  async set(k,v){try{const db=await this.open();await new Promise((ok,no)=>{const tx=db.transaction('kv','readwrite');tx.objectStore('kv').put(v,k);tx.oncomplete=ok;tx.onerror=()=>no(tx.error)})}catch(e){console.warn('ws: cache not saved',e&&e.message)}},
+  clear(){return new Promise(ok=>{try{const q=indexedDB.deleteDatabase('ws-live');q.onsuccess=q.onerror=q.onblocked=()=>ok()}catch(e){ok()}})}};
+
+// ---- state ----------------------------------------------------------------
+let live=false,me=null,D=null,applied=false,stubs=[];
+const status=m=>{const el=document.getElementById('ws-status');if(el)el.textContent=m||(me?'Signed in as '+(me.name||sess.email):'')};
+const foot=()=>{const f=document.querySelector('aside .foot');if(f&&live)f.innerHTML='<span class="dot"></span>Live · Wents Workshop<br><span class="muted" id="ws-status"></span>';status()};
+function signOut(msg){const s=sess;saveSess(null);pending.length=0;try{sessionStorage.setItem('ws.msg',msg||'Signed out')}catch(e){}
+  const done=()=>{location.hash='#/home';location.reload()};
+  Promise.all([idb.clear(),s?auth('logout',{},s.access_token).catch(()=>{}):null]).then(done,done)}
+window.wsSignOut=()=>{if(pending.length&&!confirm('Some changes are still saving. Sign out anyway?'))return;signOut('Signed out')};
+
+// ---- load ------------------------------------------------------------------
+const CK='snap:'+YEARS;
+async function load(){
+  const cached=await idb.get(CK);
+  if(cached&&cached.D&&cached.email===sess.email){D=cached.D;apply();
+    try{const d=await rpc('ws_snapshot',{p_years:YEARS,p_since:D.meta.at});merge(d);await idb.set(CK,{D,email:sess.email});apply()}
+    catch(e){console.warn('ws: delta sync failed',e.message);status('Offline · showing saved data')}
+    return}
+  try{D=await rpc('ws_snapshot',{p_years:YEARS})}
+  catch(e){hideLoading();if(e.status===403||/not staff/i.test(e.message)){signOut('That email is not on the staff list. Ask Jenson to add it.');return}
+    toast('Could not load live data: '+e.message);console.warn('ws: load failed',e);status('Could not load live data');return}
+  await idb.set(CK,{D,email:sess.email});apply()}
+function merge(d){
+  const byKey=(arr,src,key,front)=>{const ix={};arr.forEach((x,i)=>ix[x[key]]=i);(src||[]).forEach(x=>{const i=ix[x[key]];if(i===undefined){front?arr.unshift(x):arr.push(x)}else arr[i]=x})};
+  byKey(D.customers,d.customers,'id');Object.assign(D.CX,d.CX||{});byKey(D.vehicles,d.vehicles,'reg');Object.assign(D.VX,d.VX||{});
+  byKey(D.invoices,d.invoices,'n',true);byKey(D.QUOTES,d.QUOTES,'id',true);byKey(D.JOBS,d.JOBS,'id',true);byKey(D.REMS,d.REMS,'id');
+  const gone={};Object.keys(d.BK||{}).forEach(k=>(d.BK[k]||[]).forEach(b=>gone[b.id]=1));(d.BKdeleted||[]).forEach(id=>gone[id]=1);
+  Object.keys(D.BK).forEach(k=>{D.BK[k]=D.BK[k].filter(b=>!gone[b.id]);if(!D.BK[k].length)delete D.BK[k]});
+  Object.keys(d.BK||{}).forEach(k=>{D.BK[k]=(D.BK[k]||[]).concat(d.BK[k]);D.BK[k].sort((p,q)=>(p.t||'')<(q.t||'')?-1:(p.t||'')>(q.t||'')?1:0)});
+  Object.assign(D.NOTES,d.NOTES||{});Object.assign(D.settings,d.settings||{});if(d.meta)D.meta=d.meta}
+
+// ---- put the data where the pages read it (same as tools/garagebase/apply.js) ----
+function apply(){
+  const fillArr=(a,src)=>{a.length=0;(src||[]).forEach(x=>a.push(x))};const fillObj=(o,src)=>{Object.keys(o).forEach(k=>delete o[k]);Object.assign(o,src||{})};
+  const tryDo=(l,fn)=>{try{fn()}catch(e){console.warn('ws: '+l+' skipped: '+e.message)}};
+  if(!applied){const demo={};tryDo('demo regs',()=>{vehicles.forEach(v=>demo[v.reg]=1);Object.keys(legacy).forEach(r=>demo[r]=1);JOBS.forEach(j=>demo[j.r]=1);QUOTES.forEach(q=>demo[q.r]=1);WL.forEach(w=>{if(w.reg)demo[w.reg]=1});Object.keys(BK).forEach(d=>BK[d].forEach(b=>{if(b.reg)demo[b.reg]=1}));Object.keys(TY).forEach(d=>TY[d].forEach(b=>{if(b.reg)demo[b.reg]=1}))});
+    stubs=Object.keys(demo).filter(r=>r&&!D.vehicles.some(v=>v.reg===r)).map(r=>({reg:r,make:'(demo slot, no real vehicle)',year:'',cust:'',miles:0,mot:'',fuel:'',colour:''}))}
+  tryDo('customers',()=>fillArr(customers,D.customers));tryDo('CX',()=>fillObj(CX,D.CX));tryDo('vehicles',()=>fillArr(vehicles,D.vehicles));tryDo('VX',()=>fillObj(VX,D.VX));
+  tryDo('invoices',()=>fillArr(invoices,D.invoices));tryDo('legacy',()=>fillObj(legacy,D.legacy));tryDo('QUOTES',()=>fillArr(QUOTES,D.QUOTES));tryDo('JOBS',()=>fillArr(JOBS,D.JOBS));tryDo('REMS',()=>fillArr(REMS,D.REMS));
+  tryDo('owed',()=>fillArr(owed,invoices.filter(i=>i.status==='owed')));tryDo('dueSoon',()=>fillArr(dueSoon,vehicles.filter(v=>v.mot&&daysTo(v.mot)<=30)));
+  tryDo('BK',()=>fillObj(BK,D.BK));tryDo('NOTES',()=>fillObj(NOTES,D.NOTES));
+  ['PROMISE','SVC','TY','CFSEED'].forEach(k=>tryDo(k,()=>fillObj(window[k]||eval(k),{})));
+  ['dropgo','ringbacks','XPAYS','WL','AUD'].forEach(k=>tryDo(k,()=>fillArr(eval(k),[])));
+  if(!applied){
+    tryDo('wrap screens',()=>Object.keys(S).forEach(k=>{const orig=S[k];if(typeof orig!=='function')return;S[k]=function(){const n=vehicles.length;stubs.forEach(v=>vehicles.push(v));try{return orig.apply(this,arguments)}finally{vehicles.length=n}}}));
+    const ROWS=1000;tryDo('invoice list cap',()=>{const orig=window.invTable;window.invTable=function(){if((invQ||'').trim()||invF!=='all'||invoices.length<=ROWS)return orig.apply(this,arguments);const all=invoices.slice();const keep=all.slice().sort((a,b)=>b.n.localeCompare(a.n)).slice(0,ROWS);fillArr(invoices,keep);
+      try{return orig.apply(this,arguments).replace('</tbody>','<tr><td colspan="6" class="muted small">Showing the newest '+ROWS.toLocaleString()+' of '+all.length.toLocaleString()+' invoices in view. Type a number, name or reg to search all of them.</td></tr></tbody>')}finally{fillArr(invoices,all)}}});
+    tryDo('today',()=>{TODAY.setTime(Date.now());day=weekday(todayISO())});
+    tryDo('staff',()=>((D.meta||{}).staff||[]).forEach(s=>{if(s.who&&!WHO[s.who])WHO[s.who]={n:s.name||s.initials||s.who,c:'#8A94A6'}}));
+  }
+  me=((D.meta||{}).staff||[]).find(s=>(s.email||'').toLowerCase()===(sess.email||'').toLowerCase())||me||{name:sess.email};
+  applied=true;live=true;document.body.classList.add('ws-live');
+  seedShadow();hideLoading();foot();
+  tryDo('render',()=>go());
+  const m=D.meta||{};console.log('ws: live data applied',{invoices:m.invoicesFull,legacy:m.invoicesLegacy,customers:m.customers,vehicles:m.vehicles,next:m.nextInvoice,since:m.since||null})}
+
+// ---- writes ------------------------------------------------------------------
+// Every record the user has looked at is shadowed as JSON; after each render
+// any shadowed record that changed is queued and sent (one request per record,
+// coalesced).  Bookings and day notes are diffed whole, they are small.
+const shadow=new Map(),watched=new Map(),pending=[];let flushing=false,retryT=null;
+const keyOf=c=>c.k+':'+(c.reg||c.id||c.day||(c.ref&&(c.ref.n||c.ref.id))||'');
+function watch(k,ref,extra){if(!ref)return;const c=Object.assign({k,ref},extra||{});const key=keyOf(c);if(!watched.has(key)){watched.set(key,c);shadow.set(key,J(ref))}return c}
+function mark(k,ref,extra){const c=Object.assign({k,ref},extra||{});if(!pending.some(p=>p.k===c.k&&(c.ref?p.ref===c.ref:(p.id===c.id&&p.day===c.day&&p.reg===c.reg))))pending.push(c);status('Saving…');setTimeout(flush,0)}
+function touch(k,ref,extra){const c=watch(k,ref,extra);if(c)shadow.set(keyOf(c),J(ref));mark(k,ref,extra)}
+function seedShadow(){Object.keys(BK).forEach(d=>(BK[d]||[]).forEach(b=>shadow.set('bk:'+b.id,J([d,b]))));Object.keys(NOTES).forEach(d=>shadow.set('note:'+d,J(NOTES[d])));
+  watched.forEach(c=>shadow.set(keyOf(c),J(c.ref)))}
+function checkAll(){
+  watched.forEach((c,key)=>{const s=J(c.ref);if(shadow.get(key)!==s){shadow.set(key,s);mark(c.k,c.ref,c.reg?{reg:c.reg}:null)}});
+  const seen={};Object.keys(BK).forEach(d=>(BK[d]||[]).forEach(b=>{seen[b.id]=1;const s=J([d,b]);if(shadow.get('bk:'+b.id)!==s){shadow.set('bk:'+b.id,s);mark('bk',null,{id:b.id})}}));
+  Array.from(shadow.keys()).forEach(k=>{if(k.startsWith('bk:')&&!seen[k.slice(3)]){shadow.delete(k);mark('bk',null,{id:k.slice(3),del:true})}});
+  Object.keys(NOTES).forEach(d=>{const s=J(NOTES[d]);if(shadow.get('note:'+d)!==s){shadow.set('note:'+d,s);mark('note',null,{day:d})}});
+  Array.from(shadow.keys()).forEach(k=>{if(k.startsWith('note:')&&!NOTES[k.slice(5)]&&shadow.get(k)!=='[]'){shadow.set(k,'[]');mark('note',null,{day:k.slice(5)})}})}
+function current(){const h=(location.hash||'#/home').slice(2).split('?')[0];const [r,...more]=h.split('/');const id=decodeURIComponent(more.join('/'));
+  if(r==='invoice')watch('inv',invoices.find(x=>x.n===id));
+  else if(r==='quote'&&id!=='new')watch('quote',QUOTES.find(x=>x.id===id));
+  else if(r==='job')watch('job',JOBS.find(x=>x.id===id));
+  else if(r==='vehicle'&&id&&VX[id])watch('veh',VX[id],{reg:id})}
+async function flush(){if(flushing||!live)return;flushing=true;clearTimeout(retryT);
+  try{while(pending.length){const p=pending[0];
+      try{await send(p);pending.shift()}
+      catch(e){if(e.status&&e.status<500&&![401,408,429].includes(e.status)){pending.shift();console.error('ws: not saved',p.k,e.message);toast('Not saved: '+e.message)}
+        else{console.warn('ws: will retry',e.message);status('Offline · '+pending.length+' change'+(pending.length>1?'s':'')+' waiting');retryT=setTimeout(flush,15000);return}}}
+    status('Saved · '+new Date().toTimeString().slice(0,5));setTimeout(()=>{if(!pending.length)status()},4000)}
+  finally{flushing=false}}
+addEventListener('online',()=>flush());
+addEventListener('beforeunload',e=>{if(pending.length){e.preventDefault();e.returnValue=''}});
+const padInv=n=>'INV-'+String(n).padStart(5,'0');
+async function send(p){
+  if(p.k==='inv'){const i=p.ref;if(i.date===TD||i.date===NTD){const t=todayISO(),off=i.due?Math.round((Date.parse(i.due)-Date.parse(i.date))/864e5):0;i.date=t;if(i.due)i.due=addD(t,Math.max(0,off||0))}(i.pays||[]).forEach(x=>{x.d=fixD(x.d)});
+    const body=rest(i,['wsNew']);const n=await rpc('ws_save_invoice',{p:body,p_no:i.wsNew?null:num(i.n,'INV-')});
+    if(i.wsNew){const old=i.n,nn=padInv(n);delete i.wsNew;
+      if(nn!==old){i.n=nn;JOBS.forEach(j=>{if(j.n===old)j.n=nn});QUOTES.forEach(q=>{if(q.inv===old)q.inv=nn});
+        if((location.hash||'').startsWith('#/invoice/'+old)){history.replaceState(null,'','#/invoice/'+nn);go()}}
+      toast('Saved as '+nn)}
+    const c=watch('inv',i);shadow.set(keyOf(c),J(i));return}
+  if(p.k==='quote'){const q=p.ref;
+    if(q.wsNew){const n=await rpc('ws_next_no',{kind:'quote'});const old=q.id,nn='Q-'+String(n).padStart(4,'0');delete q.wsNew;
+      if(nn!==old){q.id=nn;JOBS.forEach(j=>{if(j.auth==='Accepted quote '+old)j.auth='Accepted quote '+nn;if(j.req==='From quote '+old)j.req='From quote '+nn});if(qfor===old)qfor=nn;
+        if((location.hash||'').startsWith('#/quote/'+old)){history.replaceState(null,'','#/quote/'+nn);go()}}}
+    if(q.d===TD||q.d===NTD){q.d=todayISO();q.valid=addD(q.d,30)}
+    await upsert('quotes','no',[{no:num(q.id,'Q-'),cust:num(q.c,'c'),reg:q.r||null,date:q.d||null,valid:q.valid||null,status:q.st||'draft',became_invoice:num(q.inv,'INV-'),title:q.t||'',
+      total:(typeof qTot==='function'?qTot(q):null),lines:q.lines||[],opts:q.opts||[],hist:q.hist||[],advise:q.adv||[],note:q.note||'',inote:q.inote||'',
+      app:rest(q,['id','c','r','d','valid','st','inv','t','lines','opts','hist','adv','note','inote','fresh','wsNew'])}]);
+    const c=watch('quote',q);shadow.set(keyOf(c),J(q));return}
+  if(p.k==='job'){const j=p.ref;let isNew=false;
+    if(j.wsNew){const n=await rpc('ws_next_no',{kind:'jobsheet'});const old=j.id,nn='JS-'+n;delete j.wsNew;isNew=true;
+      if(nn!==old){j.id=nn;invoices.forEach(i=>{if(i.js===old)i.js=nn});QUOTES.forEach(q=>{if(q.js===old)q.js=nn});
+        if((location.hash||'').startsWith('#/job/'+old)){history.replaceState(null,'','#/job/'+nn);go()}}}
+    const row={no:num(j.id,'JS-'),reg:j.r||null,cust:num(j.c,'c'),title:j.t||'',description:j.req||'',work_done:j.found||'',advise:j.adv||[],status:j.st||'est',hold:j.hold||'',lines:j.lines||[],
+      invoice:invoices.some(i=>i.n===j.n&&!i.wsNew)?num(j.n,'INV-'):null,app:rest(j,['id','r','c','t','req','found','adv','st','hold','lines','n','fresh','wsNew'])};
+    if(isNew)row.date=todayISO();
+    await upsert('jobsheets','no',[row]);const c=watch('job',j);shadow.set(keyOf(c),J(j));return}
+  if(p.k==='veh'){const reg=p.reg;if(!VX[reg])return;await upsert('vehicles','reg',[{reg,app:VX[reg]}]);const c=watch('veh',VX[reg],{reg});shadow.set(keyOf(c),J(VX[reg]));return}
+  if(p.k==='bk'){let d=null,b=null;Object.keys(BK).some(k=>{const x=(BK[k]||[]).find(y=>y.id===p.id);if(x){d=k;b=x;return true}});
+    if(!b||p.del){await api('bookings?id=eq.'+encodeURIComponent(p.id),{method:'PATCH',headers:{Prefer:'return=minimal'},body:{deleted:true}});return}
+    await upsert('bookings','id',[{id:p.id,day:d,data:rest(b,['id']),deleted:false}]);return}
+  if(p.k==='note'){await upsert('day_notes','day',[{day:p.day,notes:NOTES[p.day]||[]}]);return}}
+
+// ---- hooks into the page ----------------------------------------------------
+const go0=go;go=function(){try{return go0.apply(this,arguments)}finally{if(live){try{checkAll();current()}catch(e){console.warn('ws: sync check',e.message)}}}};
+const wrap=(name,fn)=>{const o=window[name];if(typeof o!=='function')return;window[name]=function(){if(!live)return o.apply(this,arguments);return fn(o,this,arguments)}};
+const newInvoice=(o,t,a)=>{const top=invoices[0];const r=o.apply(t,a);if(invoices[0]&&invoices[0]!==top){const i=invoices[0];i.wsNew=true;touch('inv',i);const j=JOBS.find(x=>x.id===i.js);if(j)touch('job',j);const q=QUOTES.find(x=>x.id===i.q);if(q)touch('quote',q)}return r};
+['makeInv','newInv','quoteToInv'].forEach(n=>wrap(n,newInvoice));
+const byN=(o,t,a)=>{const r=o.apply(t,a);const i=invoices.find(x=>x.n===a[0]);if(i)touch('inv',i);return r};
+['hold','addPay','pySeen'].forEach(n=>wrap(n,byN));
+// "Mark paid" in the demo records no payment; the server works out paid from payment rows, so add one
+wrap('pay',(o,t,a)=>{const r=o.apply(t,a);const i=invoices.find(x=>x.n===a[0]);if(i){i.pays=i.pays||[];const got=i.pays.reduce((s,x)=>s+(+x.a||0),0);if(i.status==='paid'&&i.paid-got>0.004)i.pays.push({d:todayISO(),m:'Marked paid',a:Math.round((i.paid-got)*100)/100,who:(me&&me.who)||ME});touch('inv',i)}return r});
+wrap('pyPost',(o,t,a)=>{const n=pyOpen;const r=o.apply(t,a);const i=invoices.find(x=>x.n===n);if(i)touch('inv',i);return r});
+wrap('invSave',(o,t,a)=>{const n=invEd&&invEd.n;const r=o.apply(t,a);const i=invoices.find(x=>x.n===n);if(i)touch('inv',i);return r});
+wrap('qset',(o,t,a)=>{const q=S._q,fresh=q&&q.fresh,nj=JOBS.length;const r=o.apply(t,a);
+  if(q&&fresh&&!q.fresh&&QUOTES.includes(q)){q.wsNew=true;touch('quote',q)}else if(q&&QUOTES.includes(q))touch('quote',q);
+  if(JOBS.length>nj){JOBS[0].wsNew=true;touch('job',JOBS[0])}return r});
+wrap('jstage',(o,t,a)=>{const nj=JOBS.length;const r=o.apply(t,a);if(JOBS.length>nj){JOBS[0].wsNew=true;touch('job',JOBS[0])}else{const j=JOBS.find(x=>x.id===a[0]);if(j)touch('job',j)}return r});
+['jwho','jauth','jadv'].forEach(n=>wrap(n,(o,t,a)=>{const r=o.apply(t,a);const j=JOBS.find(x=>x.id===a[0]);if(j)touch('job',j);return r}));
+['vxSet','vnote'].forEach(n=>wrap(n,(o,t,a)=>{const r=o.apply(t,a);if(VX[a[0]])touch('veh',VX[a[0]],{reg:a[0]});return r}));
+['saveBk','delBk','cfSet','cfCycle','wlMoveHere','addNote','editNote'].forEach(n=>wrap(n,(o,t,a)=>{try{return o.apply(t,a)}finally{try{checkAll()}catch(e){}}}));
+
+// ---- sign-in page and More tile -------------------------------------------------
+S.signin=()=>{
+  if(live)return `<div class="eyebrow">Live data</div><h1 class="title">Signed in</h1><div class="card" style="max-width:460px"><p>Signed in as <b>${esc(me.name||'')}</b> <span class="muted">${esc(sess.email)}</span></p>
+    <p class="small muted" style="margin-top:8px">${(D.meta.invoicesFull||0).toLocaleString()} invoices in view (${D.meta.years>=100?'all years':'last '+D.meta.years+' years'}), ${(D.meta.invoicesLegacy||0).toLocaleString()} older as history · ${(D.meta.customers||0).toLocaleString()} customers · ${(D.meta.vehicles||0).toLocaleString()} vehicles · next invoice ${esc(D.meta.nextInvoice||'')}</p>
+    <div class="row" style="margin-top:14px"><button class="btn" onclick="wsSignOut()">Sign out</button><a class="btn" href="#/more">Back</a></div></div>`;
+  if(sess)return `<div class="eyebrow">Live data</div><h1 class="title">Loading…</h1><div class="card" style="max-width:460px"><p>Fetching the workshop data for ${esc(sess.email)}.</p><div class="row" style="margin-top:14px"><button class="btn" onclick="wsSignOut()">Sign out</button></div></div>`;
+  return `<div class="eyebrow">Staff only</div><h1 class="title">Sign in</h1><form class="card" style="max-width:460px" onsubmit="return wsSignIn(this)" autocomplete="on">
+    <label class="field"><span>Email</span><input name="email" type="email" autocomplete="username" inputmode="email" autocapitalize="off" spellcheck="false" required></label>
+    <label class="field"><span>Password</span><input name="password" type="password" autocomplete="current-password" required></label>
+    <div id="ws-err" class="small" style="color:#c0392b;min-height:18px"></div>
+    <div class="row" style="margin-top:8px"><button class="btn pri" type="submit">Sign in</button><a class="btn" href="#/more">Cancel</a></div>
+    <p class="small muted" style="margin-top:14px">Your email and password go only to the workshop's own Supabase project. Staff accounts are added by Jenson in the Supabase dashboard; the public demo needs no sign-in.</p></form>`};
+window.wsSignIn=f=>{const email=f.email.value.trim(),pw=f.password.value;const err=document.getElementById('ws-err'),b=f.querySelector('button[type=submit]');if(!email||!pw)return false;b.disabled=true;err.textContent='';
+  auth('token?grant_type=password',{email,password:pw}).then(j=>{setSess(j);return rpc('ws_me')})
+  .then(m=>{if(!m){const s=sess;saveSess(null);auth('logout',{},s.access_token).catch(()=>{});throw new Error('That email is not on the staff list. Ask Jenson to add it.')}
+    try{sessionStorage.setItem('ws.msg','Signed in as '+(m.name||email))}catch(e){}location.hash='#/home';location.reload()})
+  .catch(x=>{err.textContent=x.message||'Sign-in failed';b.disabled=false});return false};
+const more0=S.more;S.more=function(){let h=more0.apply(this,arguments);
+  const tile=live?sx('set','#/signin','Signed in · '+esc(me.name||sess.email),'','Live data · sign out','sm'):sx('set','#/signin',sess?'Loading live data…':'Sign in','','Staff only · live workshop data','sm');
+  h=h.replace('</div><div class="muted small"',tile+'</div><div class="muted small"');
+  if(live)h=h.replace(/Office PC · workshop\.db · backed up 18:00/,'Live · Wents Workshop on Supabase · signed in as '+esc(me.name||sess.email));return h};
+
+// ---- start -----------------------------------------------------------------------
+const css=document.createElement('style');css.textContent='body.ws-live .demo{display:none}#ws-loading{position:fixed;inset:0;z-index:60;background:var(--bg);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--muted)}';document.head.appendChild(css);
+function hideLoading(){const el=document.getElementById('ws-loading');if(el)el.remove()}
+try{const m=sessionStorage.getItem('ws.msg');if(m){sessionStorage.removeItem('ws.msg');setTimeout(()=>toast(m),300)}}catch(e){}
+if(sess){const el=document.createElement('div');el.id='ws-loading';el.textContent='Loading live data…';document.body.appendChild(el);setTimeout(hideLoading,15000);load()}
+if((location.hash||'').startsWith('#/signin'))go();
+})();
+</script>
+<script>
 if ('serviceWorker' in navigator && location.protocol !== 'file:') {
   window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
 }
