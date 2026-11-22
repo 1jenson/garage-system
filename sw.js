@@ -1,6 +1,6 @@
 // Workshop (Garage System mock) offline support: keeps a copy of the app so it opens with no signal.
 // Bump VERSION whenever index.html, makes.js, logos or icons change, so installed copies pick up the update.
-const VERSION = 'workshop-v19';
+const VERSION = 'workshop-v20';
 const CORE = [
   './',
   'index.html',
