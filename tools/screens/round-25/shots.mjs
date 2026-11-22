@@ -13,7 +13,7 @@ await send('Page.enable');await send('Runtime.enable');const errs=[];ws.addEvent
 const ev=async(js)=>{const r=await send('Runtime.evaluate',{expression:js,awaitPromise:true,returnByValue:true});return r.result?r.result.value:r};
 const shots=[
  {n:'01-diary-desktop',h:'#/diary',w:1440,H:1300,js:"day='2026-11-11';go();'ok'"},
- {n:'02-diary-columns-desktop',h:'#/diary',w:1440,H:900,js:"day='2026-11-11';go();document.querySelector('.cols').scrollIntoView();'ok'"},
+ {n:'02-diary-desktop-1920',h:'#/diary',w:1920,H:1300,js:"day='2026-11-11';go();'ok'"},
  {n:'03-diary-laptop',h:'#/diary',w:1280,H:800,js:"day='2026-11-11';go();document.querySelector('.cols').scrollIntoView();'ok'"},
  {n:'04-booking-form-desktop',h:'#/diary',w:1440,H:1000,js:"day='2026-11-11';go();openBk('b10');'ok'"},
  {n:'05-mobile-diary-service',h:'#/diary',w:375,H:812,s:3,m:true,js:"day='2026-11-11';go();document.querySelector('.dvr').scrollIntoView();'ok'"},
