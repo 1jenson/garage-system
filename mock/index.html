@@ -59,7 +59,7 @@ body{overflow-x:hidden}
 .nav a.on svg{color:var(--green)}
 .nav .count{margin-left:auto;background:var(--red);color:#fff;font-size:11px;font-weight:700;border-radius:99px;padding:1px 7px}
 .side .foot{margin-top:auto;padding:12px 10px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)} .side .foot .ver{font-family:var(--font-mono);font-size:11px;letter-spacing:.04em;opacity:.8}
-.side .foot .dot{display:inline-block;width:8px;height:8px;border-radius:99px;background:var(--green);margin-right:6px;box-shadow:0 0 0 3px rgba(92,184,92,.2)}
+.side .foot .dot{display:inline-block;width:7px;height:7px;border-radius:99px;background:var(--green);margin:0 6px 1px 0;box-shadow:0 0 0 3px rgba(92,184,92,.2)} .side .foot .dot.old{background:#FFB300;box-shadow:0 0 0 3px rgba(255,179,0,.2)} .side .foot .dot.bad{background:var(--red);box-shadow:0 0 0 3px rgba(229,72,77,.2)} .side .foot a.bkup{color:var(--muted);text-decoration:none;white-space:nowrap;letter-spacing:0} .side .foot a.bkup:hover{color:var(--fg)}
 
 /* main */
 .main{min-width:0;padding:26px 24px 90px;max-width:1480px;width:100%}
@@ -838,9 +838,9 @@ a.stat{display:block} a.stat:hover{border-color:var(--line-strong)}
 
 
 /* ===== Section colours and home buttons (13 Nov). One colour per section: .sec-<key> sets --sc; .sx is the big home button, .secmark the page-header badge, .btn.tint a tinted action button. ===== */
-:root{--sec-look:#6AA6F0;--sec-diary:#FFB300;--sec-cust:#FF7A1A;--sec-quo:#00E5C3;--sec-inv:#3D8BFF;--sec-pay:#1DB954;--sec-rem:#FF2D55;--sec-ring:#FF3FB4;--sec-health:#00D4FF;--sec-sup:#E08A3C;--sec-rep:#A855F7;--sec-docs:#8FA3BF;--sec-set:#7A838F;--sec-data:#4E93BE;--sec-notes:#B4FF2E;--sec-motc:#FF9F43;--sec-tyres:#DDE6EE;--sec-audit:#9AA4B2}
+:root{--sec-look:#6AA6F0;--sec-diary:#FFB300;--sec-cust:#FF7A1A;--sec-quo:#00E5C3;--sec-inv:#3D8BFF;--sec-pay:#1DB954;--sec-rem:#FF2D55;--sec-ring:#FF3FB4;--sec-health:#00D4FF;--sec-sup:#E08A3C;--sec-rep:#A855F7;--sec-docs:#8FA3BF;--sec-set:#7A838F;--sec-data:#4E93BE;--sec-notes:#B4FF2E;--sec-motc:#FF9F43;--sec-tyres:#DDE6EE;--sec-audit:#9AA4B2;--sec-court:#6AA6F0}
 [class*="sec-"]{--sc-fg:#fff;--sc-deep:color-mix(in srgb,var(--sc) 58%,#000);--sc-tint:color-mix(in srgb,var(--sc) 16%,var(--surface));--sc-line:color-mix(in srgb,var(--sc) 42%,transparent)}
-.sec-look{--sc:var(--sec-look)} .sec-diary{--sc:var(--sec-diary);--sc-fg:#1C1500;--sc-deep:color-mix(in srgb,var(--sc) 80%,#000)} .sec-cust{--sc:var(--sec-cust)} .sec-quo{--sc:var(--sec-quo)} .sec-inv{--sc:var(--sec-inv)} .sec-pay{--sc:var(--sec-pay)} .sec-rem{--sc:var(--sec-rem)} .sec-ring{--sc:var(--sec-ring)} .sec-health{--sc:var(--sec-health)} .sec-sup{--sc:var(--sec-sup)} .sec-rep{--sc:var(--sec-rep)} .sec-docs{--sc:var(--sec-docs)} .sec-set{--sc:var(--sec-set)} .sec-data{--sc:var(--sec-data)} .sec-notes{--sc:var(--sec-notes);--sc-fg:#141A00;--sc-deep:color-mix(in srgb,var(--sc) 76%,#000)} .sec-audit{--sc:var(--sec-audit)}
+.sec-look{--sc:var(--sec-look)} .sec-diary{--sc:var(--sec-diary);--sc-fg:#1C1500;--sc-deep:color-mix(in srgb,var(--sc) 80%,#000)} .sec-cust{--sc:var(--sec-cust)} .sec-quo{--sc:var(--sec-quo)} .sec-inv{--sc:var(--sec-inv)} .sec-pay{--sc:var(--sec-pay)} .sec-rem{--sc:var(--sec-rem)} .sec-ring{--sc:var(--sec-ring)} .sec-health{--sc:var(--sec-health)} .sec-sup{--sc:var(--sec-sup)} .sec-rep{--sc:var(--sec-rep)} .sec-docs{--sc:var(--sec-docs)} .sec-set{--sc:var(--sec-set)} .sec-data{--sc:var(--sec-data)} .sec-notes{--sc:var(--sec-notes);--sc-fg:#141A00;--sc-deep:color-mix(in srgb,var(--sc) 76%,#000)} .sec-audit{--sc:var(--sec-audit)} .sec-court{--sc:var(--sec-court)}
 .sec-motc{--sc:var(--sec-motc);--sc-fg:#1A0E00;--sc-deep:color-mix(in srgb,var(--sc) 76%,#000)}
 .sec-tyres{--sc:var(--sec-tyres);--sc-fg:#0E1420;--sc-deep:color-mix(in srgb,var(--sc) 70%,#000)}
 .tyban{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:16px;background:var(--sc-tint);border:1px solid var(--sc-line);margin:14px 0 0}.tyban .tyi{display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:var(--sc);color:var(--sc-fg);flex:none}.tyban .tyi svg{width:24px;height:24px}.tyban .tx{min-width:0}.tyban .tx b{display:block;font-size:17px}.tyban .tx span{font-size:13px;color:var(--muted)}.tyban.here{background:#153A1C;border-color:#2E6B38}.tyban.here .tyi{background:#7ED37E;color:#06240B}.tyban.done{opacity:.75}.tyban.off .tyi{background:var(--tile);color:var(--muted)}
@@ -1061,7 +1061,7 @@ body.pub .side,body.pub .tabbar,body.pub .demo{display:none}body.pub .app{grid-t
   .main .title::after{content:'';display:block;width:56px;height:4px;border-radius:99px;margin-top:10px;background:linear-gradient(90deg,var(--sc,var(--accent)),color-mix(in srgb,var(--sc,var(--accent)) 30%,transparent))}
   .crname .title::after{display:none}
 }
-/* round 40: Home rebuilt to design V; round 41: Edit History tile, black magnifier, green Ring pills, list row first, six equal cards. One screen, no page scroll; only the three lists scroll. */
+/* round 40: Home rebuilt to design V; round 41: Edit History tile, black magnifier, green Ring pills, list row first, six equal cards; round 43: rounds 14 to 20 (To do blue, Ring-backs green, jot fields, list order, courtesy cars card). One screen, no page scroll; only the lists scroll. */
 .main:has(>.hv){padding:28px 18px 16px;max-width:none;height:100vh;box-sizing:border-box;overflow:hidden}
 .hv{height:100%;display:grid;grid-template-rows:auto auto minmax(0,1fr) minmax(0,1fr);gap:14px;min-height:0}
 .hv .search{height:52px;box-sizing:border-box;border-radius:14px;padding:0 4px 0 18px;border:2px solid #2F5D96;box-shadow:0 0 0 4px rgba(106,166,240,.12)}
@@ -1097,22 +1097,43 @@ body.pub .side,body.pub .tabbar,body.pub .demo{display:none}body.pub .app{grid-t
 .hvn{padding:9px 11px;border-radius:10px;background:var(--sunk);border-left:3px solid var(--sc);font-size:13.5px;margin-bottom:8px}.hvn small{display:block;color:var(--muted);font-size:12px;margin-top:3px}
 .hvtd{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-top:1px solid var(--line);font-size:13.5px}.hvtd:first-child{border-top:0}
 .hvtd input{appearance:none;width:22px;height:22px;flex:none;margin:0;border-radius:7px;border:2px solid #6E7279;background:var(--bg);display:grid;place-items:center;cursor:pointer}
-.hvtd input:checked{background:var(--green);border-color:var(--green)}
-.hvtd input:checked::after{content:"";width:6px;height:11px;border:solid var(--green-fg);border-width:0 2.5px 2.5px 0;transform:translateY(-1px) rotate(45deg)}
+.hvtd input:checked{background:#6AA6F0;border-color:#6AA6F0}
+.hvtd input:checked::after{content:"";width:6px;height:11px;border:solid #0B1A2E;border-width:0 2.5px 2.5px 0;transform:translateY(-1px) rotate(45deg)}
 .hvtd label{flex:1;cursor:pointer}.hvtd label small{display:block;color:var(--muted);font-size:12.5px}
 .hvtd input:checked+label{color:#6E7279;text-decoration:line-through}
 .hvtd .who{font-size:11px;font-weight:800;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--tile);flex:none}
-.hvseg{display:flex;gap:4px;padding:4px;border-radius:10px;background:var(--bg);border:1px solid var(--line);margin-bottom:8px}
-.hvseg button{flex:1;text-align:center;padding:5px 8px;border:0;border-radius:7px;font:inherit;font-size:13px;font-weight:700;color:var(--muted);background:none;cursor:pointer}
-.hvseg button.on{background:var(--tile);color:var(--fg)}
-.hv .jt{display:flex;align-items:center;gap:8px;margin-bottom:8px;font-size:13.5px;color:var(--muted)}.hv .jt input{height:32px}
-.hv textarea{width:100%;min-height:46px;height:auto;padding:8px 12px;resize:vertical;display:block}
-.hv .bkh{display:flex;align-items:center;gap:14px;font-size:13.5px}.hv .bkh svg{width:56px;height:56px;flex:none}
-.hv .bkh .ring{stroke-dasharray:100;stroke-dashoffset:0}
-.hvdevs{display:flex;gap:14px;margin-top:10px;font-size:12.5px;color:var(--muted);flex-wrap:wrap}
-.hvdot{width:8px;height:8px;border-radius:50%;background:var(--sc);display:inline-block;margin-right:4px}
+.hv .jt{display:flex;align-items:center;gap:8px;margin-bottom:5px;font-size:13px;color:var(--muted)}.hv .jt input{height:28px;padding:0 10px}.hv .jt label{width:46px;flex:none}
+.hv textarea{width:100%;min-height:40px;height:auto;padding:7px 12px;resize:vertical;display:block}
+/* Courtesy cars card rows (rounds 18 to 20): outline, plate, model and holder, status pill. Status colours are fixed, not the section colour. */
+.ccst-out{--sc:#E5484D}.ccst-in{--sc:#5CB85C}.ccst-na{--sc:#FFB300}
+.hvcc{display:flex;align-items:center;gap:10px;padding:4px 0;border-top:1px solid var(--line);font-size:13.5px;color:var(--fg)}.hvcc:first-child{border-top:0}.hvcc:hover{color:var(--fg)}.hvcc:hover .plate{filter:brightness(1.08)}
+.hvcc svg{flex:none;transition:transform .45s cubic-bezier(.2,.7,.2,1)}.hvcc svg path,.hvcc svg circle{transition:stroke .35s,fill .35s}
+.hvcc .x{flex:1;min-width:0;display:flex;align-items:baseline;gap:8px}.hvcc .plate{font-size:12px;flex:none}.hvcc .plate span{padding:3px 6px 2px 5px}.hvcc .x small{color:var(--muted);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hvcc .hvp{transition:background .35s}
+.ccgo svg{animation:ccgo .9s cubic-bezier(.2,.7,.2,1)}@keyframes ccgo{35%{transform:translateX(-14px)}}
+/* Courtesy cars page */
+.ccp .head .btn.blue,.btn.blue{background:#6AA6F0;color:#0B1A2E;border-color:transparent;box-shadow:none;border-radius:999px;height:36px;padding:0 16px}
+.ccgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0}
+.ccv{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:6px;min-width:0;transition:border-color .3s}.ccv.hi{border-color:#6AA6F0;box-shadow:0 0 0 4px rgba(106,166,240,.14)}
+.ccv .top{display:flex;align-items:center;justify-content:space-between;gap:10px}.ccv .top svg{transition:transform .45s cubic-bezier(.2,.7,.2,1)}.ccv .top svg path,.ccv .top svg circle{transition:stroke .35s,fill .35s}
+.ccv .id{display:flex;align-items:center;gap:10px;margin-top:4px;min-width:0}.ccv .id b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}.ccv .id .plate{font-size:13px}.ccv .id .plate span{padding:4px 7px 3px 6px}.ccv .id b{font-family:var(--font-title);font-size:16px}.ccv .id .fuel{margin-left:auto;color:var(--muted);font-size:12.5px;white-space:nowrap}
+.ccv .ln{font-size:13.5px;line-height:1.45;color:var(--fg)}.ccv .ln.m{color:var(--muted)}
+.ccv .sg{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--muted);margin-top:2px}.ccv .sg i{width:7px;height:7px;border-radius:50%;background:var(--sc);flex:none}
+.ccv .acts{display:flex;gap:8px;margin-top:auto;padding-top:8px;flex-wrap:wrap}
+.ccb{display:inline-flex;align-items:center;height:32px;padding:0 13px;border-radius:999px;border:0;font:inherit;font-size:13px;font-weight:800;cursor:pointer;color:#111;background:var(--sc);transition:background .3s}.ccb.soft{color:var(--sc);background:color-mix(in srgb,var(--sc) 15%,var(--surface))}.ccb.grey{--sc:#9AA4B2;color:var(--muted);background:var(--sunk);cursor:default}
+.ccpan{display:grid;grid-template-columns:3fr 2fr;gap:12px;align-items:start}
+.ccpan .w{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px 18px;min-width:0}
+.ccpan h2{margin:0 0 10px;font-family:var(--font-title);font-size:17px;font-weight:800;display:flex;align-items:center;gap:10px}.ccpan h2 span{margin-left:auto;font-family:var(--font-display);font-weight:500;font-size:13px;color:var(--muted)}
+.ccsign{display:grid;grid-template-columns:150px 1fr;gap:18px;align-items:start}.ccsign svg{width:150px;height:auto}
+.ccsign ol{margin:0;padding-left:22px;font-size:13.5px;line-height:1.5;color:var(--fg)}.ccsign ol li{margin-bottom:6px}.ccsign ol li b{font-weight:700}
+.ccsign .ft{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:10px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);flex-wrap:wrap}
+.cch{max-height:330px;overflow:auto;scrollbar-width:thin}.cch .r{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line);font-size:13.5px}.cch .r:first-child{border-top:0}
+.cch .d{font-family:var(--font-mono);font-size:12.5px;color:var(--muted);width:46px;flex:none}.cch .plate{font-size:11.5px;flex:none}.cch .plate span{padding:3px 6px 2px 5px}.cch .x{flex:1;min-width:0}.cch .x b{display:block}.cch .x small{display:block;color:var(--muted);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cch .hvp.soft{flex:none}
+@media (max-width:1100px){.ccgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.ccpan{grid-template-columns:1fr}}
+@media (max-width:760px){.ccgrid{grid-template-columns:1fr}.ccsign{grid-template-columns:1fr}}
 .hv .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-@media (prefers-reduced-motion:reduce){.hvtile{transition:none}}
+@media (prefers-reduced-motion:reduce){.hvtile,.hvcc svg,.ccv .top svg{transition:none;animation:none}}
 @media (max-width:1100px){.hvt{grid-template-columns:repeat(5,minmax(0,1fr))}}
 @media (max-width:760px){.main:has(>.hv){height:auto;overflow:visible;padding:16px 14px 90px}.hv{height:auto;display:flex;flex-direction:column}.hvt{grid-template-columns:repeat(3,minmax(0,1fr))}.hvtile b{white-space:normal;font-size:13px}.hvc,.hvl{grid-template-columns:1fr}.hv .scroll{max-height:260px}}
 </style>
@@ -1123,7 +1144,7 @@ body.pub .side,body.pub .tabbar,body.pub .demo{display:none}body.pub .app{grid-t
     <div class="brand"><div class="mark"><svg aria-label="Wents" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><rect width="36" height="36" rx="7.875" fill="#2a2c2f"/><path transform="translate(18 17.648) scale(17.578)" d="M-0.64057 -0.44153 L-0.63098 0.42710 L-0.25822 0.42710 L-0.08845 0.06472 L-0.08110 0.07197 L-0.06462 0.42710 L0.29741 0.42710 L0.69165 -0.44153 L0.50524 -0.44153 L0.28665 0.00854 L0.28013 -0.44153 L-0.05057 -0.44153 L-0.27279 0.01133 L-0.28080 -0.44153 Z" fill="#24a3f5" stroke="#fff" stroke-width="0.096" stroke-linejoin="miter" stroke-miterlimit="8" paint-order="stroke"/></svg></div><div><b>Wents Service<br>Station</b></div></div>
     <button class="btn pri side-new" onclick="qaShow()" title="New quote, invoice, booking, note… (N)">+ New</button>
     <nav class="nav" id="nav"></nav>
-    <div class="foot"><span class="dot"></span>Office PC · workshop.db<br><span class="muted">Backed up 18:00 · 3 devices</span><br><span class="muted ver" id="verstamp" title="Build loaded on this device">Build …</span></div>
+    <div class="foot">Office PC · workshop.db<br><a class="bkup" id="bkfoot" href="#/settings" title="Open Data &amp; backups"><span class="dot"></span>Backed up 18:00 · 3 copies</a><br><span class="muted ver" id="verstamp" title="Build loaded on this device">Build …</span></div>
   </aside>
   <main class="main" id="main"></main>
 </div>
@@ -1444,15 +1465,16 @@ const nGrp=n=>(NST[n.st]||NST.note)[1];
 const nOpen=()=>NB.filter(n=>nGrp(n)==='todo'||nGrp(n)==='prog');
 const nNew=()=>NB.filter(n=>nGrp(n)!=='done'&&n.at.slice(0,10)===NTD).length;
 const ART={"motc":"<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"16\" rx=\"2.5\"/><path d=\"M3 10h18\"/><path d=\"M8 3v4\"/><path d=\"M16 3v4\"/><path d=\"M15.5 14l-3 3-3-3\"/><path d=\"M12.5 17v-5\"/></svg>","look":"<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2\"/><circle cx=\"7\" cy=\"17\" r=\"2\"/><path d=\"M9 17h6\"/><circle cx=\"17\" cy=\"17\" r=\"2\"/></svg>","diary":"<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M8 2v4\"/><path d=\"M16 2v4\"/><rect width=\"18\" height=\"18\" x=\"3\" y=\"4\" rx=\"2\"/><path d=\"M3 10h18\"/><path d=\"M8 14h.01\"/><path d=\"M12 14h.01\"/><path d=\"M16 14h.01\"/><path d=\"M8 18h.01\"/><path d=\"M12 18h.01\"/><path d=\"M16 18h.01\"/></svg>","cust":"<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/><path d=\"M22 21v-2a4 4 0 0 0-3-3.87\"/><path d=\"M16 3.13a4 4 0 0 1 0 7.75\"/></svg>","quo":"<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z\"/><path d=\"M8 12h4\"/><path d=\"M10 16V9.5a2.5 2.5 0 0 1 5 0\"/><path d=\"M8 16h7\"/></svg>","inv":"<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z\"/><path d=\"M14 8H8\"/><path d=\"M16 12H8\"/><path d=\"M13 16H8\"/></svg>","pay":"<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1\"/><path d=\"M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4\"/></svg>","rem":"<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9\"/><path d=\"M10.3 21a1.94 1.94 0 0 0 3.4 0\"/><path d=\"M4 2C2.8 3.7 2 5.7 2 8\"/><path d=\"M22 8c0-2.3-.8-4.3-2-6\"/></svg>","ring":"<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"22 8 22 2 16 2\"/><line x1=\"16\" x2=\"22\" y1=\"8\" y2=\"2\"/><path d=\"M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z\"/></svg>","notes":"<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M13.4 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7.4\"/><path d=\"M2 6h4\"/><path d=\"M2 10h4\"/><path d=\"M2 14h4\"/><path d=\"M2 18h4\"/><path d=\"M21.378 5.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z\"/></svg>","health":"<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"/><path d=\"m9 12 2 2 4-4\"/></svg>","sup":"<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2\"/><path d=\"M15 18H9\"/><path d=\"M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14\"/><circle cx=\"17\" cy=\"18\" r=\"2\"/><circle cx=\"7\" cy=\"18\" r=\"2\"/></svg>","rep":"<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 3v16a2 2 0 0 0 2 2h16\"/><rect x=\"15\" y=\"5\" width=\"4\" height=\"12\" rx=\"1\"/><rect x=\"7\" y=\"8\" width=\"4\" height=\"9\" rx=\"1\"/></svg>","docs":"<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2\"/><path d=\"M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6\"/><rect x=\"6\" y=\"14\" width=\"12\" height=\"8\" rx=\"1\"/></svg>","set":"<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/></svg>","data":"<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><ellipse cx=\"12\" cy=\"5\" rx=\"9\" ry=\"3\"/><path d=\"M3 5V19A9 3 0 0 0 21 19V5\"/><path d=\"M3 12A9 3 0 0 0 21 12\"/></svg>","audit":"<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 12a9 9 0 1 0 3-6.7L3 8\"/><path d=\"M3 3v5h5\"/><path d=\"M12 7v5l3 2\"/></svg>"};
+ART.court='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15l1.3-4.2A2 2 0 0 1 6.2 9.4h9.1a2 2 0 0 1 1.7.9L19.5 14H21"/><path d="M3 15h18v3a1 1 0 0 1-1 1h-1.5"/><path d="M3 15v3a1 1 0 0 0 1 1h1.5"/><path d="M9 19h6"/><circle cx="7" cy="18.5" r="1.8"/><circle cx="17" cy="18.5" r="1.8"/><path d="M9 10l1 4"/></svg>';
 const TYI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.2"/><path d="M12 3v2.6M12 18.4V21M3 12h2.6M18.4 12H21M5.6 5.6l1.9 1.9M16.5 16.5l1.9 1.9M18.4 5.6l-1.9 1.9M7.5 16.5l-1.9 1.9"/></svg>';ART.tyres=TYI;
-const SECOF={tyres:'tyres',motlist:'motc',waitlist:'motc',ringround:'diary',approve:'quo',audit:'audit',home:'look',vehicle:'look',more:'look',diary:'diary',jobs:'diary',job:'diary',health:'health',healthsheet:'health',healthcheck:'health',healthreport:'health',quotes:'quo',quote:'quo',invoices:'inv',invoice:'inv',inv:'inv',payments:'pay',customers:'cust',customer:'cust',history:'cust',ringbacks:'ring',ringback:'ring',reminders:'rem',suppliers:'sup',supplier:'sup',stock:'sup',reports:'rep',docs:'docs',doc:'docs',setup:'set',settings:'data',notes:'notes'};
+const SECOF={tyres:'tyres',motlist:'motc',waitlist:'motc',ringround:'diary',approve:'quo',audit:'audit',home:'look',vehicle:'look',more:'look',diary:'diary',jobs:'diary',job:'diary',health:'health',healthsheet:'health',healthcheck:'health',healthreport:'health',quotes:'quo',quote:'quo',invoices:'inv',invoice:'inv',inv:'inv',payments:'pay',customers:'cust',customer:'cust',history:'cust',ringbacks:'ring',ringback:'ring',reminders:'rem',suppliers:'sup',supplier:'sup',stock:'sup',reports:'rep',docs:'docs',doc:'docs',setup:'set',settings:'data',notes:'notes',courtesy:'court'};
 const secOf=r=>SECOF[String(r).split('/')[0].split('?')[0]]||'look';
 const sx=(k,href,label,n,sub,cls='')=>`<a class="sx sec-${k} ${cls}" href="${href}" title="${esc(String(sub||''))}"><span class="ico"><span class="sq">${ART[k]}</span></span><div class="tx"><b>${label}</b></div></a>`;
 /* ---------- navigation ---------- */
 const REMINDERS_ON=false; /* parked 14 Nov 2026 · see REMINDERS.md · flip to true to bring Reminders back */
 const NAV=[
  ['home','Home',I.search],['diary','Diary',I.cal],['tyres','Tyres',TYI],['quotes','Quotes',I.pound,QUOTES.filter(q=>q.st==='sent').length],['invoices','Invoices',I.inv,owed.length],['customers','Customers',I.users],
- ['payments','Payments',I.pound,owed.length],['reminders','Reminders',I.bell,dueSoon.length],['ringbacks','Ring-backs',I.phone,ringbacks.filter(r=>r.st==='due').length],['notes','Notes',I.book,nNew()],['health','Health checks',I.check],['suppliers','Suppliers',I.car],['reports','Reports & Excel',I.chart],['docs','Paperwork',I.copy],['audit','Edit History',I.clock],['settings','Data & backups',I.db],['setup','Settings',I.cog]].filter(([r])=>REMINDERS_ON||r!=='reminders');
+ ['payments','Payments',I.pound,owed.length],['reminders','Reminders',I.bell,dueSoon.length],['ringbacks','Ring-backs',I.phone,ringbacks.filter(r=>r.st==='due').length],['courtesy','Courtesy cars',I.car],['notes','Notes',I.book,nNew()],['health','Health checks',I.check],['suppliers','Suppliers',I.car],['reports','Reports & Excel',I.chart],['docs','Paperwork',I.copy],['audit','Edit History',I.clock],['settings','Data & backups',I.db],['setup','Settings',I.cog]].filter(([r])=>REMINDERS_ON||r!=='reminders');
 function drawNav(route){
   const cur=route.split('/')[0];
   const map={motlist:REMINDERS_ON?'reminders':'diary',waitlist:REMINDERS_ON?'reminders':'diary',ringround:'diary',approve:'quotes',audit:'setup',vehicle:'home',customer:'customers',notes:'notes',invoice:'invoices',inv:'invoices',ringback:'ringbacks',quote:'quotes',job:'jobs',supplier:'suppliers',more:'more',healthcheck:'health',healthsheet:'health',healthreport:'health'};
@@ -1469,13 +1491,15 @@ const HV_READY=[{reg:'EA19 KLM',amt:248,rung:false,note:'not rung yet'},{reg:'HN
 const HV_TODO=[{t:'Order two 205/55 R16 for the Yaris',sub:'Adam, done 09:05',who:'AD',done:true},{t:'Ring Mrs Patel with the brake quote',sub:'Jenson, done 09:20',who:'JW',done:true},{t:'Chase GSF for the Golf filters',sub:'needed before 11',who:'KM',done:false},{t:'Invoice Mr Fincher, Focus £248',who:'JW',done:false},{t:'Book the compressor service',sub:'by end of month',who:'AD',done:false},{t:'Cash up and back up before locking up',who:'JW',done:false}];
 const HV_TILES=()=>[['diary','#/diary','Diary',ART.diary],['tyres','#/tyres','Tyres',TYI],['quo','#/quotes','Quotes',ART.quo],['inv','#/invoices','Invoices',ART.inv],['cust','#/customers','Customers',ART.cust],['pay','#/payments','Payments',ART.pay],
  REMINDERS_ON?['rem','#/reminders','Reminders',ART.rem]:['motc','#/waitlist','Cancellation list',ART.motc],['ring','#/ringbacks','Ring-backs',ART.ring],['notes','#/notes','Notes',ART.notes],['health','#/health','Health checks',ART.health],['sup','#/suppliers','Suppliers',ART.sup],['rep','#/reports','Reports & Excel',ART.rep],['docs','#/docs','Paperwork',ART.docs],['audit','#/audit','Edit History',ART.audit],['data','#/settings','Data & backups',ART.data],['set','#/setup','Settings',ART.set]];
-let hvJot='car';
-window.hvJotMode=m=>{hvJot=m;document.querySelectorAll('.hvseg button').forEach(b=>b.classList.toggle('on',b.dataset.m===m));document.getElementById('hvjr').style.display=m==='car'?'':'none';document.getElementById('hvjc').style.display=m==='car'?'none':''};
+/* round 43 (design round 14): Jot a note has Reg, Name and Phone fields, no tabs. The note pins to the car if the reg is on file, else to the customer if the name or phone matches, else it lands on the notes board. */
 window.hvJotSave=e=>{e.preventDefault();const t=document.getElementById('hvjt').value.trim();if(!t){toast('Type the note first');return false}
   const now=NTD+'T'+String(TODAY.getHours()).padStart(2,'0')+':'+String(TODAY.getMinutes()).padStart(2,'0');
-  if(hvJot==='car'){const r=document.getElementById('hvjreg').value.trim().toUpperCase().replace(/\s+/g,' ');const v=r&&veh(r);NB.unshift({id:'n'+Date.now(),book:'jen',by:'jen',at:now,st:'note',reg:v?r:undefined,svc:[],t,pin:v?{k:'v',id:r}:undefined});toast(v?'Note saved to '+r:'Note saved to the notes board')}
-  else{const q=document.getElementById('hvjcus').value.trim().toLowerCase();const c=q&&customers.find(c=>c.name.toLowerCase().includes(q)||c.phone.replace(/\s/g,'').includes(q.replace(/\s/g,'')));NB.unshift({id:'n'+Date.now(),book:'jen',by:'jen',at:now,st:'note',svc:[],t,pin:c?{k:'c',id:c.id}:undefined});toast(c?'Note saved to '+c.name:'Note saved to the notes board')}
-  go();return false};
+  const r=document.getElementById('hvjreg').value.trim().toUpperCase().replace(/\s+/g,' ');const v=r&&veh(r);
+  const nm=document.getElementById('hvjcus').value.trim().toLowerCase();const ph=document.getElementById('hvjtel').value.replace(/\s/g,'');
+  const c=(nm||ph)&&customers.find(c=>(nm&&c.name.toLowerCase().includes(nm))||(ph&&c.phone.replace(/\s/g,'').includes(ph)));
+  const pin=v?{k:'v',id:r}:c?{k:'c',id:c.id}:undefined;
+  NB.unshift({id:'n'+Date.now(),book:'jen',by:'jen',at:now,st:'note',reg:v?r:undefined,svc:[],t,pin});
+  toast(v?'Note saved to '+r:c?'Note saved to '+c.name:'Note saved to the notes board');go();return false};
 window.hvAdd=(kind,e)=>{e.preventDefault();const inp=e.target.querySelector('input');const t=inp.value.trim();if(!t)return false;
   const now=NTD+'T'+String(TODAY.getHours()).padStart(2,'0')+':'+String(TODAY.getMinutes()).padStart(2,'0');
   if(kind==='note'){NB.unshift({id:'n'+Date.now(),book:'jen',by:'jen',at:now,st:'note',svc:[],t});toast('Note added for everyone')}
@@ -1483,7 +1507,67 @@ window.hvAdd=(kind,e)=>{e.preventDefault();const inp=e.target.querySelector('inp
   else{toast('Ring-back added (demo)')}
   go();return false};
 window.hvTick=(i,el)=>{HV_TODO[i].done=el.checked;const d=HV_TODO.filter(t=>t.done).length;const c=document.getElementById('hvtdc');if(c)c.textContent=d+' of '+HV_TODO.length+' done'};
-S.home=()=>{const rbs=ringbacks.filter(r=>r.st==='due');const rbDone=ringbacks.filter(r=>r.st==='done');
+/* round 43 (design rounds 18 to 20): courtesy cars. The seven regs are the garage's own fleet; holders and phones are demo. Status lives here and the Home card and page both read it. */
+const CC_SVG={
+ fiesta:'<svg viewBox="0 0 104 42" aria-label="Ford Fiesta" style="width:{w}px;height:{h}px;flex:none" fill="none" stroke="{c}" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><path d="M10 33C6 31 5 27 6 23L8 18 14 11C19 6 28 5 40 5L52 5C58 5 62 6 66 9L78 16 92 18C98 19 100 23 100 27L99 33Z"/><path d="M16 18 19 11C24 8 34 7.5 50 7.5L62 9 74 17Z" stroke-width="1.8"/><path d="M38 7.5v10.5M56 8l9 9" stroke-width="1.8"/><circle cx="24" cy="31" r="6.5" fill="#1C1D21" stroke="{c}" stroke-width="2.4"/><circle cx="24" cy="31" r="2" fill="{c}"/><circle cx="80" cy="31" r="6.5" fill="#1C1D21" stroke="{c}" stroke-width="2.4"/><circle cx="80" cy="31" r="2" fill="{c}"/></svg>',
+ p208:'<svg viewBox="0 0 104 42" aria-label="Peugeot 208" style="width:{w}px;height:{h}px;flex:none" fill="none" stroke="{c}" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><path d="M12 33C7 31 6 26 8 21L13 13C19 6 30 5 42 5L50 5C57 5 61 6 65 9L76 16 90 18C97 19 100 23 100 27L99 33Z"/><path d="M19 18 22 11C27 8 36 7.5 48 7.5L60 9 72 17Z" stroke-width="1.8"/><path d="M40 7.5v10.5M57 8.5l7 8.5" stroke-width="1.8"/><circle cx="26" cy="31" r="6.5" fill="#1C1D21" stroke="{c}" stroke-width="2.4"/><circle cx="26" cy="31" r="2" fill="{c}"/><circle cx="80" cy="31" r="6.5" fill="#1C1D21" stroke="{c}" stroke-width="2.4"/><circle cx="80" cy="31" r="2" fill="{c}"/></svg>',
+ c1:'<svg viewBox="0 0 104 42" aria-label="Citroën C1" style="width:{w}px;height:{h}px;flex:none" fill="none" stroke="{c}" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><path d="M20 33C17 31 16 27 17 22L18 11C19 7 22 6 28 6L48 6C54 6 58 7 62 10L72 17 82 19C87 20 89 23 89 27L88 33Z"/><path d="M22 18 23 11C26 8.5 32 8.5 46 8.5L56 10 66 17Z" stroke-width="1.8"/><path d="M40 8.5v9.5" stroke-width="1.8"/><circle cx="31" cy="31" r="6.5" fill="#1C1D21" stroke="{c}" stroke-width="2.4"/><circle cx="31" cy="31" r="2" fill="{c}"/><circle cx="74" cy="31" r="6.5" fill="#1C1D21" stroke="{c}" stroke-width="2.4"/><circle cx="74" cy="31" r="2" fill="{c}"/></svg>',
+ custom:'<svg viewBox="0 0 104 42" aria-label="Ford Transit Custom" style="width:{w}px;height:{h}px;flex:none" fill="none" stroke="{c}" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><path d="M7 33C4 31 3 28 4 24L4 9C4 6 6 5 9 5L55 5C60 5 63 6 66 9L74 14 92 18C98 19 100 23 100 27L99 33Z"/><path d="M57 8 62 8 72 15 72 19 57 19Z" stroke-width="1.8"/><path d="M30 9v22M55 9v22" stroke-width="1.8"/><circle cx="22" cy="31" r="6.5" fill="#1C1D21" stroke="{c}" stroke-width="2.4"/><circle cx="22" cy="31" r="2" fill="{c}"/><circle cx="82" cy="31" r="6.5" fill="#1C1D21" stroke="{c}" stroke-width="2.4"/><circle cx="82" cy="31" r="2" fill="{c}"/></svg>',
+ berlingo:'<svg viewBox="0 0 104 42" aria-label="Citroën Berlingo" style="width:{w}px;height:{h}px;flex:none" fill="none" stroke="{c}" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"><path d="M12 33C9 31 8 28 9 24L10 10C10 7 12 6 16 6L52 6C57 6 60 7 63 10L72 17 84 19C90 20 93 23 93 27L92 33Z"/><path d="M54 9 58 9 68 16 68 19 54 19Z" stroke-width="1.8"/><path d="M28 10v21M52 10v21" stroke-width="1.8"/><circle cx="24" cy="31" r="6.5" fill="#1C1D21" stroke="{c}" stroke-width="2.4"/><circle cx="24" cy="31" r="2" fill="{c}"/><circle cx="78" cy="31" r="6.5" fill="#1C1D21" stroke="{c}" stroke-width="2.4"/><circle cx="78" cy="31" r="2" fill="{c}"/></svg>'};
+const ccSvg=(k,c,w,h)=>CC_SVG[k].replace(/\{c\}/g,c).replace('{w}',w).replace('{h}',h);
+const CC_COL={out:'#E5484D',in:'#5CB85C',na:'#FFB300'},CC_LBL={out:'Out',in:'In',na:'NA'};
+const CC=[
+ {reg:'WS51 CAR',k:'fiesta',model:'Fiesta',full:'Ford Fiesta',yr:2014,st:'out',who:'Ms Laurent',tel:'07700 900914',back:'Tue 25, 17:00',signed:'08:50',fuel:'½ tank',mot:'Mar',last:'Mr Bright, back Thu'},
+ {reg:'WS52 CAR',k:'fiesta',model:'Fiesta',full:'Ford Fiesta',yr:2014,st:'out',who:'Mr Doyle',tel:'07700 900927',back:'today, 17:30',signed:null,fuel:'¼ tank',mot:'Aug',last:'Mrs Haines, back Mon'},
+ {reg:'WS53 CAR',k:'fiesta',model:'Fiesta',full:'Ford Fiesta',yr:2014,st:'in',fuel:'Full',mot:'Jun',last:'Mr Patel, back Fri'},
+ {reg:'GD11 FOF',k:'c1',model:'C1',full:'Citroën C1',yr:2010,st:'out',who:'Mr Okafor',tel:'07700 900231',back:'Wed 26, 12:00',signed:'09:10',fuel:'½ tank',mot:'Feb',last:'Ms Reid, back Tue'},
+ {reg:'GJ11 BDF',k:'p208',model:'208',full:'Peugeot 208',yr:2011,st:'in',fuel:'¾ tank',mot:'Oct',last:'Mr Shah, back yesterday'},
+ {reg:'WS51 VAN',k:'custom',model:'Transit Custom',short:'Transit',full:'Ford Transit Custom',yr:2017,st:'in',fuel:'½ tank',mot:'May',last:'Mr Hughes, back Mon'},
+ {reg:'WS52 VAN',k:'berlingo',model:'Berlingo',full:'Citroën Berlingo',yr:2015,st:'na',why:'In the workshop, service due',fuel:'¼ tank',mot:'Jan',last:'Ms Carter, back last Fri'}];
+const CC_NEXT=[['Mr Patel','07700 900912'],['Mrs Haines','07700 900944'],['Ms Reid','07700 900958'],['Mr Shah','07700 900961']];
+const CC_HIST=[
+ {d:'21 Nov',reg:'WS53 CAR',who:'Mr Patel',out:'08:40',back:'16:50',note:'Clutch job, fuel returned as found',sg:'ok'},
+ {d:'20 Nov',reg:'GJ11 BDF',who:'Mr Shah',out:'09:05',back:'17:20',note:'Service, new scuff on the rear bumper noted',sg:'dmg'},
+ {d:'19 Nov',reg:'WS51 VAN',who:'Mr Hughes',out:'08:15',back:'15:40',note:'Van kept while the Transit was on the ramp',sg:'ok'},
+ {d:'18 Nov',reg:'WS51 CAR',who:'Mr Bright',out:'10:10',back:'12:30',note:'MOT and retest',sg:'ok'},
+ {d:'17 Nov',reg:'WS52 CAR',who:'Mrs Haines',out:'08:30',back:'17:45',note:'Brakes all round',sg:'ok'},
+ {d:'14 Nov',reg:'GD11 FOF',who:'Ms Reid',out:'08:50',back:'16:10',note:'Timing belt, came back a quarter down on fuel',sg:'dmg'},
+ {d:'13 Nov',reg:'WS52 VAN',who:'Ms Carter',out:'09:00',back:'17:00',note:'Paper agreement scanned in',sg:'paper'},
+ {d:'12 Nov',reg:'WS53 CAR',who:'Mr Okafor',out:'08:20',back:'13:15',note:'Cambelt quote visit',sg:'ok'},
+ {d:'11 Nov',reg:'WS51 CAR',who:'Mr Doyle',out:'08:45',back:'17:30',note:'Gearbox oil and filters',sg:'ok'},
+ {d:'10 Nov',reg:'GJ11 BDF',who:'Mrs Haines',out:'09:30',back:'16:00',note:'Paper agreement scanned in',sg:'paper'},
+ {d:'7 Nov',reg:'WS52 CAR',who:'Mr Bright',out:'08:10',back:'17:50',note:'Head gasket, two days',sg:'ok'}];
+const ccCar=reg=>CC.find(c=>c.reg===reg);
+const ccCounts=()=>({out:CC.filter(c=>c.st==='out').length,in:CC.filter(c=>c.st==='in').length,na:CC.filter(c=>c.st==='na').length});
+const ccLine=c=>c.st==='out'?`${c.model} · ${c.who}, back ${c.back}`:c.st==='in'?`${c.model} · On the forecourt`:`${c.model} · ${c.why}`;
+const nowHM=()=>String(TODAY.getHours()).padStart(2,'0')+':'+String(TODAY.getMinutes()).padStart(2,'0');
+window.ccSignOut=reg=>{const c=reg?ccCar(reg):CC.find(x=>x.st==='in');if(!c){toast('Every car is out or off the road');return}
+  const n=CC_NEXT[CC.filter(x=>x.st==='out').length%CC_NEXT.length];c.st='out';c.who=n[0];c.tel=n[1];c.back='Fri 28, 17:00';c.signed=null;S._ccgo=c.reg;go();toast(c.reg+' signed out to '+n[0]+'. Get the agreement signed on the tablet')};
+window.ccCheckIn=reg=>{const c=ccCar(reg);if(!c)return;c.last=c.who+', back today';c.st='in';c.who=null;c.tel=null;c.signed=null;S._ccgo=c.reg;go();toast(c.reg+' checked in, fuel and damage marked against the sign-out')};
+window.ccSign=reg=>{const c=ccCar(reg);if(!c)return;c.signed=nowHM();go();toast('Agreement signed on the tablet and saved on the record')};
+S.courtesy=arg=>{const n=ccCounts();const hi=arg?arg.toUpperCase():'';
+ const card=c=>{const col=CC_COL[c.st];return `<section class="ccv ccst-${c.st}${c.reg===hi?' hi':''}${S._ccgo===c.reg?' ccgo':''}" id="cc-${c.reg.replace(' ','')}" aria-label="${c.reg}">
+  <div class="top">${ccSvg(c.k,col,72,29)}<span class="hvp">${CC_LBL[c.st]}</span></div>
+  <div class="id"><a href="#/courtesy/${enc(c.reg)}">${plate(c.reg)}</a><b title="${esc(c.full)}">${esc(c.short||c.model)}</b><span class="fuel">${esc(c.fuel)}</span></div>
+  ${c.st==='out'?`<div class="ln"><b>${esc(c.who)}</b></div><div class="ln m">${esc(c.tel)}</div><div class="ln m">Back ${esc(c.back)}</div>`
+   :c.st==='in'?`<div class="ln"><b>On the forecourt</b></div><div class="ln m">Last out: ${esc(c.last)}</div><div class="ln m">Next MOT ${esc(c.mot)}</div>`
+   :`<div class="ln"><b>Off the road</b></div><div class="ln m">${esc(c.why)}</div><div class="ln m">Next MOT ${esc(c.mot)}</div>`}
+  ${c.st==='out'?(c.signed?`<div class="sg"><i style="--sc:#5CB85C"></i>Signed ${esc(c.signed)} on the tablet</div>`:`<div class="sg"><i style="--sc:#FFB300"></i>Not signed yet</div>`):`<div class="sg"><i style="--sc:#6E7279"></i>No one has it</div>`}
+  <div class="acts">${c.st==='out'?`<button class="ccb" style="--sc:#5CB85C" onclick="ccCheckIn('${c.reg}')">Check in</button>${c.signed?`<button class="ccb soft" style="--sc:#6AA6F0" onclick="toast('Agreement PDF opens from the record (demo)')">Agreement</button>`:`<button class="ccb" style="--sc:#FFB300" onclick="ccSign('${c.reg}')">Get it signed</button>`}`
+   :c.st==='in'?`<button class="ccb" style="--sc:#6AA6F0" onclick="ccSignOut('${c.reg}')">Sign out</button>`
+   :`<button class="ccb grey" type="button">Booked in</button>`}</div></section>`};
+ const out=`<div class="ccp"><div class="head"><div><div class="eyebrow">Wents Service Station</div><h1 class="title">Courtesy cars</h1><div class="muted">${CC.length} vehicles · ${n.out} out · ${n.in} in · ${n.na} off the road</div></div><div class="actions"><button class="btn blue" onclick="ccSignOut()">${I.car}Sign one out</button></div></div>
+ <div class="ccgrid">${CC.map(card).join('')}</div>
+ <div class="ccpan">
+  <section class="w"><h2>Signing out a car<span>on the reception tablet, no paper</span></h2>
+   <div class="ccsign"><svg viewBox="0 0 150 300" aria-label="Top-down car outline with damage marks" fill="none" stroke="#9AA4B2" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"><path d="M38 40C38 22 56 12 75 12s37 10 37 28v218c0 18-18 28-37 28s-37-10-37-28Z"/><path d="M48 92c8-10 46-10 54 0l6 28H42Z" stroke-width="1.8"/><path d="M48 212c8 10 46 10 54 0l6-26H42Z" stroke-width="1.8"/><path d="M42 130v70M108 130v70" stroke-width="1.8"/><path d="M26 70h10M26 80h10M114 70h10M114 80h10M26 222h10M26 232h10M114 222h10M114 232h10" stroke-width="1.8"/><circle cx="48" cy="60" r="5" fill="#E5484D" stroke="none"/><circle cx="106" cy="178" r="5" fill="#E5484D" stroke="none"/><circle cx="75" cy="36" r="4.5" fill="#FFB300" stroke="none"/></svg>
+   <ol><li><b>Pick the car and the customer.</b> Name, phone and licence details fill in from the record.</li><li><b>Licence photo</b> with the tablet camera, saved on the agreement.</li><li><b>Mark existing damage</b> by tapping the outline, red for dents and scratches, amber for chips. Fuel by slider.</li><li><b>Terms in plain English,</b> one tick each: insurance excess £250, fuel returned as found, due-back time.</li><li><b>Customer signs with a finger.</b> The agreement locks, saves as a PDF on the record and goes by email or text.</li><li><b>On return</b> mark new damage and fuel, then Check in. Differences show against the sign-out marks.</li></ol>
+   <div class="ft"><span>Works on an old iPad or Android tablet, added to its home screen</span><button class="ccb" style="--sc:#6AA6F0" onclick="toast('Demo: the tablet sign-out screen opens here')">Open on the tablet</button></div></div></section>
+  <section class="w"><h2>History<span>last 30 days, ${CC_HIST.length} sign-outs</span></h2><div class="cch">
+   ${CC_HIST.map(h=>`<div class="r"><span class="d">${h.d}</span><a href="#/courtesy/${enc(h.reg)}">${plate(h.reg)}</a><div class="x"><b>${esc(h.who)}</b><small>out ${h.out}, back ${h.back} · ${esc(h.note)}</small></div>${h.sg==='paper'?'<span class="hvp soft" style="--sc:#9AA4B2">Paper</span>':h.sg==='dmg'?'<span class="hvp soft" style="--sc:#FFB300">Signed</span>':'<span class="hvp soft" style="--sc:#5CB85C">Signed</span>'}</div>`).join('')}
+  </div></section>
+ </div></div>`;S._ccgo=null;return out};
+S.home=()=>{const rbs=ringbacks.filter(r=>r.st==='due');const rbDone=ringbacks.filter(r=>r.st==='done');const cc=ccCounts();
  const team=NB.filter(n=>!n.reg&&!n.pin&&nGrp(n)!=='done').slice(0,6);const tdDone=HV_TODO.filter(t=>t.done).length;
  const readyTot=HV_READY.reduce((a,r)=>a+r.amt,0);
  return `<div class="hv">
@@ -1493,32 +1577,32 @@ S.home=()=>{const rbs=ringbacks.filter(r=>r.st==='due');const rbDone=ringbacks.f
  </div>
  <div class="hvt">${HV_TILES().map(([k,h,l,ic])=>`<a class="hvtile sec-${k}" href="${h}"><i>${ic}</i><b>${l}</b></a>`).join('')}</div>
  <div class="hvl">
-  <section class="w sec-diary" aria-labelledby="hvhn"><h2 id="hvhn">${I.book}Team notes<span>everyone sees these</span></h2><div class="scroll">
-   ${team.map(n=>`<div class="hvn sec-${n.st==='todo'?'diary':n.by==='adam'?'look':'notes'}">${esc(n.t)}<small>${esc(nBookName(n.by))}, ${nWhen(n.at)}</small></div>`).join('')||'<div class="muted small">Nothing yet. Add the first note below.</div>'}
-  </div><form class="add" onsubmit="return hvAdd('note',event)"><label for="hvn1" class="sr">New note</label><input id="hvn1" placeholder="Add a note for everyone" autocomplete="off"><button type="submit">Add</button></form></section>
-  <section class="w sec-pay" aria-labelledby="hvht"><h2 id="hvht">${I.check}To do<span id="hvtdc">${tdDone} of ${HV_TODO.length} done</span></h2><div class="scroll">
+  <section class="w" style="--sc:#6AA6F0" aria-labelledby="hvht"><h2 id="hvht">${I.check}To do<span id="hvtdc">${tdDone} of ${HV_TODO.length} done</span></h2><div class="scroll">
    ${HV_TODO.map((t,i)=>`<div class="hvtd"><input type="checkbox" id="hvt${i}" ${t.done?'checked':''} onchange="hvTick(${i},this)"><label for="hvt${i}">${esc(t.t)}${t.sub?`<small>${esc(t.sub)}</small>`:''}</label><span class="who">${t.who}</span></div>`).join('')}
   </div><form class="add" onsubmit="return hvAdd('todo',event)"><label for="hvtd" class="sr">New to-do</label><input id="hvtd" placeholder="Add something to do" autocomplete="off"><button type="submit">Add</button></form></section>
-  <section class="w sec-ring" aria-labelledby="hvhrb"><h2 id="hvhrb">${I.phone}Ring-backs<span><b>${rbs.length}</b> waiting</span></h2><div class="scroll">
+  <section class="w" style="--sc:var(--green)" aria-labelledby="hvhrb"><h2 id="hvhrb">${I.phone}Ring-backs<span><b>${rbs.length}</b> waiting</span></h2><div class="scroll">
    ${rbs.map(x=>{const c=cust(x.cust);return `<div class="rw"><div class="x"><b>${esc(c.name)}</b><small>${esc(x.why)} · ${esc(c.phone)}</small><small class="${/yesterday|Mon|Tue|Wed|Thu|Fri/i.test(x.when)&&!/Today/.test(x.when)?'late':''}">Since ${esc(x.when.replace(/^Today ?/,'')||'this morning')}</small></div><a class="hvp grn" href="#/ringbacks">Ring</a></div>`}).join('')}
    ${rbDone.map(x=>{const c=cust(x.cust);return `<div class="rw rung"><div class="x"><b>${esc(c.name)}</b><small>${esc(x.why)} · rung ${esc(x.when.replace(/^Done ?/,''))} by ${esc(nBookName(x.who))}</small></div><span class="hvp soft grn">Rung</span></div>`}).join('')}
   </div><form class="add" onsubmit="return hvAdd('ring',event)"><label for="hvrbn" class="sr">Who needs ringing back</label><input id="hvrbn" placeholder="Who needs a call back, and why" autocomplete="off"><button type="submit">Add</button></form></section>
+  <section class="w sec-diary" aria-labelledby="hvhn"><h2 id="hvhn">${I.book}Team notes<span>everyone sees these</span></h2><div class="scroll">
+   ${team.map(n=>`<div class="hvn sec-${n.st==='todo'?'diary':n.by==='adam'?'look':'notes'}">${esc(n.t)}<small>${esc(nBookName(n.by))}, ${nWhen(n.at)}</small></div>`).join('')||'<div class="muted small">Nothing yet. Add the first note below.</div>'}
+  </div><form class="add" onsubmit="return hvAdd('note',event)"><label for="hvn1" class="sr">New note</label><input id="hvn1" placeholder="Add a note for everyone" autocomplete="off"><button type="submit">Add</button></form></section>
  </div>
  <div class="hvc">
   <section class="w sec-pay" aria-labelledby="hvhr"><h2 id="hvhr">Ready to go out<span>${HV_READY.length} car${HV_READY.length===1?'':'s'}, ${gbp(readyTot).replace('.00','')}</span></h2>
    ${HV_READY.map(r=>{const v=veh(r.reg)||{make:'',cust:''};return `<div class="rw"><div class="x"><span class="ln"><a href="#/vehicle/${enc(r.reg)}">${plate(r.reg)}</a> ${esc(v.make.split(' ').slice(1,2).join('')||v.make)}, ${esc(cust(v.cust).name)}</span><small>${gbp(r.amt).replace('.00','')}, ${r.note}</small></div>${r.rung?'<span class="hvp soft grn">Rung</span>':`<a class="hvp grn" href="#/ringbacks">Ring</a>`}<a class="hvp sec-inv" href="#/inv/new">Invoice</a></div>`}).join('')}
   </section>
   <section class="w sec-notes" aria-labelledby="hvhj"><h2 id="hvhj">Jot a note<span>lands on the record</span></h2>
-   <form onsubmit="return hvJotSave(event)"><div class="hvseg" role="group" aria-label="Jot against"><button type="button" class="${hvJot==='car'?'on':''}" data-m="car" onclick="hvJotMode('car')">A car</button><button type="button" class="${hvJot==='car'?'':'on'}" data-m="cust" onclick="hvJotMode('cust')">A customer</button></div>
-   <div class="jt" id="hvjr" style="${hvJot==='car'?'':'display:none'}"><label for="hvjreg">Reg</label><input id="hvjreg" class="mono" placeholder="AB12 CDE" autocomplete="off"></div>
-   <div class="jt" id="hvjc" style="${hvJot==='car'?'display:none':''}"><label for="hvjcus">Name</label><input id="hvjcus" placeholder="Start typing a name or phone" autocomplete="off"></div>
-   <label for="hvjt" class="sr">Note</label><textarea id="hvjt" placeholder="Customer says the noise only happens when cold"></textarea>
+   <form onsubmit="return hvJotSave(event)">
+   <div class="jt"><label for="hvjreg">Reg</label><input id="hvjreg" class="mono" placeholder="AB12 CDE" autocomplete="off"></div>
+   <div class="jt"><label for="hvjcus">Name</label><input id="hvjcus" placeholder="Customer name" autocomplete="off"></div>
+   <div class="jt"><label for="hvjtel">Phone</label><input id="hvjtel" type="tel" placeholder="07700 900123" autocomplete="off"></div>
+   <label for="hvjt" class="sr">Note</label><textarea id="hvjt" placeholder="Write the note here"></textarea>
    <div class="add" style="padding-top:6px"><span style="flex:1"></span><button type="submit" class="jsave">Save note</button></div></form>
   </section>
-  <section class="w sec-pay" aria-labelledby="hvhb"><h2 id="hvhb">${I.db}Backup health<span>all good</span></h2>
-   <div class="bkh"><svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="40" r="32" fill="none" stroke="var(--sunk)" stroke-width="8"/><circle class="ring" cx="40" cy="40" r="32" pathLength="100" fill="none" stroke="var(--green)" stroke-width="8" stroke-linecap="round" transform="rotate(-90 40 40)"/><path d="M28 41l8 8 16-17" fill="none" stroke="var(--fg)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-   <div><div style="font-weight:700">Last backup 18:00 yesterday</div><div class="muted">Next tonight at 18:00, 3 copies kept</div></div></div>
-   <div class="hvdevs"><span><i class="hvdot sec-pay"></i>Office PC</span><span><i class="hvdot sec-pay"></i>Workshop tablet</span><span><i class="hvdot sec-diary"></i>Laptop, 2 days ago</span></div>
+  <section class="w sec-court" aria-labelledby="hvhc"><h2 id="hvhc">Courtesy cars<span>${cc.out} out, ${cc.in} in · click a car to open its page</span></h2><div class="scroll">
+   ${CC.map(c=>`<a class="hvcc ccst-${c.st}${S._ccgo===c.reg?' ccgo':''}" href="#/courtesy/${enc(c.reg)}">${ccSvg(c.k,CC_COL[c.st],46,19)}<div class="x">${plate(c.reg)}<small>${esc(ccLine(c))}</small></div><span class="hvp">${CC_LBL[c.st]}</span></a>`).join('')}
+  </div>
   </section>
  </div>
 </div>`};
@@ -3628,6 +3712,14 @@ if((location.hash||'').startsWith('#/signin'))go();
 if ('serviceWorker' in navigator && location.protocol !== 'file:') {
   window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
 }
+// Backup dot in the sidebar footer (round 43, design round 15): green when the last backup is under a day old, amber when older, red when it failed. Demo values; the real app reads them from the backup log.
+(() => {
+  const a = document.getElementById('bkfoot'); if (!a) return;
+  const BK = { at: '2026-11-10T18:00', ok: true, copies: 3 };
+  const age = (TODAY - new Date(BK.at)) / 36e5;
+  const dot = a.querySelector('.dot'); dot.className = 'dot' + (!BK.ok ? ' bad' : age > 24 ? ' old' : '');
+  a.title = (!BK.ok ? 'Last backup failed' : age > 24 ? 'Last backup is over a day old' : 'Backed up ' + BK.at.slice(11)) + ' · open Data & backups';
+})();
 // Version stamp in the sidebar footer: the build actually loaded on this device (the service worker's cache id, or sw.js when nothing is cached yet).
 (async () => {
   const el = document.getElementById('verstamp'); if (!el) return;
