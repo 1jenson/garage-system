@@ -1097,10 +1097,13 @@ body.pub .side,body.pub .tabbar,body.pub .demo{display:none}body.pub .app{grid-t
 .hvsrow{display:flex;gap:12px;align-items:center}.hvsrow>.sugwrap{flex:1;min-width:0}
 .hvnotes>h2{font-size:22px!important;font-weight:800;letter-spacing:.01em;color:#FFB300!important;margin-bottom:12px!important}
 .hvnotes>h2 svg{stroke:#FFB300!important;color:#FFB300!important}
-.hvnotes .jot{flex:none;display:flex;flex-direction:column;margin-top:12px;padding-top:12px;border-top:1px solid #303238}
+/* round 46 (Home round 29): the list sizes to its notes and may shrink; Leave Jenson a note sits right under it and the note box grows into the free space */
+.hv .hvnotes .scroll{flex:0 1 auto;min-height:0}
+.hvnotes .jot{flex:1 0 auto;display:flex;flex-direction:column;margin-top:12px;padding-top:12px;border-top:1px solid #303238}
 .hvnotes .jot h2{font-size:20px!important;color:#B4FF2E!important;margin:0 0 10px!important}
-.hvnotes .jot form{flex:none}
-.hv .hvnotes .jot textarea{flex:none;height:66px;min-height:66px;resize:none;padding:8px 12px;line-height:1.35}
+.hvnotes .jot form{flex:1;display:flex;flex-direction:column}
+.hv .hvnotes .jot .jt,.hv .hvnotes .jot .add{flex:none}
+.hv .hvnotes .jot textarea{flex:1 1 66px;min-height:66px;height:auto;resize:none;padding:8px 12px;line-height:1.35}
 .hvnotes .jot .add{align-items:center}.hvnotes .jot .crhint{flex:1;margin:0;font-size:12px}
 .hv .w{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden}
 .hv .w h2{margin:0 0 6px;font-family:var(--font-title);font-size:15px;font-weight:800;display:flex;align-items:center;gap:10px;color:var(--fg)}
