@@ -371,6 +371,10 @@ a.stat{display:block} a.stat:hover{border-color:var(--line-strong)}
  .dv.tyd .dvslot .rt .tycyc{cursor:pointer}
  .dv.tyd .dvslot .rt .pill svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;margin-right:3px}
  .dv.tyd .dvslot.co .tm{background:var(--sc,var(--accent));color:#fff}
+/* round 49: tyre cards use the full width of the box: vehicle + customer | tyres | note, side by side */
+.dv.tyd .tyrow .bm{grid-template-columns:minmax(0,5fr) minmax(0,4fr) minmax(0,7fr);gap:4px 18px;align-items:center}
+.dv.tyd .tyrow .bm .vc{flex-wrap:nowrap} .dv.tyd .tyrow .bm .tyl{align-content:center} .dv.tyd .tyrow .bm .job{align-self:center}
+@media (max-width:1080px){.dv.tyd .tyrow .bm{grid-template-columns:1fr;gap:3px}}
 .dv .l1{display:flex;align-items:center;gap:12px;flex-wrap:wrap} .dv .l1 h4{font-size:17px;font-weight:700;margin:0} .dv .l1 .jb{color:var(--accent);font-weight:700;font-size:14.5px} .dv .l1 .link{cursor:pointer}
 .dv .l2{display:flex;align-items:center;gap:6px 14px;flex-wrap:wrap;color:var(--muted);font-size:14.5px;margin-top:7px} .dv .l2 b{color:var(--fg);font-weight:700;font-size:15px} .dv .l2 a{color:var(--fg);opacity:.75;font-family:var(--font-mono);font-weight:600;letter-spacing:.02em} .dv .l2 .nt{color:var(--flag-fg)}
 .dvslot .rt,.dvjob .rt{display:flex;align-items:center;justify-content:flex-end;gap:4px;flex-wrap:wrap;max-width:132px} .dvjob .rt{width:132px;flex-wrap:wrap;max-width:none;align-content:center;gap:3px} .dvjob .rt .sq,.dvjob .rt .wlb{width:24px;height:24px;font-size:12.5px;border-radius:7px} .dvslot .rt .pill,.dvjob .rt .pill{font-size:10.5px;padding:2px 6px;white-space:nowrap}
@@ -3438,6 +3442,8 @@ const shWho=w=>w&&WHO[w]?`<span class="who" style="background:${WHO[w].c}" title
 const shHead=(title,d,sub,noband)=>`<div class="ph"><div class="brand"><div class="logo">W</div><div><b>${esc(SETUP.garage.name)}</b><div>${esc(SETUP.garage.addr)} · ${esc(SETUP.garage.tel)}</div></div></div><div class="date"><i>${fmt(d,{weekday:'long'})}</i><b>${fmt(d,{day:'numeric',month:'long',year:'numeric'})}</b></div></div>${noband?'':`<div class="band"><span>${title}</span><span>${sub||''}</span></div>`}`;
 const shSec=(cls,h,sub)=>`<div class="sec ${cls}"><h2>${h}</h2><span>${sub||''}</span></div>`;
 const shBlank=(n,cols)=>Array.from({length:n},()=>`<tr class="blank">${'<td></td>'.repeat(cols)}</tr>`).join('');
+/* round 49: the day sheet fills the A4 page top to bottom with blank write-in rows on its last table (Jenson, 24 Nov). Runs after each render of a doc route; print CSS keeps the same A4 content height. */
+const fillSheets=()=>{document.querySelectorAll('.paper.sheet.day').forEach(sh=>{const cs=getComputedStyle(sh);if(parseFloat(cs.minHeight)<1000)return;const tbl=[...sh.querySelectorAll('table')].pop();const tb=tbl&&tbl.querySelector('tbody');if(!tb)return;const cols=tbl.querySelectorAll('thead th').length||7;const limit=sh.getBoundingClientRect().top+sh.clientHeight-parseFloat(cs.paddingBottom)-4;const bottom=()=>{const k=sh.children;return k[k.length-1].getBoundingClientRect().bottom};for(let i=0;i<80;i++){tb.insertAdjacentHTML('beforeend',shBlank(1,cols));if(bottom()>limit){tb.lastElementChild.remove();break}}})};
 const tyDayPaper=d=>{const l=tyRows(d);const w=l.filter(r=>r.kind==='w').sort((a,b)=>(a.tin||'0')<(b.tin||'0')?-1:1);const c=l.filter(r=>r.kind==='c').sort((a,b)=>(a.t||'')<(b.t||'')?-1:1);const n=tyCount(d);const T=SETUP.tyres;const sent=TYS[d];
  const work=r=>`${r.pc?'<b>Puncture check</b> · ':''}${[+r.qty?`${r.qty} × <b>${esc(tyV(r).size||'size tbc')}</b>${r.brand?' '+esc(r.brand):''}${r.pc?' on standby':''}`:esc(r.brand||''),r.pos?esc(tyPosTxt(r)):''].filter(Boolean).join(' · ')}${r.job?`<small>${esc(r.job)}</small>`:''}${r.nt?`<small>${esc(r.nt)}</small>`:''}`;
  return `<div class="paper sheet">${shHead('Tyre list',d,`${esc(T.fitter)} · ${esc(T.mob)} · fitter here from ${T.at}`)}
@@ -3592,6 +3598,7 @@ function go(){
   if(!['home','more','diary',...PUB].includes(r)){const t=m.querySelector('.title');if(t&&!t.querySelector('.secmark'))t.insertAdjacentHTML('afterbegin',`<i class="secmark">${ART[secOf(r)]}</i>`)}
   backBtn(r,m);
   drawNav(r);
+  if(r==='doc')fillSheets();
   if(r==='home')document.getElementById('q')?.focus();
 }
 addEventListener('hashchange',()=>{if(keepMod)keepMod=false;else MOD=null;go();scrollTo(0,0)});
