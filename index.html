@@ -249,8 +249,13 @@ body{overflow-x:hidden}
   .demo{top:auto;bottom:140px}
 }
 @media (max-width:480px){ .g2,.g3,.g4{grid-template-columns:1fr 1fr} .stats4{grid-template-columns:1fr 1fr} }
-.back{width:40px;height:40px;border-radius:12px;background:var(--tile);display:grid;place-items:center;margin-bottom:10px}
-.back svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2.4}
+.back{display:inline-flex;align-items:center;gap:10px;height:52px;padding:0 18px 0 14px;border-radius:14px;background:#25272C;border:1px solid #303238;color:#ECEDEF;text-decoration:none;font-family:'Saira',var(--font-title),sans-serif;font-weight:700;font-size:17px;flex:none;white-space:nowrap;box-sizing:border-box}
+.back svg{width:22px;height:22px;stroke:#6AA6F0;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.back small{font-family:'Inter',var(--font-display),sans-serif;font-weight:500;font-size:13.5px;color:#A6A9B0;margin-left:2px;max-width:260px;overflow:hidden;text-overflow:ellipsis}
+.back:hover{background:#2C2E34;border-color:#3A3D44;color:#ECEDEF} .back:focus-visible{outline:2px solid #6AA6F0;outline-offset:2px}
+.back.pg{height:40px;border-radius:11px;font-size:15.5px;padding:0 14px 0 11px;align-self:center;margin-right:4px} .back.pg svg{width:19px;height:19px}
+.head>.back.pg+div{margin-right:auto} .backrow{display:flex;margin-bottom:12px}
+.crhint{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.3}
 .hist{position:relative;padding-left:22px}
 .hist::before{content:"";position:absolute;left:6px;top:8px;bottom:8px;width:2px;background:var(--line-strong)}
 .hist .h{position:relative;padding:4px 0 18px}
@@ -437,7 +442,7 @@ a.stat{display:block} a.stat:hover{border-color:var(--line-strong)}
 
 /* quotes */
 .qst{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0} @media(max-width:600px){.qst{grid-template-columns:1fr 1fr}}
-.tpl{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none} .tpl::-webkit-scrollbar{display:none} .tpl button{flex:none;background:var(--tile);border:1px solid var(--line);border-radius:14px;padding:10px 14px;text-align:left;color:var(--fg)} .tpl button b{display:block;font-size:14px} .tpl button small{color:var(--muted);font-family:var(--font-mono);font-size:12px}
+.tpl{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px} .tpl::-webkit-scrollbar{display:none} .tpl button{flex:none;background:var(--tile);border:1px solid var(--line);border-radius:14px;padding:10px 14px;text-align:left;color:var(--fg)} .tpl button b{display:block;font-size:14px} .tpl button small{color:var(--muted);font-family:var(--font-mono);font-size:12px}
 .opt{display:grid;grid-template-columns:auto 1fr auto auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)} .opt:first-child{border-top:0;padding-top:0} .opt input[type=checkbox]{width:20px;height:20px;accent-color:var(--green)} .opt input[type=text]{background:transparent;border:0;border-bottom:1px dashed var(--line-strong);color:var(--fg);outline:0;padding:2px 0;min-width:0;width:100%} .opt .pr{font-family:var(--font-mono);font-style:italic;font-weight:600} .opt .pr input{width:76px;background:var(--sunk);border:1px solid var(--line);border-radius:8px;padding:4px 8px;color:var(--fg);font-family:var(--font-mono);text-align:right;outline:0}
 .qsend{background:var(--sunk);border-radius:12px;padding:12px 14px;font-size:14px;line-height:1.45;white-space:pre-wrap;border:1px dashed var(--line-strong)}
 .sup{display:grid;grid-template-columns:1fr auto auto auto;gap:10px;align-items:center;padding:12px 0;border-top:1px solid var(--line)} .sup:first-of-type{border-top:0} .sup b{display:block} .sup small{color:var(--muted)} .sup .mono{font-family:var(--font-mono);font-style:italic;font-weight:600}
@@ -447,7 +452,7 @@ a.stat{display:block} a.stat:hover{border-color:var(--line-strong)}
 
 /* suppliers */
 .sech{display:flex;justify-content:space-between;align-items:baseline;gap:12px}.sech span,.sech a{font-size:14px;font-weight:600;color:var(--muted)}.sech a.accent{color:var(--green)}
-.favs,.mks{display:flex;gap:14px;overflow-x:auto;padding:4px 2px 12px;scrollbar-width:none;margin:0 -4px}.favs::-webkit-scrollbar,.mks::-webkit-scrollbar{display:none}
+.favs,.mks{display:flex;gap:14px;overflow-x:auto;padding:4px 2px 12px;margin:0 -4px}.favs::-webkit-scrollbar,.mks::-webkit-scrollbar{display:none}
 .favs .u{flex:none;width:80px;text-align:center;font-size:13px;color:var(--muted);line-height:1.2}.favs .u span:last-child{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .favs .lg{width:72px;height:72px;border-radius:99px;border:1px solid var(--line-strong);background:var(--surface);display:grid;place-items:center;margin:0 auto 8px;overflow:hidden;font-weight:900;font-size:15px}
 .favs .lg img,.slogo img,.mks .lg img{width:100%;height:100%;object-fit:cover}
@@ -937,7 +942,7 @@ a.stat{display:block} a.stat:hover{border-color:var(--line-strong)}
 /* Notes table (14 Nov): Notion-style database with a grouped status picker, service tags, quick add row, board view */
 .nfilt{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 12px} .nfilt .sp{flex:1} .nfilt .chips button .crn{font-family:var(--font-mono);font-weight:500;margin-left:5px;opacity:.75}
 .nview{display:inline-flex;background:var(--sunk);border:1px solid var(--line);border-radius:10px;padding:3px} .nview button{border:0;background:none;color:var(--muted);font:inherit;font-weight:700;font-size:13px;padding:6px 12px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:6px} .nview button svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2} .nview button.on{background:var(--fg);color:#111}
-.nqbar{display:grid;grid-template-columns:150px 150px 1fr auto;gap:8px;align-items:start;padding:12px;margin-bottom:12px;background:color-mix(in srgb,var(--sec-notes) 6%,var(--card,#1A1C21));border:1px solid color-mix(in srgb,var(--sec-notes) 35%,var(--line));border-radius:14px} .nqbar input,.nqbar select{width:100%;background:var(--sunk);border:1px solid var(--line);border-radius:10px;padding:10px 12px;color:var(--fg);font:inherit;font-size:14px} .nqbar select{appearance:none;-webkit-appearance:none;font-weight:700;padding-right:28px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A6A9B0' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;background-size:14px} .nqbar .hint{grid-column:1/-1;font-size:12.5px;color:var(--muted);min-height:16px;margin-top:-2px} .nqbar .hint b{color:var(--fg);font-weight:600} .nqbar .btn{white-space:nowrap;padding:10px 16px}
+.nqbar{display:grid;grid-template-columns:150px 150px 1fr auto;gap:8px;align-items:start;padding:12px;margin-bottom:12px;background:color-mix(in srgb,var(--sec-notes) 6%,var(--card,#1A1C21));border:1px solid color-mix(in srgb,var(--sec-notes) 35%,var(--line));border-radius:14px} .nqbar input,.nqbar select,.nqbar textarea{width:100%;background:var(--sunk);border:1px solid var(--line);border-radius:10px;padding:10px 12px;color:var(--fg);font:inherit;font-size:14px} .nqbar select{appearance:none;-webkit-appearance:none;font-weight:700;padding-right:28px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23A6A9B0' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;background-size:14px} .nqbar textarea{display:block;resize:vertical;min-height:44px;line-height:1.35;box-sizing:border-box} .nqbar .nqt{min-width:0} .nqbar .hint{grid-column:1/-1;font-size:12.5px;color:var(--muted);min-height:16px;margin-top:-2px} .nqbar .hint b{color:var(--fg);font-weight:600} .nqbar .btn{white-space:nowrap;padding:10px 16px}
 .ntbl{width:100%;border-collapse:collapse;font-size:14px} .ntbl th{text-align:left;font-size:12px;font-weight:600;color:var(--muted);padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap} .ntbl th svg{width:13px;height:13px;vertical-align:-2px;margin-right:6px;stroke:currentColor;fill:none;stroke-width:2}
 .ntbl td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;position:relative} .ntbl tbody tr:last-child td{border-bottom:0} .ntbl tr.nr:hover td{background:rgba(255,255,255,.025)} .ntbl tr.nr td.main{cursor:pointer}
 .ntbl .ntxt{display:block;margin-top:5px;color:var(--fg);line-height:1.4;white-space:pre-wrap;max-width:520px} .ntbl .ntl{display:flex;gap:8px;align-items:center;flex-wrap:wrap;min-height:22px} .ntbl .ntl:empty{display:none} .ntbl .ntl .pill{padding:3px 9px;font-size:12px}
@@ -988,7 +993,7 @@ a.stat{display:block} a.stat:hover{border-color:var(--line-strong)}
 @media(max-width:700px){.mcc{grid-template-columns:1fr;gap:10px}.mcc .bkd{text-align:left;min-width:0;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center}.mcc .bkd .lbl{width:100%}.mcc .bkd .rel{margin:0}.mcc .bkd .pill{margin:0}.mcc .ext{margin-top:0}.mchist li{grid-template-columns:1fr}.mcform .fg,.mced .fg{grid-template-columns:1fr}.mcform .fg .w2,.mced .fg .w2{grid-column:auto}}
 @media(max-width:1000px){.nboard{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:700px){.sxbars{gap:10px} .nbooks a{padding:7px 12px 7px 8px;font-size:13px} .list .it.nt{flex-wrap:nowrap;gap:10px;align-items:flex-start} .list .it.nt .t{flex:1 1 auto;min-width:0;order:0} .list .it.nt .btn{order:1;padding:8px 10px} .nt .ntxt{font-size:14px}
- .nqbar{grid-template-columns:1fr 1fr} .nqbar input[name=t]{grid-column:1/-1} .nqbar .btn{grid-column:1/-1;justify-content:center}
+ .nqbar{grid-template-columns:1fr 1fr} .nqbar .nqt{grid-column:1/-1} .nqbar .btn{grid-column:1/-1;justify-content:center}
  .ntbl thead{display:none} .ntbl tbody tr{display:block;position:relative;padding:11px 12px;border-bottom:1px solid var(--line)} .ntbl tbody tr:last-child{border-bottom:0} .ntbl td{display:block;padding:0;border:0;position:static} .ntbl td.st{margin-bottom:7px} .ntbl td.main{margin-bottom:6px} .ntbl .ntxt{max-width:none;font-size:14px} .ntbl td.vc,.ntbl td.svc{display:inline-block;vertical-align:top;margin:0 12px 4px 0;min-width:0} .ntbl .vc b{display:inline;margin-right:6px} .ntbl .who{display:block;margin-top:4px} .ntbl .who .mono{display:inline;margin-left:6px} .npop{left:12px;right:12px;top:auto;margin-top:4px} .ndet td{padding:0} .nboard{grid-template-columns:1fr}}
 @media print{.secmark{display:none !important}}
 /* approvals · collection · confirmations */
@@ -1025,9 +1030,19 @@ body.pub .side,body.pub .tabbar,body.pub .demo{display:none}body.pub .app{grid-t
 @media (max-width:640px){.audl{grid-template-columns:1fr}.audl .t{font-size:11px}}
 
 /* ===== agent3: print fixes for the A4 sheets (Tyre list, Diary day). Keep as the last rules so they beat the narrow-screen blocks at page width ===== */
+/* round 45: day sheet print. Slightly smaller tick boxes, slightly bigger text, phones in the time font, compact day notes line, specialist page */
+.sheet .reg{font-size:calc(1em + 1px);padding:0 5px}
+.dnl{display:flex;align-items:center;gap:8px;height:24px;box-sizing:border-box;margin-top:6px;padding:0 8px;border:1px solid #111;border-radius:3px;font-size:10.5px;line-height:22px;white-space:nowrap;overflow:hidden}
+.dnl i{font-style:normal;font-size:8.5px;letter-spacing:.1em;text-transform:uppercase;color:#777;font-weight:700;flex:none}
+.dnl span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;color:#111;line-height:15px;border-bottom:1px solid #8a8f98;align-self:flex-end;margin-bottom:3px}
+.paper.sheet.day.sp2{margin-top:24px}
+.sheet.day.sp2 tr.blank td{height:26px}
 /* agent3 r15: Day sheet tightening (scoped to .sheet.day; Tyre list untouched) */
 .paper.sheet.day{font-size:9.5px}.sheet.day td,.sheet.day td .in{font-size:9px}.sheet.day td small{font-size:8.5px}.sheet.day th{font-size:8px;padding:2px 5px}.sheet.day td{padding:2px 5px;line-height:1.15}.sheet.day tr.blank td{height:18px}.sheet.day .reg{line-height:1.25}.sheet.day .sec{margin-top:6px;padding:3px 10px}.sheet.day .sec h2{font-size:10px}.sheet.day tr.free td{padding:1px 5px;line-height:1.1}.sheet.day .ini{height:14px;width:24px;vertical-align:-3px}.sheet.day .bx{width:12px;height:12px}.sheet.day td.tm{white-space:nowrap}.sheet.day .notes{min-height:40px;max-height:40px;line-height:20px;white-space:normal;overflow:hidden;background:repeating-linear-gradient(to bottom,transparent 0,transparent 19px,#8a8f98 19px,#8a8f98 20px)}.sheet.day .ph{padding-bottom:5px}.sheet.day .meta div{padding:3px 8px}.sheet.day .meta b{font-size:14px}.sheet.day .pen{margin:2px 0 0}.sheet.day .foot{margin-top:6px;padding-top:4px}.sheet.day td.stk .in{line-height:1.1;margin-top:1px}.sheet.day tr.secrow th{padding:0;border-bottom:none;background:none}.sheet.day tr.secrow .sec{margin-top:6px}
-@media print{:root{color-scheme:light!important}html,body,.app,.main,.docwrap{background:#fff!important}.paper.sheet{width:auto!important;max-width:none!important;min-height:0!important;padding:0!important;overflow:visible!important;box-shadow:none!important}.paper.sheet .meta{grid-template-columns:repeat(4,1fr)!important;gap:8px!important}.sheet table{min-width:0!important}.sheet td,.sheet th{page-break-inside:avoid;break-inside:avoid}.sheet .foot,.sheet .sec,.sheet .meta,.sheet tr{page-break-inside:avoid;break-inside:avoid}.docwrap,.main,.app{padding:0!important;margin:0!important}.paper.sheet{margin:0!important}@page{size:A4;margin:10mm}}
+.sheet.day td{font-size:11px}.sheet.day td .in{font-size:10px}.sheet.day .bx{width:11px;height:11px;vertical-align:-2px}.sheet.day .bx.on::after{left:2.5px;top:-.5px;width:3.5px;height:7px}.sheet.day .ini{width:22px;height:14px;vertical-align:-3px}
+.sheet.day td.cu .in{font-family:var(--font-mono);font-size:10.5px;color:#111;font-variant-numeric:tabular-nums;white-space:pre}
+.sheet.day .foot .bx{width:10px;height:10px}
+@media print{.paper.sheet.day.sp2{break-before:page;page-break-before:always;margin-top:0!important}:root{color-scheme:light!important}html,body,.app,.main,.docwrap{background:#fff!important}.paper.sheet{width:auto!important;max-width:none!important;min-height:0!important;padding:0!important;overflow:visible!important;box-shadow:none!important}.paper.sheet .meta{grid-template-columns:repeat(4,1fr)!important;gap:8px!important}.sheet table{min-width:0!important}.sheet td,.sheet th{page-break-inside:avoid;break-inside:avoid}.sheet .foot,.sheet .sec,.sheet .meta,.sheet tr{page-break-inside:avoid;break-inside:avoid}.docwrap,.main,.app{padding:0!important;margin:0!important}.paper.sheet{margin:0!important}@page{size:A4;margin:10mm}}
 /* ===== ROUND 19 (22 Nov) · desktop uses the full width (>=1100px), content centred, bigger and clearer. Mobile and tablet rules above are untouched. ===== */
 @media (min-width:1100px){
   .main{max-width:1760px;margin:0 auto;padding:34px 48px 110px}
@@ -1063,7 +1078,7 @@ body.pub .side,body.pub .tabbar,body.pub .demo{display:none}body.pub .app{grid-t
 }
 /* round 40: Home rebuilt to design V; round 41: Edit History tile, black magnifier, green Ring pills, list row first, six equal cards; round 43: rounds 14 to 20 (To do blue, Ring-backs green, jot fields, list order, courtesy cars card). One screen, no page scroll; only the lists scroll. */
 .main:has(>.hv){padding:28px 18px 16px;max-width:none;height:100vh;box-sizing:border-box;overflow:hidden}
-.hv{height:100%;display:grid;grid-template-rows:auto auto minmax(0,1fr) minmax(0,1fr);gap:14px;min-height:0}
+.hv{height:100%;display:grid;grid-template-rows:auto auto minmax(0,1fr);gap:14px;min-height:0}
 .hv .search{height:52px;box-sizing:border-box;border-radius:14px;padding:0 4px 0 18px;border:2px solid #2F5D96;box-shadow:0 0 0 4px rgba(106,166,240,.12)}
 .hv .search input{font-size:17px;padding:0;height:100%}
 .hv .search .btn{height:40px;padding:0 18px;border-radius:10px;font-size:15px;color:#111} .hv .search .btn svg{color:#111;stroke:#111}
@@ -1076,13 +1091,27 @@ body.pub .side,body.pub .tabbar,body.pub .demo{display:none}body.pub .app{grid-t
 .hvtile b{font-family:var(--font-title);font-weight:800;font-size:15px;line-height:1.1;white-space:nowrap}
 .hvc{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;align-items:stretch;min-height:0}
 .hvl{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;min-height:0}
+/* round 45 (Home rounds 24 to 28): one 3x2 grid, Notes for Jenson as a tall middle column */
+.hvg{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:minmax(0,1fr) minmax(0,1fr);gap:12px;min-height:0}
+.hvg>.hvnotes{grid-column:2;grid-row:1/3}
+.hvsrow{display:flex;gap:12px;align-items:center}.hvsrow>.sugwrap{flex:1;min-width:0}
+.hvnotes>h2{font-size:22px!important;font-weight:800;letter-spacing:.01em;color:#FFB300!important;margin-bottom:12px!important}
+.hvnotes>h2 svg{stroke:#FFB300!important;color:#FFB300!important}
+.hvnotes .jot{flex:none;display:flex;flex-direction:column;margin-top:12px;padding-top:12px;border-top:1px solid #303238}
+.hvnotes .jot h2{font-size:20px!important;color:#B4FF2E!important;margin:0 0 10px!important}
+.hvnotes .jot form{flex:none}
+.hv .hvnotes .jot textarea{flex:none;height:66px;min-height:66px;resize:none;padding:8px 12px;line-height:1.35}
+.hvnotes .jot .add{align-items:center}.hvnotes .jot .crhint{flex:1;margin:0;font-size:12px}
 .hv .w{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden}
 .hv .w h2{margin:0 0 6px;font-family:var(--font-title);font-size:15px;font-weight:800;display:flex;align-items:center;gap:10px;color:var(--fg)}
 .hv .w h2 svg{width:18px;height:18px;flex:none;stroke:var(--sc);color:var(--sc);fill:none;stroke-width:2}
 .hv .w h2 span{margin-left:auto;font-family:var(--font-display);font-weight:500;font-size:13px;color:var(--muted);white-space:nowrap}
 .hv .w h2 span b{color:var(--sc);font-family:var(--font-title);font-size:16px;margin-right:3px}
-.hv .scroll{overflow:auto;min-height:0;flex:1;margin-right:-6px;padding-right:6px;scrollbar-width:thin}
-.hv .scroll::-webkit-scrollbar{width:6px} .hv .scroll::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
+.hv .scroll{overflow-y:auto;overflow-x:hidden;min-height:0;flex:1 1 0;margin-right:-4px;padding-right:8px}
+.hv .scroll::-webkit-scrollbar,.cch::-webkit-scrollbar{width:9px}
+.hv .scroll::-webkit-scrollbar-track,.cch::-webkit-scrollbar-track{background:#1C1D21;border-radius:5px}
+.hv .scroll::-webkit-scrollbar-thumb,.cch::-webkit-scrollbar-thumb{background:#5A5E66;border-radius:5px;border:2px solid #1C1D21;background-clip:padding-box}
+.hv .scroll::-webkit-scrollbar-thumb:hover,.cch::-webkit-scrollbar-thumb:hover{background:#7A7E86;background-clip:padding-box}
 .hv .add{display:flex;gap:8px;margin-top:auto;padding-top:8px}
 .hv .add input,.hv .jt input,.hv textarea{flex:1;min-width:0;height:36px;box-sizing:border-box;border-radius:10px;background:var(--bg);border:1px solid var(--line-strong);color:var(--fg);font:inherit;font-size:13.5px;padding:0 12px;outline:none}
 .hv .add input:focus,.hv .jt input:focus,.hv textarea:focus{border-color:var(--accent,#6AA6F0)}
@@ -1126,7 +1155,7 @@ body.pub .side,body.pub .tabbar,body.pub .demo{display:none}body.pub .app{grid-t
 .ccsign{display:grid;grid-template-columns:150px 1fr;gap:18px;align-items:start}.ccsign svg{width:150px;height:auto}
 .ccsign ol{margin:0;padding-left:22px;font-size:13.5px;line-height:1.5;color:var(--fg)}.ccsign ol li{margin-bottom:6px}.ccsign ol li b{font-weight:700}
 .ccsign .ft{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:10px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);flex-wrap:wrap}
-.cch{max-height:330px;overflow:auto;scrollbar-width:thin}.cch .r{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line);font-size:13.5px}.cch .r:first-child{border-top:0}
+.cch{max-height:330px;overflow-y:auto;padding-right:6px}.cch .r{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--line);font-size:13.5px}.cch .r:first-child{border-top:0}
 .cch .d{font-family:var(--font-mono);font-size:12.5px;color:var(--muted);width:46px;flex:none}.cch .x{flex:1;min-width:0}.cch .x b{display:block}.cch .x small{display:block;color:var(--muted);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cch .hvp.soft{flex:none}
 @media (max-width:1100px){.ccgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.ccpan{grid-template-columns:1fr}}
@@ -1156,7 +1185,7 @@ body.pub .side,body.pub .tabbar,body.pub .demo{display:none}body.pub .app{grid-t
 .hv .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 @media (prefers-reduced-motion:reduce){.hvtile,.hvcc svg,.ccv .top svg{transition:none;animation:none}}
 @media (max-width:1100px){.hvt{grid-template-columns:repeat(5,minmax(0,1fr))}}
-@media (max-width:760px){.main:has(>.hv){height:auto;overflow:visible;padding:16px 14px 90px}.hv{height:auto;display:flex;flex-direction:column}.hvt{grid-template-columns:repeat(3,minmax(0,1fr))}.hvtile b{white-space:normal;font-size:13px}.hvc,.hvl{grid-template-columns:1fr}.hv .scroll{max-height:260px}}
+@media (max-width:760px){.main:has(>.hv){height:auto;overflow:visible;padding:16px 14px 90px}.hv{height:auto;display:flex;flex-direction:column}.hvt{grid-template-columns:repeat(3,minmax(0,1fr))}.hvtile b{white-space:normal;font-size:13px}.hvc,.hvl,.hvg{grid-template-columns:1fr;grid-template-rows:none}.hvg>.hvnotes{grid-column:auto;grid-row:auto}.hv .scroll{max-height:260px;flex:none}.hvsrow .back small{display:none}}
 </style>
 </head>
 <body>
@@ -1466,6 +1495,9 @@ const NB=[
  {id:'n2',book:'jen',by:'jen',src:'web',at:'2026-11-11T07:42',st:'quote',reg:'GJ67 LMO',svc:['Brakes'],t:'Get a Quote form: grinding from the front when braking, mostly at low speed. Wants a price for pads and discs.',pin:{k:'v',id:'GJ67 LMO'}},
  {id:'n16',book:'jen',by:'jen',at:'2026-11-11T07:30',st:'prog',reg:'R456 TKJ',svc:['Bodywork'],t:'Price up the rear crossmember repair for Tom. Needs a weld-in section, ask Headcorn Breakers if they have one.',pin:{k:'v',id:'R456 TKJ'}},
  {id:'n7',book:'adam',by:'jen',at:'2026-11-11T09:10',st:'parts',reg:'YD16 KPA',svc:['Clutch / Repairs'],t:'Clutch kit and DMF for the Tucson. ECP had none, try GSF or Haynes.',pin:{k:'v',id:'YD16 KPA'}},
+ {id:'n17',book:'jen',by:'karen',for:'jen',at:'2026-11-11T08:52',st:'note',svc:[],t:'Hendy rang back about the ramp pads. Thursday 8am is fine, they need the bay clear.'},
+ {id:'n18',book:'jen',by:'adam',for:'jen',at:'2026-11-11T08:15',st:'note',reg:'LD17 ZPM',svc:['Diagnostics'],t:'Insignia came in on recovery. Keys are in the box, Mick has it at 9.',pin:{k:'v',id:'LD17 ZPM'}},
+ {id:'n19',book:'jen',by:'karen',for:'jen',at:'2026-11-10T17:05',st:'note',svc:[],t:'Card machine roll is nearly out. New box ordered, should come Wednesday.'},
  {id:'n4',book:'jen',by:'adam',at:'2026-11-11T08:40',st:'callback',reg:'EA19 KLM',svc:[],t:'Sarah Mitchell wants a call before anything over £150. She said it twice.',pin:{k:'v',id:'EA19 KLM'}},
  {id:'n3',book:'jen',by:'jen',src:'web',at:'2026-11-10T19:15',st:'sent',reg:'PX19 TRF',name:'Mr Fincher',ph:'07700 900644',svc:['Clutch / Repairs'],t:'Get a Quote form: clutch slipping in 5th on the motorway. Peugeot Partner 1.6 HDi, 2019.',hist:[{to:'sent',by:'jen',at:'2026-11-11T10:19'}]},
  {id:'n8',book:'karen',by:'karen',at:'2026-11-10T16:20',st:'note',reg:'LT70 VNB',svc:[],t:'Sump plug thread is soft. New washer and nipped up gently. Next oil change wants a helicoil or a new sump.',pin:{k:'j',id:'JS-1189'}},
@@ -1526,8 +1558,10 @@ window.hvJotSave=e=>{e.preventDefault();const t=document.getElementById('hvjt').
   const nm=document.getElementById('hvjcus').value.trim().toLowerCase();const ph=document.getElementById('hvjtel').value.replace(/\s/g,'');
   const c=(nm||ph)&&customers.find(c=>(nm&&c.name.toLowerCase().includes(nm))||(ph&&c.phone.replace(/\s/g,'').includes(ph)));
   const pin=v?{k:'v',id:r}:c?{k:'c',id:c.id}:undefined;
-  NB.unshift({id:'n'+Date.now(),book:'jen',by:'jen',at:now,st:'note',reg:v?r:undefined,svc:[],t,pin});
-  toast(v?'Note saved to '+r:c?'Note saved to '+c.name:'Note saved to the notes board');go();return false};
+  NB.unshift({id:'n'+Date.now(),book:'jen',by:ME,for:'jen',at:now,st:'note',reg:v?r:undefined,svc:[],t,pin});
+  toast(v?'Note left for Jenson · also on '+r:c?'Note left for Jenson · also on '+c.name:'Note left for Jenson');go();return false};
+/* round 45: notes left for Jenson, newest first (his book, written by someone else or through the Leave Jenson a note form) */
+const hvForJen=()=>NB.filter(n=>n.book==='jen'&&(n.by!=='jen'||n.for==='jen')&&nGrp(n)!=='done').sort((a,b)=>a.at<b.at?1:a.at>b.at?-1:0);
 window.hvAdd=(kind,e)=>{e.preventDefault();const inp=e.target.querySelector('input');const t=inp.value.trim();if(!t)return false;
   const now=NTD+'T'+String(TODAY.getHours()).padStart(2,'0')+':'+String(TODAY.getMinutes()).padStart(2,'0');
   if(kind==='note'){NB.unshift({id:'n'+Date.now(),book:'jen',by:'jen',at:now,st:'note',svc:[],t});toast('Note added for everyone')}
@@ -1608,35 +1642,33 @@ S.courtesy=arg=>{const n=ccCounts();const hi=arg?arg.toUpperCase():'';
   </div></section>
  </div></div>`;S._ccgo=null;return out};
 S.home=()=>{const rbs=ringbacks.filter(r=>r.st==='due');const rbDone=ringbacks.filter(r=>r.st==='done');const cc=ccCounts();
- const team=NB.filter(n=>!n.reg&&!n.pin&&nGrp(n)!=='done').slice(0,6);const tdDone=HV_TODO.filter(t=>t.done).length;
+ const fj=hvForJen();const tdDone=HV_TODO.filter(t=>t.done).length;
  return `<div class="hv">
  <div>
- <div class="sugwrap"><form class="search" onsubmit="return doSearch(event)">${I.search}<input id="q" placeholder="Reg, customer ref, name, phone, postcode or invoice number" autocomplete="off" oninput="sugGo(this.value)" onfocus="sugGo(this.value)" onkeydown="return sugKey(event)" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="sug"><button class="btn pri" type="submit">${I.search}<span>Search</span></button></form><div id="sug" class="sug" role="listbox"></div></div>
+ <div class="hvsrow"> <div class="sugwrap"><form class="search" onsubmit="return doSearch(event)">${I.search}<input id="q" placeholder="Reg, customer ref, name, phone, postcode or invoice number" autocomplete="off" oninput="sugGo(this.value)" onfocus="sugGo(this.value)" onkeydown="return sugKey(event)" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="sug"><button class="btn pri" type="submit">${I.search}<span>Search</span></button></form><div id="sug" class="sug" role="listbox"></div></div></div>
  <div id="results"></div>
  </div>
  <div class="hvt">${HV_TILES().map(([k,h,l,ic])=>`<a class="hvtile sec-${k}" href="${h}"><i>${ic}</i><b>${l}</b></a>`).join('')}</div>
- <div class="hvl">
+ <div class="hvg">
   <section class="w" style="--sc:#6AA6F0" aria-labelledby="hvht"><h2 id="hvht">${I.check}To do<span id="hvtdc">${tdDone} of ${HV_TODO.length} done</span></h2><div class="scroll blk">
    ${HV_TODO.map((t,i)=>`<div class="hvtd"><input type="checkbox" id="hvt${i}" ${t.done?'checked':''} onchange="hvTick(${i},this)"><label for="hvt${i}">${esc(t.t)}${t.sub?`<small>${esc(t.sub)}</small>`:''}</label><span class="who">${t.who}</span></div>`).join('')}
   </div><form class="add" onsubmit="return hvAdd('todo',event)"><label for="hvtd" class="sr">New to-do</label><input id="hvtd" placeholder="Add something to do" autocomplete="off"><button type="submit">Add</button></form></section>
-  <section class="w" style="--sc:var(--green)" aria-labelledby="hvhrb"><h2 id="hvhrb">${I.phone}Ring-backs<span><b>${rbs.length}</b> waiting</span></h2><div class="scroll blk">
-   ${rbs.map(x=>{const c=cust(x.cust);const late=/yesterday|Mon|Tue|Wed|Thu|Fri/i.test(x.when)&&!/Today/.test(x.when);return `<div class="hvrb${late?' late':''}"><div class="x"><span class="l1"><b>${esc(c.name)}</b> · ${esc(x.why)}</span><small>${esc(c.phone)} · <span class="since">Since ${esc(x.when.replace(/^Today ?/,'')||'this morning')}</span></small></div><a class="hvp grn" href="#/ringbacks">Ring</a></div>`}).join('')}
-   ${rbDone.map(x=>{const c=cust(x.cust);return `<div class="hvrb rung"><div class="x"><span class="l1"><b>${esc(c.name)}</b> · ${esc(x.why)}</span><small>rung ${esc(x.when.replace(/^Done ?/,''))} by ${esc(nBookName(x.who))}</small></div><span class="hvp soft grn">Rung</span></div>`}).join('')}
-  </div><form class="add" onsubmit="return hvAdd('ring',event)"><label for="hvrbn" class="sr">Who needs ringing back</label><input id="hvrbn" placeholder="Who needs a call back, and why" autocomplete="off"><button type="submit">Add</button></form></section>
-  <section class="w sec-diary" aria-labelledby="hvhn"><h2 id="hvhn">${I.book}Team notes<span>everyone sees these</span></h2><div class="scroll blk">
-   ${team.map(n=>`<div class="hvn sec-${n.st==='todo'?'diary':n.by==='adam'?'look':'notes'}">${esc(n.t)}<small>${esc(nBookName(n.by))}, ${nWhen(n.at)}</small></div>`).join('')||'<div class="muted small">Nothing yet. Add the first note below.</div>'}
-  </div><form class="add" onsubmit="return hvAdd('note',event)"><label for="hvn1" class="sr">New note</label><input id="hvn1" placeholder="Add a note for everyone" autocomplete="off"><button type="submit">Add</button></form></section>
- </div>
- <div class="hvc">
-  <section class="w sec-pay hvr" aria-labelledby="hvhr"><h2 id="hvhr">Ready to go out<span id="hvrdyc">${hvRdyHead()}</span></h2><div class="scroll" id="hvrdy">${hvRdyRows()}</div>
-  </section>
-  <section class="w sec-notes" aria-labelledby="hvhj"><h2 id="hvhj">Jot a note<span>lands on the record</span></h2>
+  <section class="w hvnotes" style="--sc:#FFB300" aria-labelledby="hvhfj"><h2 id="hvhfj"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>Notes for Jenson</h2><div class="scroll blk" id="hvfj">
+   ${fj.map(n=>`<div class="hvn">${esc(n.t)}<small>${esc(nBookName(n.by))}, ${nWhen(n.at)}${n.reg?' · '+esc(n.reg):''}</small></div>`).join('')||'<div class="muted small">No notes for Jenson right now.</div>'}
+  </div>
+  <div class="jot"><h2 id="hvhj">Leave Jenson a note</h2>
    <form onsubmit="return hvJotSave(event)">
    <div class="jt"><label for="hvjreg">Reg</label><input id="hvjreg" class="mono" placeholder="AB12 CDE" autocomplete="off"></div>
    <div class="jt"><label for="hvjcus">Name</label><input id="hvjcus" placeholder="Customer name" autocomplete="off"></div>
    <div class="jt"><label for="hvjtel">Phone</label><input id="hvjtel" type="tel" placeholder="07700 900123" autocomplete="off"></div>
-   <label for="hvjt" class="sr">Note</label><textarea id="hvjt" placeholder="Write the note here"></textarea>
-   <div class="add" style="padding-top:6px"><span style="flex:1"></span><button type="submit" class="jsave">Save note</button></div></form>
+   <label for="hvjt" class="sr">Note</label><textarea id="hvjt" data-cr placeholder="Write the note here"></textarea>
+   <div class="add" style="padding-top:6px"><span class="crhint">Return for a new line · Ctrl+Return saves</span><button type="submit" class="jsave">Save note</button></div></form>
+  </div></section>
+  <section class="w" style="--sc:var(--green)" aria-labelledby="hvhrb"><h2 id="hvhrb">${I.phone}Ring-backs<span><b>${rbs.length}</b> waiting</span></h2><div class="scroll blk">
+   ${rbs.map(x=>{const c=cust(x.cust);const late=/yesterday|Mon|Tue|Wed|Thu|Fri/i.test(x.when)&&!/Today/.test(x.when);return `<div class="hvrb${late?' late':''}"><div class="x"><span class="l1"><b>${esc(c.name)}</b> · ${esc(x.why)}</span><small>${esc(c.phone)} · <span class="since">Since ${esc(x.when.replace(/^Today ?/,'')||'this morning')}</span></small></div><a class="hvp grn" href="#/ringbacks">Ring</a></div>`}).join('')}
+   ${rbDone.map(x=>{const c=cust(x.cust);return `<div class="hvrb rung"><div class="x"><span class="l1"><b>${esc(c.name)}</b> · ${esc(x.why)}</span><small>rung ${esc(x.when.replace(/^Done ?/,''))} by ${esc(nBookName(x.who))}</small></div><span class="hvp soft grn">Rung</span></div>`}).join('')}
+  </div><form class="add" onsubmit="return hvAdd('ring',event)"><label for="hvrbn" class="sr">Who needs ringing back</label><input id="hvrbn" placeholder="Who needs a call back, and why" autocomplete="off"><button type="submit">Add</button></form></section>
+  <section class="w sec-pay hvr" aria-labelledby="hvhr"><h2 id="hvhr">Ready to go out<span id="hvrdyc">${hvRdyHead()}</span></h2><div class="scroll" id="hvrdy">${hvRdyRows()}</div>
   </section>
   <section class="w sec-court" aria-labelledby="hvhc"><h2 id="hvhc">Courtesy cars<span>${cc.out} out, ${cc.in} in, ${cc.na} not available</span></h2><div class="scroll hvccs">
    ${CC.map(c=>`<a class="hvcc ccst-${c.st}${S._ccgo===c.reg?' ccgo':''}" href="#/courtesy/${enc(c.reg)}">${ccSvg(c.k,CC_COL[c.st],46,19)}<div class="x">${plate(c.reg,'sm')}<small>${esc(ccLine(c))}</small></div><span class="hvp">${CC_LBL[c.st]}</span></a>`).join('')}
@@ -1658,7 +1690,7 @@ window.doSearch=e=>{e.preventDefault();const q=document.getElementById('q').valu
   box.innerHTML=`<div class="sec">Results</div><div class="card pad0 list">${cs.map(crow).join('')}${vs.map(vrow).join('')}${is.map(i=>`<a class="it" href="#/invoice/${i.n}"><span class="ic">${I.inv}</span><div class="t"><b>${i.n} · ${i.title}</b><span>${cust(i.cust).name} · ${fmtS(i.date)}</span></div><span class="amt">${gbp(i.total)}</span>${I.chev}</a>`).join('')}${ns.map(n=>`<a class="it" href="#/notes/${n.book}"><span class="ic">${I.book}</span><div class="t"><b>${esc(n.t)}</b><span>${WHO[n.by].n} · ${nWhen(n.at)} · ${nBookName(n.book)}'s notes</span></div>${I.chev}</a>`).join('')}${!vs.length&&!is.length&&!cs.length&&!ns.length?'<div class="it muted">Nothing found. Try part of a reg, a surname or the customer\'s reference number.</div>':''}</div>`;return false};
 
 S.vehicle=reg=>{const v=veh(reg);
- if(!v)return `<a class="back" href="#/home">${I.back}</a><div class="head"><div>${plate(reg)}<h1 class="title" style="margin-top:12px">Not on file yet</h1><p class="muted">First time we've seen this one. Pull the details from DVLA and add it.</p></div></div>
+ if(!v)return `<div class="head"><div>${plate(reg)}<h1 class="title" style="margin-top:12px">Not on file yet</h1><p class="muted">First time we've seen this one. Pull the details from DVLA and add it.</p></div></div>
   <div class="two"><div class="card"><div class="eyebrow" style="margin-bottom:8px">From DVLA (demo)</div><div class="spec"><div><small>Make</small><b>Found on lookup</b></div><div><small>First registered</small><b>—</b></div><div><small>Fuel</small><b>—</b></div><div><small>Colour</small><b>—</b></div><div><small>MOT due</small><b>—</b></div><div><small>Taxed to</small><b>—</b></div></div>
   <div class="row" style="margin-top:14px"><button class="btn pri" onclick="toast('DVLA lookup · fills make, colour, fuel, MOT and tax')">${I.search}Look up with DVLA</button><button class="btn" onclick="toast('Type the details in yourself')">${I.edit}Type it in</button></div></div>
   <div class="card"><div class="eyebrow" style="margin-bottom:8px">Who owns it?</div><form class="search" onsubmit="event.preventDefault();toast('Linked')">${I.search}<input placeholder="Find a customer, or add new"></form><div class="row" style="margin-top:12px"><button class="btn" onclick="toast('New customer form')">${I.plus}New customer</button><a class="btn" href="#/quote/new?reg=${enc(reg)}">${I.pound}Straight to a quote</a></div></div></div>`;
@@ -1672,7 +1704,7 @@ S.vehicle=reg=>{const v=veh(reg);
  const miles=[...old.slice().reverse(),...now.slice().reverse()].map(h=>h.m).filter(Boolean);const perYear=miles.length>1&&all.length>1?Math.round((Math.max(...miles)-Math.min(...miles))/Math.max(1,(new Date(all[0].d)-new Date(all[all.length-1].d))/31557600000)/100)*100:null;
  const others=vehicles.filter(o=>o.cust===v.cust&&o.reg!==reg);
  const spec=(k,l)=>`<div><small>${l}</small>${vEdit?`<input value="${e[k]}" onchange="vxSet('${reg}','${k}','${l.replace(/'/g,'')}',this.value)">`:`<b>${e[k]||'<span class=muted>—</span>'}</b>`}</div>`;
- return `<a class="back" href="#/home">${I.back}</a>
+ return `
  <div class="head"><div style="min-width:0">${plate(reg)}<div class="row" style="gap:10px;margin-top:12px"><h1 class="title">${v.make}</h1>${edBadge('vehicle',reg,'lg')}</div><div class="muted">${v.year} · ${v.fuel} · ${v.colour} · <a href="#/customer/${c.id}">${c.name}</a></div>
   <div class="vtags"><span class="pill ${col(motD)}">MOT ${motD<0?'expired '+(-motD)+' days ago':'due in '+motD+' days'}</span><span class="pill ${col(taxD)}">Tax to ${fmtS(e.tax)}</span>${svcD!==null?`<span class="pill ${col(svcD)}">Service ${svcD<0?'overdue':'due '+fmtS(svcDate)}</span>`:''}${open.length?`<span class="pill b">${open.length} open job${open.length>1?'s':''}</span>`:''}${QUOTES.find(q=>q.r===reg&&q.appr&&q.appr.st==='approved'&&!q.inv)?'<span class="pill g"><i></i>Quote approved by customer</span>':''}${owed>0?`<span class="pill r">Owes ${gbp(owed)}</span>`:''}</div></div>
  <div class="actions"><button class="btn" onclick="bookIn('${reg}')">${I.cal}Book in</button><a class="btn" href="#/quote/new?reg=${enc(reg)}">${I.pound}Quote</a><a class="btn" href="#/healthcheck/new?reg=${enc(reg)}">${I.check}Health check</a><button class="btn" onclick="tyAdd('${reg}')">${TYI}Tyres</button><button class="btn" onclick="toast('Full history printed / PDF')">${I.dl}History</button><a class="btn pri" href="#/quote/new?reg=${enc(reg)}">${I.plus}New quote</a><button class="btn" onclick="newInv('${v.cust}')">${I.inv}New invoice</button></div></div>
@@ -1738,7 +1770,7 @@ S.customer=id=>{const c=cust(id);const x=cx(id);const vs=vehicles.filter(v=>v.cu
     <div class="crfoot"><span class="small">${pays.length?`<b>${gbp(paysT)}</b> received across ${pays.length} payment${pays.length===1?'':'s'}`:'Nothing received yet'}</span>${unpaid.length?`<button class="btn sm pri" onclick="location.hash='#/payments';pyNew('${unpaid[0].n}')">${I.pound}Post a payment</button>`:''}</div></div>`
   :`<div class="card pad0 list">${is.map(i=>`<a class="it" href="#/invoice/${i.n}"><span class="ic">${I.inv}</span><div class="t"><b>${i.title}</b><span>${fmtS(i.date)} · ${i.reg} · ${i.n}${i.status==='owed'&&i.paid?' · '+gbp(i.total-i.paid)+' left':''}</span></div><span class="amt">${gbp(i.total)}</span>${stPill(i)}${I.chev}</a>`).join('')||'<div class="it muted">None this year. Older history is on each vehicle.</div>'}
     <div class="crfoot">${unpaid.length?`<span class="small"><b class="red">${gbp(unpaidAmt)} owed</b> on ${unpaid.length} invoice${unpaid.length>1?'s':''}${x.terms?' · '+x.terms+'-day terms':''}</span><button class="btn sm pri" onclick="location.hash='#/payments';pyNew('${unpaid[0].n}')">${I.pound}Post a payment</button>`:`<span class="small muted">Nothing owed</span><a class="btn sm ghost" href="#/payments">${I.pound}Payments</a>`}</div></div>`;
- return `<div class="row" style="justify-content:space-between"><a class="back" href="#/customers">${I.back}</a><div class="row"><a class="btn sm ghost" href="#/customer/${prev}">${I.back}Previous</a><a class="btn sm ghost" href="#/customer/${next}">Next ${I.chev}</a></div></div>
+ return `<div class="row" style="justify-content:space-between"><div class="row"><a class="btn sm ghost" href="#/customer/${prev}">${I.back}Previous</a><a class="btn sm ghost" href="#/customer/${next}">Next ${I.chev}</a></div></div>
  <div class="head"><div><div class="eyebrow">Customer · since ${c.since}${co?' · '+co:''}</div><div class="crname"><h1 class="title">${c.name}</h1><a class="crphone lg" href="tel:${x.mob.replace(/\s/g,'')}" title="Call ${c.name}">${I.phone}${x.mob}</a>${edBadge('customer',id,'lg')}</div>
    <div class="row" style="margin-top:10px">${x.acct==='Account'?`<span class="pill b">Trade account · ${x.terms} days</span>`:'<span class="pill">Private · pays on collection</span>'}${fleet?`<span class="pill">${I.carv}Fleet · ${vs.length} vehicles</span>`:''}${unpaid.length?`<span class="pill r">Owes ${gbp(unpaidAmt)}</span>`:'<span class="pill g">Nothing owed</span>'}</div></div>
  <div class="crhead-r">${crBoxes(id,vs.length)}<button class="crcopy" type="button" onclick="navigator.clipboard&&navigator.clipboard.writeText('${x.ref}');toast('Ref ${x.ref} copied')" title="Copy reference">${I.copy}Copy ref</button></div>
@@ -1930,7 +1962,7 @@ window.editNote=ix=>{const n=prompt('Edit note',NOTES[day][ix]);if(n!==null){NOT
 const jobCard=j=>{const v=veh(j.reg);const js=JOBS.find(x=>x.r===j.reg&&x.st!=='inv');return `<a class="job" href="${js?'#/job/'+js.id:'#/vehicle/'+enc(j.reg)}" style="--who:${j.who?WHO[j.who].c:'#555'}"><div class="row" style="justify-content:space-between"><span class="time"><b>${j.s}</b> – ${j.e}</span>${j.st==='ramp'?'<span class="pill y">On the ramp</span>':j.st==='unassigned'?'<span class="pill r">Not given out</span>':'<span class="pill">Booked</span>'}</div><div style="margin-top:10px">${plate(j.reg,'sm')}</div><h4>${j.t}</h4>${PROMISE[j.reg]?`<div class="small" style="color:var(--warn);margin:-4px 0 6px">Promised for ${PROMISE[j.reg]}</div>`:''}<p>${v.make} · ${cust(v.cust).name}</p><div class="ft"><span>${j.who?WHO[j.who].n:'Give to…'}</span>${js?edBadge('job',js.id):''}${avatar(j.who)}</div></a>`};
 
 let jobF='all';
-S.jobs=()=>`<a class="back" href="#/home">${I.back}</a><div class="head"><div><div class="eyebrow">Workshop</div><h1 class="title">Job sheets</h1></div></div>
+S.jobs=()=>`<div class="head"><div><div class="eyebrow">Workshop</div><h1 class="title">Job sheets</h1></div></div>
  <div class="card a1paper"><div class="ic">${I.quote}</div><div><b>Job sheets stay on paper for now.</b><p class="muted">Print the diary for the day and attach parts paperwork to it. Mechanics' phones could update them later.</p>
  <div class="row" style="margin-top:14px"><a class="btn pri" href="#/diary">${I.cal}Diary</a><a class="btn" href="#/quotes">${I.pound}Quotes</a><button class="btn ghost" onclick="toast('Diary for today printed')">${I.dl}Print today's diary</button></div></div></div>`;
 S.quotes=()=>{const q=qQ.toLowerCase().replace(/\s/g,'');const list=QUOTES.filter(x=>qF==='all'||x.st===qF).filter(x=>!q||(x.id+x.t+x.r+cust(x.c).name).toLowerCase().replace(/\s/g,'').includes(q)).sort((a,b)=>b.id.localeCompare(a.id));
@@ -1949,7 +1981,7 @@ S.quote=id=>{const p=new URLSearchParams((location.hash.split('?')[1]||''));let 
  if(qfor!==id){qlines=q.lines;qopts=q.opts;qfor=id;qPrice=null}
  const c=cust(q.c),x=cx(q.c),v=veh(q.r)||vehicles[0];const m=money(qAll());const ro=q.st==='accepted'||q.st==='declined'||q.st==='expired';const inv=location.hash.startsWith('#/inv/');const dueD=inv?new Date(Date.parse(TD)+(x.terms||0)*864e5).toISOString().slice(0,10):q.valid;const days=daysTo(q.valid);const since=Math.round((TODAY-new Date(q.d))/864e5);
  const msg=`Hi ${c.name.replace(/^M(r|rs) /,'').split(' ')[0]}, your quote for ${q.t||'the work'} on ${q.r} is ${gbp(m.total)} inc VAT, good until ${fmtS(q.valid)}. Tap to see it and say yes: wents.uk/q/${q.id.toLowerCase()} · Wents Service Station`;
- return `<a class="back" href="${inv?'#/invoices':'#/quotes'}">${I.back}</a><div class="head"><div style="flex:1;min-width:0"><div class="row"><span class="muted small mono">${q.fresh?(inv?'New invoice':'New quote'):q.id}</span>${q.fresh?'':edBadge('quote',q.id,'lg')}${apPill(q)||`<span class="pill ${QST[q.st][1]}">${QST[q.st][0]}</span>`}${q.st==='sent'?`<span class="muted small">${since} day${since===1?'':'s'} ago · valid ${days} more days</span>`:''}</div><input class="jt" value="${q.t}" placeholder="${inv?'What was the job?':'What are we quoting for?'}" onfocus="this.dataset.o=this.value" oninput="S._q.t=this.value" onchange="qTitle(this)" ${ro?'readonly':''}>${q.fresh?'':byHead(inv?'invoice':'quote',q.id,'Raised by',{by:q.by,byAt:q.byAt,edBy:q.edBy,edAt:q.edAt})}</div>
+ return `<div class="head"><div style="flex:1;min-width:0"><div class="row"><span class="muted small mono">${q.fresh?(inv?'New invoice':'New quote'):q.id}</span>${q.fresh?'':edBadge('quote',q.id,'lg')}${apPill(q)||`<span class="pill ${QST[q.st][1]}">${QST[q.st][0]}</span>`}${q.st==='sent'?`<span class="muted small">${since} day${since===1?'':'s'} ago · valid ${days} more days</span>`:''}</div><input class="jt" value="${q.t}" placeholder="${inv?'What was the job?':'What are we quoting for?'}" onfocus="this.dataset.o=this.value" oninput="S._q.t=this.value" onchange="qTitle(this)" ${ro?'readonly':''}>${q.fresh?'':byHead(inv?'invoice':'quote',q.id,'Raised by',{by:q.by,byAt:q.byAt,edBy:q.edBy,edAt:q.edAt})}</div>
  <div class="actions">${inv?`<button class="btn pri" onclick="invFromQ()">${I.check}Save invoice</button>`:''}${!inv&&(q.st==='draft'||q.st==='sent')?`<button class="btn pri" onclick="apOpen('${q.id}')">${I.wa}Send for approval</button><button class="btn" onclick="apManual('${q.id}')">${I.phone}Approved on the phone</button>`:''}${!inv&&q.st==='sent'?`<button class="btn" onclick="toast('Chaser sent by ${(x.via||'text').toLowerCase()}')">${I.bell}Chase</button><button class="btn ghost" onclick="qset('${q.id}','declined')">Declined</button>`:''}${!inv&&q.st==='accepted'?`${q.inv?`<a class="btn pri" href="#/invoice/${q.inv}">${I.inv}Open ${q.inv}</a>`:`<button class="btn pri" onclick="quoteToInv('${q.id}')">${I.inv}Estimate → invoice</button>`}`:''}${!inv&&ro?`<button class="btn" onclick="qdup('${q.id}')">Copy to new quote</button>`:''}<details class="menu"><summary class="btn">${I.more}More</summary><div class="pop"><button onclick="qPrev('${q.id}')">${I.eye||I.dl}Print preview</button><button onclick="toast('${inv?'Invoice':'Quote'} PDF saved')">${I.dl}Download PDF</button><button onclick="qPrev('${q.id}',true)">${I.prt}Print</button><button onclick="${inv?`toast('Save the invoice first, then send it from the invoice page')`:`document.getElementById('qsend')?.scrollIntoView({behavior:'smooth',block:'center'})`}">${I.send}Send</button></div></details>${q.fresh&&!inv?`<span class="muted small" style="align-self:center">or a <a href="#/invoices" onclick="toast('Cash sale: no customer record needed')">cash sale</a></span>`:''}</div></div>
  <div class="two"><div>
   <div class="card"><div class="qcon"><a href="#/vehicle/${enc(v.reg)}">${plate(v.reg)}</a><div class="qcon-c"><a class="nm" href="#/customer/${c.id}">${c.name}</a><a class="ph" href="tel:${x.mob}">${x.mob}</a><div class="muted small">${v.make} · ${v.miles.toLocaleString()} mi · MOT to ${fmtS(v.mot)} · prefers ${(x.via||'text').toLowerCase()}${x.acct==='Account'?' · £'+x.rate+'/hr account':''}</div></div></div><div class="grid g2">
@@ -1993,7 +2025,7 @@ let qlines=null;
 let qfor=null;
 const newJob=reg=>{const v=veh(reg)||vehicles[0];return {id:'JS-1194',t:'',c:v.cust,r:v.reg,st:'est',a:0,who:'',miles:v.miles,keys:'',req:'',found:'',adv:[],auth:'',lines:[{k:'lab',d:'',q:1,p:68}],fresh:true}};
 S.job=id=>{const p=new URLSearchParams((location.hash.split('?')[1]||''));const j=JOBS.find(x=>x.id===id);const reg=j?j.r:(p.get('reg')||'');const v=reg?veh(reg):null;
- return `<a class="back" href="${v?'#/vehicle/'+enc(v.reg):'#/home'}">${I.back}</a><div class="head"><div><div class="eyebrow">Workshop${j?' · '+j.id:''}</div><div class="row" style="gap:10px"><h1 class="title">${j?j.t:'Job sheets'}</h1>${j?edBadge('job',j.id,'lg'):''}</div></div></div>
+ return `<div class="head"><div><div class="eyebrow">Workshop${j?' · '+j.id:''}</div><div class="row" style="gap:10px"><h1 class="title">${j?j.t:'Job sheets'}</h1>${j?edBadge('job',j.id,'lg'):''}</div></div></div>
  ${v?`<div class="row" style="margin-bottom:12px">${plate(v.reg,'sm')}<span>${v.make} · <a href="#/customer/${v.cust}">${cust(v.cust).name}</a></span></div>`:''}
  <div class="card a1paper"><div class="ic">${I.quote}</div><div><b>Job sheets stay on paper for now.</b><p class="muted">Print the diary for the day and attach parts paperwork to it. Mechanics' phones could update them later.</p>
  <div class="row" style="margin-top:14px"><a class="btn pri" href="#/diary">${I.cal}Diary</a><a class="btn" href="#/quotes">${I.pound}Quotes</a>${v?`<a class="btn" href="#/quote/new?reg=${enc(v.reg)}">${I.plus}New quote for ${v.reg}</a><button class="btn" onclick="tyAdd('${v.reg}',{job:'${j?(j.id+' · '+j.t).replace(/'/g,''):''}'})">${TYI}Add to tyre list</button>`:''}</div></div></div>
@@ -2054,7 +2086,7 @@ S.invoice=n=>{const i=invoices.find(x=>x.n===n);if(!i)return 'Not found';const c
  const rows=(ls,lbl)=>ls.length?`<tr class="grp"><td colspan="4">${lbl}</td></tr>`+ls.map(l=>`<tr><td>${l.d}${l.s?`<small>${l.s}</small>`:''}</td><td class="r">${l.k==='lab'?l.q+' hr':l.q}</td><td class="r">${l.p?gbp(l.p)+(l.k==='lab'?'/hr':''):'<i>tbc</i>'}</td><td class="r">${l.p?gbp(l.q*l.p):'—'}</td></tr>`).join(''):'';
  const sentTxt=i.status==='draft'?'Not sent yet':i.status==='hold'?'Written, not sent':i.status==='paid'?`Paid in full ${fmtS(i.pays?.[i.pays.length-1]?.d||i.date)}`:`Sent by ${x.via||'text'} ${fmtS(i.date)}`;
  const otherOwed=i.cust?invoices.filter(o=>o.cust===i.cust&&o.n!==i.n&&o.status==='owed').reduce((s,o)=>s+o.total-o.paid,0):0;
- return `<a class="back" href="#/invoices">${I.back}</a><div class="head"><div><div class="row">${stPill(i)}${i.ready?`<span class="pill g"><i></i>Told it's ready ${i.ready.at.slice(-5)}</span>`:''}<span class="muted small">${sentTxt}${i.js?' · from '+i.js:''}${i.q?' · quote '+i.q:''}</span>${invVers(i).length>1?`<span class="pill b">v${invVers(i).length}</span>`:''}</div><div class="row" style="gap:10px"><h1 class="title mono" style="font-family:var(--font-title)">${i.n}</h1>${edBadge('invoice',i.n,'lg')}</div>${byHead('invoice',i.n,'Raised by',{by:i.by,byAt:i.byAt,edBy:i.edBy,edAt:i.edAt})}</div>
+ return `<div class="head"><div><div class="row">${stPill(i)}${i.ready?`<span class="pill g"><i></i>Told it's ready ${i.ready.at.slice(-5)}</span>`:''}<span class="muted small">${sentTxt}${i.js?' · from '+i.js:''}${i.q?' · quote '+i.q:''}</span>${invVers(i).length>1?`<span class="pill b">v${invVers(i).length}</span>`:''}</div><div class="row" style="gap:10px"><h1 class="title mono" style="font-family:var(--font-title)">${i.n}</h1>${edBadge('invoice',i.n,'lg')}</div>${byHead('invoice',i.n,'Raised by',{by:i.by,byAt:i.byAt,edBy:i.edBy,edAt:i.edAt})}</div>
  <div class="actions">${i.reg&&i.status!=='paid'?`<button class="btn pri" onclick="rdOpen('${i.n}')">${I.wa}${i.ready?"Ready · send again":"Car's ready"}</button>`:''}${i.status!=='paid'?`${invEd&&invEd.n===i.n?'':`<button class="btn" onclick="invEdit('${i.n}')">${I.edit}Edit</button>`}`:''}<button class="btn" onclick="toast('Sent by ${(x.via||'text').toLowerCase()}${x.mob?' to '+x.mob:''}')">${I.send}${i.status==='draft'||i.status==='hold'?'Send':'Resend'}</button><button class="btn" onclick="toast('Printing on the office printer')">${I.dl}Print</button><button class="btn" onclick="toast('PDF saved')">${I.dl}PDF</button>${i.status==='hold'?`<button class="btn" onclick="hold('${i.n}',0)">${I.check}Release</button>`:i.status!=='paid'?`<button class="btn ghost" onclick="hold('${i.n}',1)">Put on hold</button>`:''}${i.status!=='paid'&&i.status!=='hold'?`<button class="btn yel" onclick="openPay('${i.n}')">${I.pound}Take payment</button>`:''}</div></div>
 ${rdCard(i)}${invEd&&invEd.n===i.n?invEditor(i):''}${payFor===i.n?`<div class="card pay" style="margin-bottom:14px"><div class="eyebrow">Take payment · ${gbp(left)} left</div>
    <div class="amt-in"><span>£</span><input id="pa" type="number" step="0.01" value="${left.toFixed(2)}"></div>
@@ -2167,7 +2199,7 @@ const scard=(s,label)=>`<article class="scard">
 const callRow=c=>{const s=sup(c[0]);return `<div class="c">${slogo(s,'slogo sm')}<div><b>${s.n.split(',')[0]}</b>${c[2]?' <span class="muted">· '+c[2]+'</span>':''}<div class="muted small">${c[3]}</div></div><div class="muted small" style="text-align:right;white-space:nowrap">${c[1]}${c[4]?'<br>'+c[4]:''}</div></div>`};
 const groupView=id=>{const g=SG.find(x=>x.id===id);if(!g)return S.suppliers('');
  const rows=SUPS.filter(s=>s.g===id),shown=rows.filter(spPass),flt=Object.values(spF).some(Boolean);
- return `<a class="back" href="#/suppliers">${I.back}</a><div class="spg">
+ return `<div class="spg">
  <div class="shero"><div class="big" style="color:${g.c}">${I[g.ic]}</div><h1>${g.name}</h1><p>${rows.length?rows.length+' listed near you':'Nothing listed yet'}</p></div>
  ${rows.length?`<div class="chips sflt">${[['del','Delivers','truck'],['open','Open now','clock'],['sat','Saturday','cal'],['acc','On account','book']].map(([k,l,ic])=>`<button class="${spF[k]?'on':''}" onclick="spF.${k}=!spF.${k};go()">${I[ic]}${l}</button>`).join('')}</div>`:''}
  ${g.subs.map(([sid,name,label])=>{const rs=shown.filter(s=>s.s===sid);return `<div class="sub"><h2>${name}</h2><span>${rs.length?rs.length+' listed':'None yet'}</span></div>${rs.length?rs.map(s=>scard(s,label)).join(''):`<div class="card muted">No ${name.toLowerCase()} ${flt?'match the filter':'listed yet'}.</div>`}`}).join('')}
@@ -2177,7 +2209,7 @@ const makeView=m=>{const k=mkKey(m),bk=mkAlias[k]||k;
  const dl=SUPS.filter(s=>s.g==='dealer'&&[k,bk].some(x=>s.mk===x||(s.mks||[]).includes(x))),seen=dl.map(s=>s.n.split(/[\s,]+/)[0].toLowerCase());
  const lines=(DEALERS[k]||[]).filter(([c])=>!seen.includes(c.split(/[\s,]+/)[0].toLowerCase()));
  const others=SUPS.filter(s=>s.g==='parts'&&s.s==='factors'&&s.ver),n=mkBook(k),nd=dl.length+lines.length;
- return `<a class="back" href="#/suppliers">${I.back}</a><div class="spg mkpage">
+ return `<div class="spg mkpage">
  <div class="shero mkhero">${makeLogo(k,'big')}<h1>${k}</h1><p>${nd} main dealer ${nd===1?'line':'lines'} · ${others.length} factors${n?' · '+n+' on your books':''}</p></div>
  <div class="sub"><h2>Main dealer parts</h2><span>${nd?'near Kent':'none listed yet'}</span></div>
  ${dl.map(s=>scard(s,'Main dealer parts · '+k)).join('')}
@@ -2218,7 +2250,7 @@ S.suppliers=arg=>{if(arg)return arg.startsWith('make:')?makeView(arg.slice(5)):g
   <form class="search" onsubmit="event.preventDefault()">${I.search}<input id="spq" value="${esc(spQ)}" oninput="spQ=this.value;spDraw()" placeholder="${mk?'Find a make · Ford, VW, Toyota…':'Supplier, service, part or number'}"><button type="button" class="btn ghost" onclick="toast('Say a supplier, a make or a part')" aria-label="Speak">${I.mic}</button></form></div>
  ${mk?mkSectionQ(q):sup}
  ${trade}`};
-S.supplier=id=>{if(id==='new')return `<a class="back" href="#/suppliers">${I.back}</a><div class="eyebrow">Suppliers</div><h1 class="title">Add a contact</h1>
+S.supplier=id=>{if(id==='new')return `<div class="eyebrow">Suppliers</div><h1 class="title">Add a contact</h1>
  <div class="card" style="max-width:640px"><div class="grid g2"><label class="field"><span>Name</span><input placeholder="Dave Pearce, mobile tyres"></label><label class="field"><span>Number</span><input placeholder="07700 900000" inputmode="tel"></label>
  <label class="field"><span>Group</span><select>${SG.map(g=>`<option>${g.name}</option>`).join('')}</select></label><label class="field"><span>Makes they cover</span><input placeholder="Any, or e.g. Ford, VW"></label></div>
  <label class="field" style="margin-top:10px"><span>Notes</span><textarea rows="2" placeholder="Trade rate, who to ask for, when they come"></textarea></label>
@@ -2227,7 +2259,7 @@ S.supplier=id=>{if(id==='new')return `<a class="back" href="#/suppliers">${I.bac
  const s=sup(id);if(!s)return S.suppliers('');
  const g=sgOf(s),label=slabel(s),calls=CALLS.filter(c=>c[0]===id),orders=JOBS.flatMap(j=>(j.lines||[]).filter(l=>l.sup&&l.sup.split(/,| · /)[0]===s.n.split(',')[0]&&l.ps!=='here').map(l=>({...l,job:j.id,reg:j.r})));
  const how=(k,t,d)=>{const v=spHow[id+k]||(k==='d'?s.del:s.come)||'?';return `<div class="card howrow" style="margin-top:10px"><span class="ic">${I[k==='d'?'truck':'car']}</span><div><b>${t}</b><div class="muted small">${d}</div><div class="how">${[['yes','Yes'],['no','No'],['?','Not sure']].map(([x,l])=>`<button class="${v===x?'on':''}" onclick="supHowSet('${id}','${k}','${x}')">${l}</button>`).join('')}</div></div></div>`};
- return `<div class="sphead"><a class="back" href="${s.g==='dealer'?'#/suppliers/make:'+enc(s.mk):'#/suppliers/'+s.g}" style="margin:0">${I.back}</a><div class="acts"><button class="${s.fav?'on':''}" onclick="supFav('${id}')" aria-label="Favourite">${I.star}</button><button onclick="toast('Edit details')" aria-label="Edit">${I.edit}</button></div></div>
+ return `<div class="sphead"><div class="acts"><button class="${s.fav?'on':''}" onclick="supFav('${id}')" aria-label="Favourite">${I.star}</button><button onclick="toast('Edit details')" aria-label="Edit">${I.edit}</button></div></div>
  <div class="two">
  <div>
   <div class="spcard"><div class="top">${slogo(s,'slogo xl')}<div style="min-width:0"><h1>${s.n}</h1><div class="row" style="gap:8px">${nameMark(s)}<span class="muted">${label} · ${s.ph.length} ${s.ph.length===1?'line':'lines'}</span></div></div></div>
@@ -2561,7 +2593,7 @@ S.health=()=>{const month=HC.filter(h=>h.date.slice(0,7)===TD.slice(0,7));const 
 window.hcStart=e=>{e.preventDefault();const r=document.getElementById('hcreg').value.trim().toUpperCase().replace(/\s+/g,' ');if(!r){toast('Type the reg first');return false}hcNewOpen=false;hcFor=null;location.hash='#/healthcheck/new?reg='+enc(r);return false};
 
 /* ---------- printable blank sheet ---------- */
-S.healthsheet=()=>`<div class="hc-noprint"><a class="back" href="#/health">${I.back}</a>
+S.healthsheet=()=>`<div class="hc-noprint">
  <div class="head"><div><div class="eyebrow">Blank sheet · one per car</div><h1 class="title">Health check sheet</h1></div><div class="actions"><button class="btn" onclick="toast('Printing ${(diary[TD]||[]).length} · one for each job in today')">${I.copy}One for each job today</button><button class="btn pri" onclick="window.print()">${I.dl}Print</button></div></div></div>
  <div class="paper hc-sheet">
   <div class="ph"><div style="display:flex;gap:12px"><div class="logo">W</div><div><b>Wents Service Station</b><br>Ulcombe Road, Ulcombe, Maidstone, Kent ME17 1DN · 01622 844 844</div></div><div class="inv">HEALTH CHECK<i>Workshop copy</i></div></div>
@@ -2575,12 +2607,12 @@ S.healthsheet=()=>`<div class="hc-noprint"><a class="back" href="#/health">${I.b
 S.healthcheck=id=>{const p=new URLSearchParams(location.hash.split('?')[1]||'');const want=p.get('reg');
  if(hcFor!==id||!hcCur||(id==='new'&&want&&hcCur.reg!==want)){
   if(id==='new'){const reg=want||'KN19 XRT';const v=veh(reg);hcCur={id:'HC-'+String(HC.length+1).padStart(4,'0'),reg,date:TD,miles:v?v.miles:0,who:'Adam',res:{},depths:{},notes:{},adv:[],sent:false,price:29.95,fresh:true}}
-  else{const h=HC.find(x=>x.id===id);if(!h)return `<a class="back" href="#/health">${I.back}</a><div class="card muted">Health check ${id} not found.</div>`;hcCur=JSON.parse(JSON.stringify(h))}
+  else{const h=HC.find(x=>x.id===id);if(!h)return `<div class="card muted">Health check ${id} not found.</div>`;hcCur=JSON.parse(JSON.stringify(h))}
   hcFor=id}
  const h=hcCur,{v,c,make,name}=hcVeh(h.reg),k=hcCount(h);const total=HCALL.length,done=k.g+k.a+k.r;
  const tog=it=>`<div class="hc-tog">${[['g','G'],['a','A'],['r','R']].map(([x,l])=>`<button class="hc-${x} ${h.res[it.id]===x?'on':''}" onclick="hcSet('${it.id}','${x}')" title="${{g:'Good',a:'Advisory',r:'Needs attention'}[x]}">${l}</button>`).join('')}</div>`;
  const row=it=>{const r=h.res[it.id]||'';return `<div class="hc-row ${r?'is-'+r:''}"><span class="n">${it.n}</span>${it.d?`<span class="hc-dep"><input type="number" step="0.1" min="0" max="12" inputmode="decimal" value="${h.depths[it.d]??''}" placeholder="–" onchange="hcDepth('${it.d}','${it.id}',this.value)">mm</span>`:''}${tog(it)}${r==='a'||r==='r'?`<input class="hc-note" placeholder="${r==='r'?'What needs doing, in the customer’s words':'What to keep an eye on'}" value="${hcEsc(h.notes[it.id])}" oninput="hcCur.notes['${it.id}']=this.value">`:''}</div>`};
- return `<a class="back" href="#/health">${I.back}</a>
+ return `
  <div class="head"><div style="min-width:0">${plate(h.reg)}<h1 class="title" style="margin-top:12px">${make}</h1><div class="muted">${v?v.year+' · '+v.fuel+' · ':''}${c?`<a href="#/customer/${c.id}">${name}</a>`:name} · ${h.fresh?'New health check':h.id+' · '+fmtY(h.date)}${v?` · <a href="#/vehicle/${enc(h.reg)}">Vehicle</a>`:''}</div></div>
  <div class="actions"><button class="btn" onclick="hcAll()">${I.check}Rest all good</button><button class="btn pri" onclick="hcSave()">${I.check}Save</button></div></div>
  <div class="hc-sum"><span class="pill g">${k.g} good</span><span class="pill y">${k.a} advisory</span><span class="pill r">${k.r} needs attention</span><span class="muted small" style="margin-left:auto">${done} of ${total} checked</span></div>
@@ -2608,11 +2640,11 @@ window.hcReport=()=>{hcSave(true);location.hash='#/healthreport/'+hcCur.id};
 window.hcBill=()=>{hcCur.price=29.95;toast('£29.95 Vehicle health check added to the job sheet for '+hcCur.reg);go()};
 
 /* ---------- customer-facing report ---------- */
-S.healthreport=id=>{const h=HC.find(x=>x.id===id)||(hcCur&&hcCur.id===id?hcCur:null);if(!h)return `<a class="back" href="#/health">${I.back}</a><div class="card muted">Report ${id} not found.</div>`;
+S.healthreport=id=>{const h=HC.find(x=>x.id===id)||(hcCur&&hcCur.id===id?hcCur:null);if(!h)return `<div class="card muted">Report ${id} not found.</div>`;
  const {v,c,make}=hcVeh(h.reg),k=hcCount(h);const by=col=>HCALL.filter(i=>h.res[i.id]===col);const unchecked=HCALL.filter(i=>!h.res[i.id]);
  const item=i=>`<div class="hc-it"><div><b>${i.n}</b>${h.notes[i.id]?`<small>${h.notes[i.id]}</small>`:''}<small class="g">${i.g}</small></div>${hcDep(h,i)?`<span class="mm">${hcDep(h,i)}</span>`:''}</div>`;
  const first=c?c.name.replace(/^M(r|rs|s|iss) /,'').split(' ')[0]:'';
- return `<div class="hc-noprint"><a class="back" href="#/healthcheck/${h.id}">${I.back}</a>
+ return `<div class="hc-noprint">
  <div class="head"><div><div class="eyebrow">Customer report · ${h.id}</div><h1 class="title">What ${c?c.name:'the customer'} sees</h1></div>
  <div class="actions"><a class="btn" href="#/healthcheck/${h.id}">${I.edit}Edit the check</a></div></div>
  <div class="tabs" style="margin-bottom:10px"><button class="${hcStyle==='inv'?'on':''}" onclick="hcStyleGo('inv')">Invoice style</button><button class="${hcStyle==='inv'?'':'on'}" onclick="hcStyleGo('friendly')">Friendly letter</button></div>
@@ -2640,7 +2672,7 @@ window.newInv=cid=>{const v=vehicles.find(x=>x.cust===cid);const x=cx(cid);const
 let hsReg='';
 window.hsGo=r=>{hsReg=r;go()};
 S.history=id=>{const c=cust(id);if(!c)return 'Not found';const vs=vehicles.filter(v=>v.cust===id);const all=custHist(id);const hist=hsReg?all.filter(h=>h.reg===hsReg):all;const spent=all.reduce((s,h)=>s+h.a,0);
- return `<a class="back" href="#/customer/${id}">${I.back}</a><div class="head"><div><div class="eyebrow">Service history · ${crCo(c)||c.name}</div><h1 class="title">${all.length} visits since ${all.length?fmtY(all[all.length-1].d):'—'}</h1></div><div class="actions"><button class="btn pri" onclick="newInv('${id}')">${I.plus}New invoice</button><button class="btn" onclick="window.print()">${I.dl}Print</button></div></div>
+ return `<div class="head"><div><div class="eyebrow">Service history · ${crCo(c)||c.name}</div><h1 class="title">${all.length} visits since ${all.length?fmtY(all[all.length-1].d):'—'}</h1></div><div class="actions"><button class="btn pri" onclick="newInv('${id}')">${I.plus}New invoice</button><button class="btn" onclick="window.print()">${I.dl}Print</button></div></div>
  <div class="chips" style="margin-bottom:12px"><button class="${hsReg?'':'on'}" onclick="hsGo('')">All vehicles</button>${vs.map(v=>`<button class="${hsReg===v.reg?'on':''}" onclick="hsGo('${v.reg}')">${v.reg}</button>`).join('')}</div>
  <div class="grid g4" style="margin-bottom:12px"><div class="stat"><b>${all.length}</b><span>Visits</span></div><div class="stat"><b>${gbp(spent).replace('.00','')}</b><span>Lifetime</span></div><div class="stat"><b>${all.filter(h=>h.src==='inv').length}</b><span>On this system</span></div><div class="stat"><b>${all.reduce((s,h)=>s+h.adv.length,0)}</b><span>Advisories noted</span></div></div>
  <div class="card pad0 list">${hist.map(histRow).join('')||'<div class="it muted">Nothing for this vehicle yet.</div>'}</div>`};
@@ -2731,7 +2763,7 @@ const SHEETS=['tyday','diaryday'];
 const docBody=(kind,id)=>{if(kind==='quote'){const q=QUOTES.find(x=>x.id===id);return q?qPaper(q):''}if(kind==='invoice'){const i=invoices.find(x=>x.n===id);return i?invPaper(i):''}if(kind==='health'){const h=HC.find(x=>x.id===id)||(hcCur&&hcCur.id===id?hcCur:null);return h?hcPaper(h):''}if(kind==='statement')return cust(id)?stmtPaper(id):'';if(kind==='reminder'){const r=REMS.find(x=>x.id===id);return r?remPaper(r):''}if(kind==='tyday')return /^\d{4}-\d\d-\d\d$/.test(id)?tyDayPaper(id):'';if(kind==='diaryday')return /^\d{4}-\d\d-\d\d$/.test(id)?diaryDayPaper(id):'';return ''};
 const prtDoc=(k,d)=>{location.hash='#/doc/'+k+'/'+d;setTimeout(()=>window.print(),500)};
 S.doc=(arg,noBack)=>{const [kind,...rest]=arg.split('/');const id=rest.join('/');const body=docBody(kind,id);if(!body)return `<div class="card muted">Document not found.</div>`;const r=kind==='reminder'?REMS.find(x=>x.id===id):null;const sheet=SHEETS.includes(kind);const name=sheet?fmt(id,{weekday:'long',day:'numeric',month:'long'}):kind==='statement'?(crCo(cust(id))||cust(id).name):r?({mot:'MOT',svc:'Service',adv:'Advisory'}[r.type]+' reminder · '+r.reg):id;
- return `<div class="hc-noprint">${noBack?'':`<a class="back" href="#" onclick="history.back();return false">${I.back}</a>`}<div class="head${sheet?' ctrh':''}"><div><div class="eyebrow">${docTitle[kind]} · ${sheet?'one A4 page, for the wall or the fitter':'as the customer gets it'}</div><h1 class="title">${name}</h1></div></div>
+ return `<div class="hc-noprint">${noBack?'':``}<div class="head${sheet?' ctrh':''}"><div><div class="eyebrow">${docTitle[kind]} · ${sheet?'one A4 page, for the wall or the fitter':'as the customer gets it'}</div><h1 class="title">${name}</h1></div></div>
  ${sheet?`<div class="row ctr" style="margin-bottom:10px"><button class="btn pri" onclick="window.print()">${I.prt}Print</button><button class="btn" onclick="window.print()">${I.dl}Save as PDF</button>${kind==='tyday'?`<button class="btn" onclick="tySendOpen('${id}')">${I.send}Send to fitter</button><a class="btn ghost" href="#/tyres/${id}">${TYI}Back to the tyre list</a>`:`<a class="btn ghost" href="#/diary" onclick="day='${id}'">${I.cal}Back to the Diary</a>`}</div>`:`<div class="row" style="margin-bottom:16px"><button class="btn pri" onclick="toast('Sent by text with a link to the PDF')">${I.send}Send by text</button><button class="btn" onclick="toast('Opens WhatsApp with the PDF attached')">${I.wa}WhatsApp</button><button class="btn" onclick="toast('Emailed as a PDF')">${I.mail}Email</button><button class="btn ghost" onclick="window.print()">${I.dl}Print</button><button class="btn ghost" onclick="window.print()">${I.dl}Save as PDF</button></div>`}
  ${r?`<div class="eyebrow" style="margin-bottom:6px">As a text or WhatsApp</div><div class="msgprev" style="margin-bottom:16px">${tplFill(RTPL[r.type],r)}</div><div class="eyebrow" style="margin-bottom:6px">As an email or letter · PDF</div>`:''}</div>
  <div class="docwrap">${body}</div>`};
@@ -2760,6 +2792,10 @@ window.qaHide=()=>{document.getElementById('qa').innerHTML=''};
 window.qaDo=k=>{qaHide();const a=QA.find(x=>x[0]===k);a&&a[4]()};
 window.qaInvBanner=()=>{const w=document.querySelector('.sugwrap');if(!w||document.getElementById('qainv'))return;const b=document.createElement('div');b.id='qainv';b.className='qainv';b.innerHTML=`<span>${I.inv}<b>New invoice</b> · who is it for? Type the reg, name or reference and pick them.</span><button class="btn sm ghost" onclick="pendNew=null;this.parentNode.remove();go()">Cancel</button>`;w.parentNode.insertBefore(b,w);const q=document.getElementById('q');if(q){q.placeholder='Reg, name or customer ref for the invoice';q.focus()}};
 window.addEventListener('hashchange',()=>{if(pendNew&&!location.hash.startsWith('#/home'))pendNew=null;qaHide()});
+/* round 45: in note boxes Return is a new line, Ctrl+Return (Cmd+Return on a Mac) saves. Alt+Left goes back. */
+document.addEventListener('keydown',e=>{const t=e.target;
+  if(e.key==='Enter'&&t&&t.tagName==='TEXTAREA'&&t.hasAttribute('data-cr')){if(e.ctrlKey||e.metaKey){e.preventDefault();const f=t.closest('form');if(f)f.requestSubmit()}return}
+  if(e.altKey&&e.key==='ArrowLeft'&&!e.ctrlKey&&!e.metaKey&&!/INPUT|TEXTAREA|SELECT/.test(t.tagName)&&!t.isContentEditable){e.preventDefault();navBack()}});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.querySelector('#qa .modal')){qaHide();return}if(e.key.toLowerCase()==='n'&&!e.metaKey&&!e.ctrlKey&&!e.altKey&&!/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)&&!e.target.isContentEditable&&!document.querySelector('.modal'))qaShow()});
 /* ---------- live search suggestions (Lookup box) ---------- */
 let sugItems=[],sugIx=-1;
@@ -2829,18 +2865,18 @@ window.nAdd=(book,text,pinRaw,pin,st,regRaw)=>{const t=String(text||'').trim();i
 const noteCard=(pin,title,legacy)=>{const L=NB.filter(n=>n.pin&&n.pin.k===pin.k&&n.pin.id===pin.id&&nGrp(n)!=='done');const old=(legacy||[]).map(t=>`<div class="small" style="padding:6px 0;border-top:1px solid var(--line)">${t}</div>`).join('');
  return `<div class="card" style="margin-top:12px"><div class="row" style="justify-content:space-between;margin-bottom:8px"><div class="eyebrow">${title}</div><a class="small" href="#/notes">All notes${I.chev}</a></div>
   ${L.length?`<div class="list" style="margin:0 -16px">${L.map(n=>nRow(n,true)).join('')}</div>`:''}${old}${!L.length&&!old?'<div class="muted small">Nothing noted yet. Anything added here shows on the Notes page too.</div>':''}
-  <form class="row nadd" style="margin-top:10px;flex-wrap:nowrap" onsubmit="event.preventDefault();nAdd(ME,this.n.value,'',{k:'${pin.k}',id:'${pin.id}'},'todo')"><input name="n" class="in" style="flex:1;min-width:0" placeholder="Add a note · goes in your own book, everyone can see it" autocomplete="off"><button class="btn sm">${I.plus}Add</button></form></div>`};
+  <form class="nadd" style="margin-top:10px" onsubmit="event.preventDefault();nAdd(ME,this.n.value,'',{k:'${pin.k}',id:'${pin.id}'},'todo')"><div class="row" style="flex-wrap:nowrap;align-items:flex-end"><textarea name="n" class="in" data-cr rows="2" style="flex:1;min-width:0;width:auto;resize:vertical;min-height:44px;line-height:1.35;background:var(--sunk);border:1px solid var(--line);border-radius:12px;padding:10px 12px;color:var(--fg);font:inherit" placeholder="Add a note · goes in your own book, everyone can see it"></textarea><button class="btn sm">${I.plus}Add</button></div><div class="crhint">Return for a new line · Ctrl+Return saves</div></form></div>`};
 S.notes=arg=>{if(arg&&NBOOKS.some(b=>b[0]===arg))nBook=arg;if(!NBOOKS.some(b=>b[0]===nBook))nBook=ME;const inBook=NB.filter(n=>n.book===nBook);const openN=inBook.filter(n=>nGrp(n)!=='done'),doneN=inBook.filter(n=>nGrp(n)==='done');const target=nBook;
  const rows=(nView==='board'?inBook:nFilt==='done'?doneN:nFilt==='all'?inBook:openN).slice().sort((a,b)=>b.at.localeCompare(a.at));
  const todo=inBook.filter(n=>nGrp(n)==='todo').length,prog=inBook.filter(n=>nGrp(n)==='prog').length;
  const books=NBOOKS.map(([k,l])=>[k,l,WHO[k].c,NB.filter(n=>n.book===k&&(nGrp(n)==='todo'||nGrp(n)==='prog')).length]);
  const ico=(d)=>`<svg viewBox="0 0 24 24">${d}</svg>`;
- return `<div class="head"><div><div class="eyebrow">${todo} to do · ${prog} in progress · ${nNew()} new today</div><h1 class="title"><i class="secmark">${ART.notes}</i>Notes</h1></div><div class="actions"><button class="btn" onclick="document.querySelector('.nqbar input[name=t]').focus()">${I.plus}New note</button><button class="btn" onclick="window.print()">${I.dl}Print</button></div></div>
+ return `<div class="head"><div><div class="eyebrow">${todo} to do · ${prog} in progress · ${nNew()} new today</div><h1 class="title"><i class="secmark">${ART.notes}</i>Notes</h1></div><div class="actions"><button class="btn" onclick="document.querySelector('.nqbar [name=t]').focus()">${I.plus}New note</button><button class="btn" onclick="window.print()">${I.dl}Print</button></div></div>
  <div class="nbooks">${books.map(([k,l,c,n])=>`<a class="${nBook===k?'on':''}" href="#/notes/${k}"><span class="av" style="background:${c}">${l[0]}</span>${l}${n?` <span class="crn">${n}</span>`:''}</a>`).join('')}</div>
  <form class="nqbar" onsubmit="event.preventDefault();nAdd('${target}',this.t.value,'',null,this.st.value,this.r.value);this.reset()">
   <select name="st">${Object.keys(NGRP).filter(g=>g!=='done').map(g=>`<optgroup label="${NGRP[g][0]}">${Object.entries(NST).filter(([k,v])=>v[1]===g).map(([k,v])=>`<option value="${k}"${k==='todo'?' selected':''}>${v[0]}</option>`).join('')}</optgroup>`).join('')}</select>
   <input name="r" placeholder="Reg · optional" autocomplete="off" oninput="nHint(this)" style="font-family:var(--font-mono);text-transform:uppercase">
-  <input name="t" placeholder="${target===ME?'A note or a job for yourself':'A note or a job for '+nBookName(target)}" autocomplete="off">
+  <div class="nqt"><textarea name="t" data-cr rows="2" placeholder="${target===ME?'A note or a job for yourself':'A note or a job for '+nBookName(target)}"></textarea><div class="crhint">Return for a new line · Ctrl+Return saves</div></div>
   <button class="btn pri">${I.plus}Add to ${target===ME?'my book':nBookName(target)}</button>
   <div class="hint"></div></form>
  <div class="nfilt">${nView==='board'?`<span class="muted small">Every note in ${nBook===ME?'your book':nBookName(nBook)+"'s notes"}, by where it has got to</span>`:`<div class="chips">${[['open','Open',openN.length],['done','Done',doneN.length],['all','All',inBook.length]].map(([k,l,n])=>`<button class="${nFilt===k?'on':''}" onclick="nFilt='${k}';nRe()">${l}<span class="crn">${n}</span></button>`).join('')}</div>`}<span class="sp"></span>
@@ -2939,7 +2975,7 @@ const mcAddForm=()=>`<div class="mcform" id="mcform"><b style="font-size:16px">A
 S.waitlist=()=>{const list=WL.filter(c=>mcIn(c,mcTab)).sort((a,b)=>mcTab==='wait'?(a.bd||'9')<(b.bd||'9')?-1:1:a.up<b.up?1:-1);const al=mcAlert();
  const n=k=>WL.filter(c=>c.st===k).length;const nw=t=>WL.filter(c=>c.st==='wait'&&(t==='all'||c.type===t)).length;
  if(wlHi)setTimeout(()=>{document.getElementById('mcc-'+wlHi)?.scrollIntoView({block:'center'});wlHi=null},80);
- return `<a class="back" href="${REMINDERS_ON?'#/reminders':'#/diary'}">${I.back}</a>
+ return `
  <div class="head"><div><div class="eyebrow">${REMINDERS_ON?'Reminders':'Diary'}</div><h1 class="title">Cancellation List</h1><p class="muted" style="margin:6px 0 0;max-width:640px">Customers waiting for an earlier MOT or job slot. Flag them from the diary or add them here. When a slot frees up the diary offers it to the top of this list, and every move and put-back is recorded.</p></div>
   <div class="actions"><a class="btn" href="#/diary">${I.cal}Diary</a><button class="btn pri" onclick="mcAdd=true;mcEd=null;nRe();setTimeout(()=>document.getElementById('mca-reg')?.focus(),90)">${I.plus}Add customer</button></div></div>
  <div class="mctop"><span>MOT expiry dates checked against DVSA <b style="color:var(--fg)">today at 12:00</b> · next check 5pm</span><button class="btn sm" onclick="toast('Refresh requested… updates at the next check: 8am, 12pm or 5pm, Mon–Fri')">${I.clock}Refresh from DVSA</button></div>
@@ -3209,7 +3245,7 @@ const audDayL=d=>{const dd=Math.round((Date.parse(TD)-Date.parse(d))/864e5);retu
 const audListHtml=()=>{const rows=audRows();if(!rows.length)return `<div class="card"><div class="audempty">Nothing matches. Try another person, type or date.</div></div>`;const days=[...new Set(rows.map(l=>l.at.slice(0,10)))];return days.map(d=>{const ls=rows.filter(l=>l.at.slice(0,10)===d);return `<div class="audday">${audDayL(d)} · ${ls.length}</div><div class="card pad0">${ls.map(l=>audLine(l,{link:true})).join('')}</div>`}).join('')};
 window.audList=()=>{const el=document.getElementById('audlist');if(el)el.innerHTML=audListHtml()};
 S.audit=()=>{const ppl=[['all','Everyone'],...Object.entries(WHO).sort((a,b)=>a[1].n<b[1].n?-1:1).map(([k,w])=>[k,w.n])];const types=[['all','Everything'],...Object.entries(TYPEN).map(([k,v])=>[k,k==='booking'?'Bookings':k==='job'?'Jobs':k==='quote'?'Quotes':k==='invoice'?'Invoices':k==='customer'?'Customers':k==='vehicle'?'Vehicles':k==='note'?'Notes':k==='daynote'?'Diary notes':v])];const dates=[['today','Today'],['yday','Yesterday'],['week','This week'],['all','All time']];
- return `<a class="back" href="#/setup">${I.back}</a><div class="head"><div><div class="eyebrow">${AUD.length} changes on record · nothing here can be edited or deleted</div><h1 class="title">Edit History</h1><p class="muted">Every booking, job, quote, invoice, customer, vehicle, note and setting keeps its own history. This is all of it in one place.</p></div></div>
+ return `<div class="head"><div><div class="eyebrow">${AUD.length} changes on record · nothing here can be edited or deleted</div><h1 class="title">Edit History</h1><p class="muted">Every booking, job, quote, invoice, customer, vehicle, note and setting keeps its own history. This is all of it in one place.</p></div></div>
  <div class="tabs">${types.map(([k,l])=>`<button class="${audT===k?'on':''}" onclick="audF('t','${k}')">${l}</button>`).join('')}</div>
  <div class="audtools"><div class="chips">${ppl.map(([k,l])=>`<button class="${audP===k?'on':''}" onclick="audF('p','${k}')">${l}</button>`).join('')}</div><div class="chips">${dates.map(([k,l])=>`<button class="${audD===k?'on':''}" onclick="audF('d','${k}')">${l}</button>`).join('')}</div><form class="search" onsubmit="event.preventDefault()">${I.search}<input placeholder="Search by reg, invoice number or words" value="${esc(audQ)}" autocomplete="off" oninput="audQ=this.value;audList()"></form></div>
  <div id="audlist">${audListHtml()}</div>`};
@@ -3411,11 +3447,19 @@ const tyDayPaper=d=>{const l=tyRows(d);const w=l.filter(r=>r.kind==='w').sort((a
  ${c.map(r=>{const i=tyV(r);return `<tr><td class="tm">${r.t||'—'}</td><td class="cu stk">${esc(i.name)||'—'}${i.ph?`<span class="in">${esc(i.ph)}</span>`:''}</td><td>${esc(i.addr||'')}</td><td class="stk"><span class="reg">${esc(r.reg||'')}</span>${i.make?`<span class="in">${esc(i.make)}</span>`:''}</td><td>${esc(r.tyres||'')}${r.nt?`<small>${esc(r.nt)}</small>`:''}</td><td class="st">${TYCS[r.cs]?TYCS[r.cs][0]:''}</td><td>${r.cs==='done'?'<span class="st ok">Done</span>':'<span class="bx"></span>'}</td></tr>`}).join('')}
  ${shBlank(Math.max(3,6-c.length),7)}</tbody></table>
  <div class="foot"><span><span class="bx"></span> tick when fitted · ordered / arrived is ticked off in the software · puncture check = tyre on standby in case it can’t be repaired · suppliers ${esc(T.sups)} · ${sent?`list sent ${sent.at} by ${sent.via} (${WHO[sent.who]?WHO[sent.who].n:sent.who})`:'list not sent yet'}</span><span>Printed ${nowS()} · ${WHO[ME].n}</span></div></div>`};
-const diaryDayPaper=d=>{const all=(BK[d]||[]).filter(b=>b.k!=='tyre');const mot=all.filter(b=>b.k==='mot'),svc=all.filter(b=>b.k==='svc'),xtra=all.filter(b=>b.k==='xtra').sort((a,b)=>(a.t||'99')<(b.t||'99')?-1:1);const notes=NOTES[d]||[];
+const diaryDayPaper=d=>{const all=(BK[d]||[]).filter(b=>b.k!=='tyre');const foot=`<div class="foot"><span><span class="bx on"></span> ticked = already done in the app · ring-round (left message / confirmed) is ticked off in the software · In when the car arrives · Tech: initial of who is doing it · Done when finished · tyres are on the Tyre list sheet</span><span>Printed ${nowS()} · ${WHO[ME].n}</span></div>`;const mot=all.filter(b=>b.k==='mot'),svc=all.filter(b=>b.k==='svc'),xtra=all.filter(b=>b.k==='xtra').sort((a,b)=>(a.t||'99')<(b.t||'99')?-1:1);const notes=NOTES[d]||[];
  const cc=(b,k)=>{const i=bkV(b);return `<td class="cu${k?' stk':''}">${esc(i.name)||'—'}${i.ph?`<span class="in">${esc(i.ph)}</span>`:''}</td>`};const rg=(b,k)=>{const i=bkV(b);return `<td class="rgc${k?' stk':''}"><span class="reg">${esc(b.reg)}</span>${i.make?`<span class="in">${esc(i.make)}</span>`:''}</td>`};const extra=b=>{const w=wlOf(b.id);return [b.parts&&PARTS[b.parts]?PARTS[b.parts][0]:'',b.loan&&LOAN[b.loan]?LOAN[b.loan]:'',w?(w.st==='wait'?'Waiting for earlier slot':w.st==='moved'?'Moved forward':'Rebooked'):''].filter(Boolean).join(' · ')};
  const done=b=>b.st==='done'?'<span class="st ok">Done</span>':'<span class="bx"></span>';const inb=b=>b.st==='done'?'<span class="st ok">In</span>':'<span class="bx"></span>';const tech='<span class="ini"></span>';
+ /* round 45: a second A4 page for the visiting specialist, only on days SPEC names one and has specialist bookings */
+ const sps=SPEC[d]||[];const spAll=all.filter(b=>b.k==='spec').sort((a,b)=>(a.t||'99')<(b.t||'99')?-1:1);
+ const spPages=sps.map((s,ix)=>{const l=spAll.filter(b=>b.sp===s.id||(!b.sp&&ix===0));if(!l.length)return '';return `<div class="paper sheet day sp2">${shHead('Day sheet',d,'',true)}
+ ${shSec('c-xtra',`Specialist jobs · ${esc(s.n)} · ${esc(s.who)}`,`${l.length} booked`)}
+ <table><thead><tr><th>Time</th><th>Reg · make &amp; model</th><th>Customer &amp; contact</th><th>Job &amp; notes</th><th class="sq">In</th><th class="sq">Tech</th><th class="sq">Done</th></tr></thead><tbody>
+ ${l.map(b=>`<tr><td class="tm">${b.t||'fit in'}</td>${rg(b)}${cc(b)}<td>${esc(b.job||'')}${b.nt?`<small>${esc(b.nt)}</small>`:''}</td><td class="sq">${inb(b)}</td><td class="sq">${tech}</td><td class="sq">${done(b)}</td></tr>`).join('')}
+ ${shBlank(4,7)}</tbody></table><div class="pen">write in pen · anything else the specialist picks up</div>
+ ${foot}</div>`}).join('');
  return `<div class="paper sheet day">${shHead('Day sheet',d,'',true)}
- ${shSec('c-note','Day notes','who&rsquo;s off &middot; meeting times')}<div class="notes">${notes.map(esc).join(' &middot; ')}</div>
+ <div class="dnl"><i>Day notes</i><span>${notes.map(esc).join(' &middot; ')}</span></div>
  ${shSec('c-xtra','Extras',`${xtra.length} booked · anything that turns up goes in the rows below`)}
  <table><thead><tr><th>Time</th><th>Reg · make &amp; model</th><th>Customer &amp; contact</th><th>What</th><th class="sq">In</th><th class="sq">Tech</th><th class="sq">Done</th></tr></thead><tbody>
  ${xtra.map(b=>`<tr><td class="tm">${b.t||'fit in'}${b.mins?`<span class="in">${b.mins}m</span>`:''}</td>${rg(b)}${cc(b)}<td>${esc([b.job,b.nt].filter(Boolean).join(' · '))}</td><td class="sq">${inb(b)}</td><td class="sq">${tech}</td><td class="sq">${done(b)}</td></tr>`).join('')}
@@ -3426,7 +3470,7 @@ const diaryDayPaper=d=>{const all=(BK[d]||[]).filter(b=>b.k!=='tyre');const mot=
  <table class="svct"><thead><tr class="secrow"><th colspan="6"><div class="sec c-svc"><h2>Service &amp; Repairs</h2><span>${svc.length} booked</span></div></th></tr><tr><th class="stk">Reg · make &amp; model</th><th class="stk">Customer &amp; contact</th><th>Job &amp; notes</th><th class="sq">In</th><th class="sq">Tech</th><th class="sq">Done</th></tr></thead><tbody>
  ${svc.map(b=>{const x=extra(b);return `<tr>${rg(b,1)}${cc(b,1)}<td>${esc([b.job,b.nt].filter(Boolean).join(' · '))}${x?` <span class="in xi">${esc(x)}</span>`:''}</td><td class="sq">${inb(b)}</td><td class="sq">${tech}</td><td class="sq">${done(b)}</td></tr>`}).join('')}
  ${shBlank(svc.length<=12?Math.max(2,4-svc.length):Math.max(2,52-svc.length),6)}</tbody></table>
- <div class="foot"><span><span class="bx on"></span> ticked = already done in the app · ring-round (left message / confirmed) is ticked off in the software · In when the car arrives · Tech: initial of who is doing it · Done when finished · tyres are on the Tyre list sheet</span><span>Printed ${nowS()} · ${WHO[ME].n}</span></div></div>`};
+ ${foot}</div>${spPages}`};
 const tyModal=()=>{const r=edTy;const i=tyV(r);const d0=r.day||tday;const chips=(f,obj)=>`<div class="chips" style="margin:0">${Object.entries(obj).map(([k,v])=>`<button class="${r[f]===k?'on':''}" onclick="edTy.${f}='${k}';go()">${Array.isArray(v)?v[0]:v}</button>`).join('')}</div>`;const pl=tyPosL(r);
  const qtys=[1,2,3,4];if(+r.qty&&!qtys.includes(+r.qty))qtys.push(+r.qty);
  const tyF=`<div class="ty3"><label class="field"><span>Tyre size</span><input value="${esc(i.size)}" placeholder="2055516 or 205/55 R16" style="font-family:var(--font-mono)" oninput="edTy.size=this.value" onchange="edTy.size=tySize(this.value);go()"></label><label class="field"><span>Brand</span><input value="${esc(r.brand||'')}" placeholder="Conti, Goodyear, Kumho…" oninput="edTy.brand=this.value"></label><div class="field"><span>Supplier <small class="muted">· tap = ordered</small></span><div class="chips sup eq3" style="margin:0">${tySups().map(x=>`<button class="${r.sup===x?'on':''}" onclick="tySupT('${x}')">${r.sup===x?I.check:''}${x}</button>`).join('')}</div>${r.ts==='arrived'?'<p class="muted small" style="margin:4px 0 0">Arrived</p>':''}</div></div>
@@ -3506,7 +3550,7 @@ const cfCount=d=>{const l=BK[d]||[];const c={tot:l.length,ok:0,wa:0,msg:0,noans:
 let rrDay=null;
 const cfMsg=b=>{const i=bkV(b);const d=rrDay||addD(TD,1);const rel=d===addD(TD,1)?'tomorrow ':'on ';return `Hi ${firstN(i.name)}, just confirming your ${b.k==='mot'?'MOT':'booking'} ${rel}${fmt(d,{weekday:'short',day:'numeric',month:'short'})}${b.t?' at '+b.t:''} at ${SETUP.garage.name}. Reply YES to confirm or call us on ${SETUP.garage.tel}.`};
 S.ringround=arg=>{rrDay=arg||rrDay||addD(day,1);const d=rrDay;const list=(BK[d]||[]).slice().sort((a,b)=>(a.t||'99')<(b.t||'99')?-1:1);const c=cfCount(d);const days=[0,1,2,3,4,5].map(n=>addD(TD,n));
- return `<a class="back" href="#/diary">${I.back}</a><div class="head"><div><div class="eyebrow">Diary · ring round</div><h1 class="title">Confirm ${d===addD(TD,1)?'tomorrow':fmt(d,{weekday:'long'})} · ${fmt(d,{day:'numeric',month:'short'})}</h1></div><div class="actions"><button class="btn" onclick="day='${d}';location.hash='#/diary'">${I.cal}Open the day</button></div></div>
+ return `<div class="head"><div><div class="eyebrow">Diary · ring round</div><h1 class="title">Confirm ${d===addD(TD,1)?'tomorrow':fmt(d,{weekday:'long'})} · ${fmt(d,{day:'numeric',month:'short'})}</h1></div><div class="actions"><button class="btn" onclick="day='${d}';location.hash='#/diary'">${I.cal}Open the day</button></div></div>
  <div class="tabs">${days.map(x=>`<button class="${x===d?'on':''}" onclick="location.hash='#/ringround/${x}'">${fmt(x,{weekday:'short',day:'numeric'})} <span class="muted">${(BK[x]||[]).length||'–'}</span></button>`).join('')}</div>
  <div class="rrcount"><b>${c.tot} booked</b><span class="ok"><i></i>${c.ok+c.wa} confirmed</span><span class="msg"><i></i>${c.msg} messaged</span><span class="noans"><i></i>${c.noans} no answer</span><span class="none"><i></i>${c.none} not contacted</span></div>
  <div class="card pad0">${list.map(b=>{const i=bkV(b);const s=cfSt(b);const ph=i.ph;return `<div class="rr ${s}"><div class="rrt">${b.t||'—'}<small>${b.k==='mot'?'MOT':b.k==='xtra'?'Extra':'Service'}</small></div><div class="rrb"><h4>${i.make||'<span class=muted>Make not set</span>'} ${plate(b.reg,'sm')}</h4><div class="ln"><b>${i.name||'<span class=muted>No name</span>'}</b>${ph?`<a href="tel:${ph.replace(/\s/g,'')}">${I.phone}${ph}</a><button class="btn sm ghost" onclick="navigator.clipboard?.writeText('${ph}');toast('Number copied')">${I.copy}Copy</button>`:'<span class="muted">No number</span>'}${b.job?`<span>· ${esc(b.job)}</span>`:''}</div>${b.cf&&b.cf.who?`<div class="muted small" style="margin-top:4px">${CFS[s][0]} · ${WHO[b.cf.who].n} ${b.cf.at}</div>`:''}</div><div class="rra"><div class="cfpick">${CFORD.map(k=>`<button class="${k} ${s===k?'on':''}" onclick="cfSet('${b.id}','${k}')"><i></i>${CFS[k][0]}</button>`).join('')}</div>${ph?`<div class="row" style="gap:6px"><button class="btn sm" onclick="cfSend('${b.id}','Text')">${I.send}Text</button><button class="btn sm" onclick="cfSend('${b.id}','WhatsApp')">${I.wa}WhatsApp</button></div>`:''}</div></div>`}).join('')||'<div class="it muted">Nothing booked for this day.</div>'}</div>
@@ -3519,12 +3563,30 @@ window.cfSend=(id,via)=>{const b=bkB(id);if(!b)return;const i=bkV(b);const msg=c
 (i=>{if(i)i.ready={at:'11 Nov 09:15',via:'Text',who:'karen'}})(invoices.find(i=>i.n==='INV-0036'));
 const CFSEED={'2026-11-11':{b1:'ok',b2:'wa',b3:'ok',b4:'msg',b5:'ok',b6:'noans',b7:'ok',b8:'wa',b9:'msg',b10:'ok',b11:'ok',b13:'ok',b14:'noans',b15:'ok'},'2026-11-12':{c1:'ok',c2:'msg',c3:'noans',c4:'wa',c6:'ok',c7:'ok',c8:'msg',c9:'noans',c10:'ok',c11:'ok',c13:'ok',c14:'msg',c15:'noans'},'2026-11-13':{d1:'ok',d2:'msg'}};
 Object.entries(CFSEED).forEach(([d,m])=>(BK[d]||[]).forEach((b,ix)=>{const s=m[b.id];if(s)b.cf={st:s,who:ix%3===0?'karen':ix%3===1?'jen':'karen',at:fmtS(addD(d,-1))+' '+(d==='2026-11-11'?'16':'08')+':'+String(10+ix*3).padStart(2,'0')}}));
+/* round 45: Back button. App history inside the app, tracked by go(); going to the view on top of the stack counts as going back. */
+let NAVH=[],curH=null;
+const navTrack=()=>{const h=location.hash||'#/home';if(h===curH)return;if(curH!==null){if(NAVH[NAVH.length-1]===h)NAVH.pop();else{NAVH.push(curH);if(NAVH.length>60)NAVH.shift()}}curH=h};
+const viewLabel=h=>{const p=(h||'#/home').slice(2).split('?')[0];const [r,...rest]=p.split('/');const a=decodeURIComponent(rest.join('/'));
+  if(!r||r==='home')return 'Home';
+  if(r==='vehicle'){const v=veh(a);const c=v&&cust(v.cust);return a+(c?' · '+c.name:'')}
+  if(r==='customer'){const c=cust(a);return c?(crCo(c)||c.name):'Customer'}
+  if(r==='doc'){const k=a.split('/')[0];return docTitle[k]||'Paperwork'}
+  if(r==='diary'&&/^\d{4}-\d\d-\d\d$/.test(a))return 'Diary · '+fmtS(a);
+  const n=NAV.find(x=>x[0]===r);const L={jobs:'Job sheets',job:'Job sheet',quote:'Quote',inv:'Invoice',invoice:'Invoice '+a,supplier:'Supplier',health:'Health checks',healthcheck:'Health check',healthreport:'Health report',healthsheet:'Health check sheet',history:'Service history',ringback:'Ring-back',waitlist:'Cancellation list',motlist:'MOT list',ringround:'Ring round',audit:'Edit History',setup:'Settings',settings:'Data & backups',more:'More',stock:'Stock',approve:'Approval',docs:'Paperwork'};
+  return n?n[1]:L[r]||(r[0].toUpperCase()+r.slice(1))};
+const BACKSVG='<svg viewBox="0 0 24 24"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>';
+window.navBack=e=>{if(e&&e.preventDefault)e.preventDefault();const h=NAVH[NAVH.length-1];if(!h)return false;if(location.hash===h){NAVH.pop();return false}location.hash=h;return false};
+const backBtn=(r,m)=>{const bh=NAVH[NAVH.length-1];if(!bh||PUB.includes(r)||r==='signin')return;const l=esc(viewLabel(bh));const b=`<a class="back${r==='home'?'':' pg'}" href="${bh}" onclick="return navBack(event)" title="Back to ${l} (Alt+Left)">${BACKSVG}Back<small>${l}</small></a>`;
+  if(r==='home'){const w=m.querySelector('.hvsrow');if(w)w.insertAdjacentHTML('afterbegin',b);return}
+  const hd=m.querySelector('.head');if(hd&&!hd.closest('.modal,.ov'))hd.insertAdjacentHTML('afterbegin',b);else m.insertAdjacentHTML('afterbegin',`<div class="backrow">${b}</div>`)};
 function go(){
+  navTrack();
   const h=(location.hash||'#/home').slice(2);const [path]=h.split('?');const [r,...rest]=path.split('/');const arg=decodeURIComponent(rest.join('/'));
   if(r!=='quote'&&r!=='inv'&&r!=='job'){qlines=null;qfor=null;qopts=null}if((r==='quote'||r==='inv')&&S._qr&&S._qr!==r){qlines=null;qfor=null;qopts=null;S._nq=null}if(r==='quote'||r==='inv')S._qr=r;
   const fn=S[r]||S.home;
   const m=document.getElementById('main');m.innerHTML=fn(arg)+(MOD?MOD():'');m.className='main sec-'+secOf(r);document.body.classList.toggle('pub',PUB.includes(r));
   if(!['home','more','diary',...PUB].includes(r)){const t=m.querySelector('.title');if(t&&!t.querySelector('.secmark'))t.insertAdjacentHTML('afterbegin',`<i class="secmark">${ART[secOf(r)]}</i>`)}
+  backBtn(r,m);
   drawNav(r);
   if(r==='home')document.getElementById('q')?.focus();
 }
